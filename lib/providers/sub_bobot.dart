@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -12,7 +11,6 @@ import '../providers/helper.dart';
 class SubBobotProvider with ChangeNotifier {
   String _token;
   String _username;
-
   SubBobot _item;
   SubBobot get item {
     return _item;
@@ -47,21 +45,22 @@ class SubBobotProvider with ChangeNotifier {
           json.decode(response.body)["data"][0] as Map<String, dynamic>;
       if (extractData != null) {
         final loadedSubBobot = SubBobot(
-            kategori: Kategori(
-              id: extractData["id"],
-              nama: extractData["nama"],
-              sifat: extractData["sifat"],
-            ),
-            bobotItem: (extractData["sub_bobot"] as List<dynamic>)
-                .map(
-                  (el) => BobotItem(
-                    id: el["id"],
-                    bobot: el["bobot"],
-                    keterangan: el["keterangan"],
-                    parameterId: el["parameter_id"],
-                  ),
-                )
-                .toList());
+          kategori: Kategori(
+            id: extractData["id"],
+            nama: extractData["nama"],
+            sifat: extractData["sifat"],
+          ),
+          bobotItem: (extractData["sub_bobot"] as List<dynamic>)
+              .map(
+                (el) => BobotItem(
+                  id: el["id"],
+                  bobot: el["bobot"],
+                  keterangan: el["keterangan"],
+                  parameterId: el["parameter_id"],
+                ),
+              )
+              .toList(),
+        );
         _item = loadedSubBobot;
         notifyListeners();
       }

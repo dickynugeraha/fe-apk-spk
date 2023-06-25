@@ -39,8 +39,10 @@ class _ProfilScreenState extends State<DashboardScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _indexPage,
         onTap: _changePage,
-        selectedItemColor: Theme.of(context).colorScheme.secondary,
+        selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Colors.grey,
+        showUnselectedLabels: true,
+        unselectedFontSize: 10,
         type: BottomNavigationBarType.shifting,
         items: const [
           BottomNavigationBarItem(
