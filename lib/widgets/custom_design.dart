@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 
 class CustomDesign {
   static InputDecoration customInputDecoration(String label) {
@@ -20,5 +21,23 @@ class CustomDesign {
         style: const TextStyle(color: Colors.grey),
       ),
     );
+  }
+
+  static AwesomeDialog customAwesomeDialog({
+    BuildContext context,
+    String title,
+    String desc,
+    bool dialogSuccess,
+    bool isPop = true,
+  }) {
+    AwesomeDialog(
+      context: context,
+      dialogType: dialogSuccess ? DialogType.success : DialogType.error,
+      title: title,
+      desc: desc,
+      btnOkOnPress: isPop ? () => Navigator.of(context).pop() : () => {},
+      btnOkColor: Colors.grey,
+      btnOkText: "Oke",
+    ).show();
   }
 }

@@ -1,8 +1,4 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../providers/auth.dart';
 import '../widgets/auth_login.dart';
 import '../widgets/auth_register.dart';
 
@@ -19,6 +15,13 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   var authMode = AuthMode.Login;
   bool isAdminSection = true;
+
+  void registerSuccessfully() {
+    setState(() {
+      authMode = AuthMode.Login;
+      isAdminSection = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +57,8 @@ class _AuthScreenState extends State<AuthScreen> {
                       ? AuthLogin(isAdminSection)
                       : SizedBox(
                           height: deviceSize.height * 0.65,
-                          child: const AuthRegister(),
+                          child:
+                              AuthRegister(changeSection: registerSuccessfully),
                         ),
                   if (authMode == AuthMode.Login)
                     Row(

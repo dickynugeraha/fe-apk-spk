@@ -22,7 +22,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
   void didChangeDependencies() {
     if (_isInit) {
       Provider.of<SiswaProvider>(context)
-          .fetchAndSetSiswa()
+          .fetchAndSetSingleSiswa()
           .then((_) => _isLoading = false);
       _isInit = false;
     }
@@ -88,7 +88,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       Text(
                         siswa.asalSekolah,
                         // "Sekolah asal",
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                       TextButton.icon(
                         onPressed: () {

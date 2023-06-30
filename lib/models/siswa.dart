@@ -12,7 +12,7 @@ class Siswa {
   final String fotoAkte;
   final String fotoIjazah;
   final String fotoKK;
-  final String fotoKtpOrt;
+  final String fotoKtpOrtu;
 
   Siswa({
     @required this.nisn,
@@ -26,6 +26,6 @@ class Siswa {
     this.fotoAkte,
     this.fotoIjazah,
     this.fotoKK,
-    this.fotoKtpOrt,
+    this.fotoKtpOrtu,
   });
 }

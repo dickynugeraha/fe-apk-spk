@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppdb_prestasi/widgets/custom_design.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import '../models/http_exception.dart';
@@ -18,28 +19,6 @@ class _AuthLoginState extends State<AuthLogin> {
   final form = GlobalKey<FormState>();
   bool isLoading = false;
   Map<String, String> authData = {"username": "", "password": ""};
-
-  void showMessageDialog(String errorMessage) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Error occured"),
-        content: Text(
-          errorMessage,
-          style: const TextStyle(
-            color: Colors.grey,
-            fontStyle: FontStyle.italic,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text("Okey"),
-          ),
-        ],
-      ),
-    );
-  }
 
   Future<void> submitForm() async {
     if (!form.currentState.validate()) {
@@ -61,9 +40,21 @@ class _AuthLoginState extends State<AuthLogin> {
         Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName);
       }
     } on HttpException catch (error) {
-      showMessageDialog(error.toString());
+      CustomDesign.customAwesomeDialog(
+        context: context,
+        title: "Error occured",
+        desc: error.toString(),
+        dialogSuccess: false,
+        isPop: false,
+      );
     } catch (e) {
-      showMessageDialog(e.toString());
+      CustomDesign.customAwesomeDialog(
+        context: context,
+        title: "Error occured",
+        desc: e.toString(),
+        dialogSuccess: false,
+        isPop: false,
+      );
     }
 
     setState(() {
@@ -91,6 +82,7 @@ class _AuthLoginState extends State<AuthLogin> {
                 children: [
                   TextFormField(
                     decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: const BorderSide(
@@ -125,6 +117,7 @@ class _AuthLoginState extends State<AuthLogin> {
                   const SizedBox(height: 20),
                   TextFormField(
                     decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.all(15),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(20),
                           borderSide: const BorderSide(
