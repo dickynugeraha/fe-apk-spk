@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import './profil/profil_screen.dart';
-import './nilai_prestasi/nilai_prestasi.dart';
+import './prestasi/prestasi_screen.dart';
+import './home/home_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = "/dashboard";
@@ -14,8 +15,9 @@ class _ProfilScreenState extends State<DashboardScreen> {
   int _indexPage = 0;
 
   final List<Map<String, dynamic>> _pages = [
+    {"title": "Home", "page": const HomeScreen()},
     {"title": "Profil", "page": const ProfilScreen()},
-    {"title": "Prestasi dan nilai", "page": const NilaiPrestasi()}
+    {"title": "Prestasi", "page": const PrestasiScreen()},
   ];
 
   void _changePage(int index) {
@@ -27,36 +29,35 @@ class _ProfilScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
-      // appBar: AppBar(
-      //   title: Text(
-      //     _pages[_indexPage]["title"],
-      //   ),
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      // ),
       body: _pages[_indexPage]["page"],
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
         currentIndex: _indexPage,
         onTap: _changePage,
         selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: true,
-        unselectedFontSize: 10,
-        type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home,
+              size: 20,
+            ),
+            label: "Home",
+          ),
           BottomNavigationBarItem(
             label: "Profil",
             icon: Icon(
               Icons.account_circle,
-              size: 30,
+              size: 20,
             ),
           ),
           BottomNavigationBarItem(
             label: "Prestasi",
             icon: Icon(
               Icons.format_list_numbered_rtl,
-              size: 30,
+              size: 20,
             ),
           )
         ],

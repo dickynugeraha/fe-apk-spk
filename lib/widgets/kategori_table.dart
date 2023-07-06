@@ -18,19 +18,25 @@ class KategoriTable extends StatelessWidget {
       dataRowHeight: 70,
       columns: const [
         DataColumn(
-            label: Expanded(
-          child: Text("Nama",
+          label: Expanded(
+            child: Text(
+              "Nama",
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-              )),
-        )),
+              ),
+            ),
+          ),
+        ),
         DataColumn(
-            label: Expanded(
-          child: Text("Aksi",
+          label: Expanded(
+            child: Text(
+              "Aksi",
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-              )),
-        )),
+              ),
+            ),
+          ),
+        ),
       ],
       rows: kategories.map((kategori) {
         return DataRow(
@@ -72,7 +78,8 @@ class KategoriTable extends StatelessWidget {
                                 TextButton(
                                   onPressed: () async {
                                     try {
-                                      Provider.of<KategoriProvider>(context,
+                                      await Provider.of<KategoriProvider>(
+                                              context,
                                               listen: false)
                                           .deleteKategori(kategori.id);
                                       ScaffoldMessenger.of(context)

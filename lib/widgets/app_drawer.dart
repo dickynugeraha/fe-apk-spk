@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../screens/kategori/kategori_screen.dart';
 import "../screens/bobot/bobot_screen.dart";
 import "../screens/auth_screen.dart";
+import '../screens/sekolah/sekolah_screen.dart';
 import '../providers/auth.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -10,7 +11,6 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final deviceSize = MediaQuery.of(context).size;
     Widget navItem(IconData icon, String title, String routeName) {
       return ListTile(
         leading: Icon(
@@ -39,7 +39,8 @@ class AppDrawer extends StatelessWidget {
         SingleChildScrollView(
             child: Column(
           children: [
-            // navItem(Icons.category, "Kategori", KategoriScreen.routeName),
+            navItem(Icons.school_sharp, "Sekolah", SekolahScreen.routeName),
+            const Divider(),
             ListTile(
               leading: Icon(
                 Icons.category,
@@ -80,6 +81,7 @@ class AppDrawer extends StatelessWidget {
                 Provider.of<Auth>(context, listen: false).logout();
               },
             ),
+            const Divider(),
           ],
         )),
       ]),

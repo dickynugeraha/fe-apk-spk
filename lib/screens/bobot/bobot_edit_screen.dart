@@ -144,7 +144,6 @@ class _BobotEditScreenState extends State<BobotEditScreen> {
                                   "Kategori :",
                                   style: TextStyle(fontSize: 15),
                                 ),
-                                const SizedBox(width: 10),
                                 _editingBobot.id != null
                                     ? Text(
                                         _editingBobot.kategori.nama,

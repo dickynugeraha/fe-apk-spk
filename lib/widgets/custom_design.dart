@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'app_drawer.dart';
 
 class CustomDesign {
   static InputDecoration customInputDecoration(String label) {
@@ -39,5 +40,32 @@ class CustomDesign {
       btnOkColor: Colors.grey,
       btnOkText: "Oke",
     ).show();
+  }
+
+  static Container adminHeader({
+    String barTitle,
+    Widget action,
+    Widget child,
+    bool isDrawer = true,
+  }) {
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/img/bg1.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text(barTitle),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          actions: [action],
+        ),
+        drawer: isDrawer ? const AppDrawer() : null,
+        body: child,
+      ),
+    );
   }
 }

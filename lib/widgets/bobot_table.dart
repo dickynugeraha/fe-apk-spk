@@ -76,7 +76,7 @@ class BobotTable extends StatelessWidget {
                                 TextButton(
                                   onPressed: () async {
                                     try {
-                                      Provider.of<BobotProvider>(context,
+                                      await Provider.of<BobotProvider>(context,
                                               listen: false)
                                           .deleteBobot(el.id);
 

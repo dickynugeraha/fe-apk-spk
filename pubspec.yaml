@@ -44,6 +44,10 @@ dependencies:
   permission_handler: ^9.2.0
   image_picker: ^0.8.9
   awesome_dialog: ^3.1.0
+  carousel_slider: ^4.2.1
+  url_launcher: ^6.1.11
+  cached_network_image: ^3.2.3
+  loading_animation_widget: ^1.2.0+4
 
 dev_dependencies:
   flutter_test:

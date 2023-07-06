@@ -33,6 +33,8 @@ class SiswaProvider with ChangeNotifier {
     final url = Uri.parse("${Helper.domainUrl}/siswa");
 
     try {
+      await Future.delayed(const Duration(milliseconds: 1500));
+
       final response = await http.get(
         url,
         headers: {
@@ -75,13 +77,17 @@ class SiswaProvider with ChangeNotifier {
   Future<void> fetchAndSetSingleSiswa() async {
     final url = Uri.parse("${Helper.domainUrl}/siswa/$_nisn");
 
+    print(_nisn);
+
     try {
+      await Future.delayed(const Duration(seconds: 1));
+
       final response = await http.get(
         url,
         headers: {
           "Content-Type": "application/json;charset=UTF-8",
+          "Authorization": "Bearer $_token",
           "Accept": "application/json",
-          "Authorization": "Bearer $_token"
         },
       );
 
@@ -108,19 +114,12 @@ class SiswaProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateFileSiswa(Siswa newSiswa) async {
-    // final indexSiswa = items.indexWhere((siswa) => siswa.nisn == newSiswa.nisn);
-
+  Future<void> updateDataSiswa(Siswa newSiswa, bool isUpdateFoto) async {
     final url = Uri.parse("${Helper.domainUrl}/siswa/${newSiswa.nisn}/update");
-
-    final profilFile = File(newSiswa.fotoProfil);
-    final akteFile = File(newSiswa.fotoAkte);
-    final ijazahFile = File(newSiswa.fotoIjazah);
-    final kkFile = File(newSiswa.fotoKK);
-    final ktpOrtuFile = File(newSiswa.fotoKtpOrtu);
 
     try {
       final request = http.MultipartRequest("POST", url);
+
       request.headers.addAll(
         {
           "Content-Type": "multipart/form-data",
@@ -128,6 +127,7 @@ class SiswaProvider with ChangeNotifier {
           "Authorization": "Bearer $_token"
         },
       );
+
       request.fields.addAll({
         "nama": newSiswa.nama,
         "alamat": newSiswa.alamat,
@@ -135,48 +135,57 @@ class SiswaProvider with ChangeNotifier {
         "no_hp_ortu": newSiswa.noHpOrtu,
         "asal_sekolah": newSiswa.asalSekolah,
         "jenis_kelamin": newSiswa.jenisKelamin,
+        "is_update_foto": isUpdateFoto ? "1" : "0",
       });
 
-      request.files.add(
-        http.MultipartFile(
-          "foto_profil",
-          profilFile.readAsBytes().asStream(),
-          profilFile.lengthSync(),
-          filename: profilFile.path.split("/").last,
-        ),
-      );
-      request.files.add(
-        http.MultipartFile(
-          "foto_akte",
-          akteFile.readAsBytes().asStream(),
-          akteFile.lengthSync(),
-          filename: akteFile.path.split("/").last,
-        ),
-      );
-      request.files.add(
-        http.MultipartFile(
-          "foto_kk",
-          kkFile.readAsBytes().asStream(),
-          kkFile.lengthSync(),
-          filename: kkFile.path.split("/").last,
-        ),
-      );
-      request.files.add(
-        http.MultipartFile(
-          "foto_ktp_ortu",
-          ktpOrtuFile.readAsBytes().asStream(),
-          ktpOrtuFile.lengthSync(),
-          filename: ktpOrtuFile.path.split("/").last,
-        ),
-      );
-      request.files.add(
-        http.MultipartFile(
-          "foto_ijazah",
-          ijazahFile.readAsBytes().asStream(),
-          ijazahFile.lengthSync(),
-          filename: ijazahFile.path.split("/").last,
-        ),
-      );
+      if (isUpdateFoto) {
+        final profilFile = File(newSiswa.fotoProfil);
+        final akteFile = File(newSiswa.fotoAkte);
+        final ijazahFile = File(newSiswa.fotoIjazah);
+        final kkFile = File(newSiswa.fotoKK);
+        final ktpOrtuFile = File(newSiswa.fotoKtpOrtu);
+
+        request.files.add(
+          http.MultipartFile(
+            "foto_profil",
+            profilFile.readAsBytes().asStream(),
+            profilFile.lengthSync(),
+            filename: profilFile.path.split("/").last,
+          ),
+        );
+        request.files.add(
+          http.MultipartFile(
+            "foto_akte",
+            akteFile.readAsBytes().asStream(),
+            akteFile.lengthSync(),
+            filename: akteFile.path.split("/").last,
+          ),
+        );
+        request.files.add(
+          http.MultipartFile(
+            "foto_kk",
+            kkFile.readAsBytes().asStream(),
+            kkFile.lengthSync(),
+            filename: kkFile.path.split("/").last,
+          ),
+        );
+        request.files.add(
+          http.MultipartFile(
+            "foto_ktp_ortu",
+            ktpOrtuFile.readAsBytes().asStream(),
+            ktpOrtuFile.lengthSync(),
+            filename: ktpOrtuFile.path.split("/").last,
+          ),
+        );
+        request.files.add(
+          http.MultipartFile(
+            "foto_ijazah",
+            ijazahFile.readAsBytes().asStream(),
+            ijazahFile.lengthSync(),
+            filename: ijazahFile.path.split("/").last,
+          ),
+        );
+      }
 
       final response = await request.send();
       final responseStr = json.decode(await response.stream.bytesToString());

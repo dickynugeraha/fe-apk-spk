@@ -19,6 +19,7 @@ class ProfilEditScreen extends StatefulWidget {
 class _ProfilEditScreenState extends State<ProfilEditScreen> {
   final picker = ImagePicker();
   bool isInit = true;
+  bool isUpdateFoto = false;
   bool isLoading = false;
 
   var _genderValue = "L";
@@ -58,7 +59,6 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
 
     Future<void> submitEdit() async {
       if (!form.currentState.validate()) {
-        print("invalid");
         return;
       }
       form.currentState.save();
@@ -66,22 +66,34 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
         isLoading = true;
       });
       try {
-
         await Provider.of<SiswaProvider>(context, listen: false)
-            .updateFileSiswa(Siswa(
-          nisn: nisnController.text,
-          asalSekolah: asalSekolahController.text,
-          nama: namaController.text,
-          alamat: alamatController.text,
-          jenisKelamin: _genderValue,
-          email: emailController.text,
-          noHpOrtu: noHpOrtuController.text,
-          fotoAkte: fotoAkte.path ?? "no_photo",
-          fotoIjazah: fotoIjazah.path ?? "no_photo",
-          fotoKK: fotoKK.path ?? "no_photo",
-          fotoKtpOrtu: fotoKtpOrtu.path ?? "no_photo",
-          fotoProfil: fotoProfil.path ?? "no_photo",
-        ));
+            .updateDataSiswa(
+          isUpdateFoto
+              ? Siswa(
+                  nisn: nisnController.text,
+                  asalSekolah: asalSekolahController.text,
+                  nama: namaController.text,
+                  alamat: alamatController.text,
+                  jenisKelamin: _genderValue,
+                  email: emailController.text,
+                  noHpOrtu: noHpOrtuController.text,
+                  fotoAkte: fotoAkte.path,
+                  fotoIjazah: fotoIjazah.path,
+                  fotoKK: fotoKK.path,
+                  fotoKtpOrtu: fotoKtpOrtu.path,
+                  fotoProfil: fotoProfil.path,
+                )
+              : Siswa(
+                  nisn: nisnController.text,
+                  asalSekolah: asalSekolahController.text,
+                  nama: namaController.text,
+                  alamat: alamatController.text,
+                  jenisKelamin: _genderValue,
+                  email: emailController.text,
+                  noHpOrtu: noHpOrtuController.text,
+                ),
+          isUpdateFoto,
+        );
         CustomDesign.customAwesomeDialog(
           title: "Berhasil",
           desc: "Data siswa berhasil di ubah!",
@@ -141,6 +153,25 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
+                Row(
+                  children: [
+                    const Text("Jenis kelamin"),
+                    const SizedBox(width: 15),
+                    DropdownButton(
+                      value: _genderValue,
+                      items: const [
+                        DropdownMenuItem(value: "L", child: Text("Laki-laki")),
+                        DropdownMenuItem(value: "P", child: Text("Perempuan")),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          _genderValue = value;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
                 TextFormField(
                   decoration: CustomDesign.customInputDecoration("Nama"),
                   controller: namaController,
@@ -188,95 +219,90 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                   },
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Text("Jenis kelamin"),
-                    const SizedBox(width: 15),
-                    DropdownButton(
-                      value: _genderValue,
-                      items: const [
-                        DropdownMenuItem(value: "L", child: Text("Laki-laki")),
-                        DropdownMenuItem(value: "P", child: Text("Perempuan")),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          _genderValue = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                inputTypeFile(
-                  // path: fotoAkte.path,
-                  title: "profil",
-                  onPressed: () async {
-                    final pickedFile = await picker.pickImage(
-                      source: ImageSource.gallery,
-                    );
+                CheckboxListTile(
+                  title: const Text("Update data foto"),
+                  value: isUpdateFoto,
+                  onChanged: (value) {
                     setState(() {
-                      if (pickedFile != null) {
-                        fotoProfil = File(pickedFile.path ?? "no_photo");
-                      }
+                      isUpdateFoto = value;
                     });
                   },
                 ),
-                inputTypeFile(
-                  // path: fotoAkte.path,
-                  title: "akte",
-                  onPressed: () async {
-                    final pickedFile = await picker.pickImage(
-                      source: ImageSource.gallery,
-                    );
-                    setState(() {
-                      if (pickedFile != null) {
-                        fotoAkte = File(pickedFile.path ?? "no_photo");
-                      }
-                    });
-                  },
-                ),
-                inputTypeFile(
-                  title: "ijazah",
-                  // path: fotoIjazah.path,
-                  onPressed: () async {
-                    final pickedFile = await picker.pickImage(
-                      source: ImageSource.gallery,
-                    );
-                    setState(() {
-                      if (pickedFile != null) {
-                        fotoIjazah = File(pickedFile.path ?? "no_photo");
-                      }
-                    });
-                  },
-                ),
-                inputTypeFile(
-                  title: "kk",
-                  // path: fotoKK.path,
-                  onPressed: () async {
-                    final pickedFile = await picker.pickImage(
-                      source: ImageSource.gallery,
-                    );
-                    setState(() {
-                      if (pickedFile != null) {
-                        fotoKK = File(pickedFile.path ?? "no_photo");
-                      }
-                    });
-                  },
-                ),
-                inputTypeFile(
-                  title: "ktp ortu",
-                  // path: fotoKK.path,
-                  onPressed: () async {
-                    final pickedFile = await picker.pickImage(
-                      source: ImageSource.gallery,
-                    );
-                    setState(() {
-                      if (pickedFile != null) {
-                        fotoKtpOrtu = File(pickedFile.path ?? "no_photo");
-                      }
-                    });
-                  },
-                ),
+                if (isUpdateFoto)
+                  Column(
+                    children: [
+                      inputTypeFile(
+                        // path: fotoAkte.path,
+                        title: "profil",
+                        onPressed: () async {
+                          final pickedFile = await picker.pickImage(
+                            source: ImageSource.gallery,
+                          );
+                          setState(() {
+                            if (pickedFile != null) {
+                              fotoProfil = File(pickedFile.path ?? "no_photo");
+                            }
+                          });
+                        },
+                      ),
+                      inputTypeFile(
+                        // path: fotoAkte.path,
+                        title: "akte",
+                        onPressed: () async {
+                          final pickedFile = await picker.pickImage(
+                            source: ImageSource.gallery,
+                          );
+                          setState(() {
+                            if (pickedFile != null) {
+                              fotoAkte = File(pickedFile.path ?? "no_photo");
+                            }
+                          });
+                        },
+                      ),
+                      inputTypeFile(
+                        title: "ijazah",
+                        // path: fotoIjazah.path,
+                        onPressed: () async {
+                          final pickedFile = await picker.pickImage(
+                            source: ImageSource.gallery,
+                          );
+                          setState(() {
+                            if (pickedFile != null) {
+                              fotoIjazah = File(pickedFile.path ?? "no_photo");
+                            }
+                          });
+                        },
+                      ),
+                      inputTypeFile(
+                        title: "kk",
+                        // path: fotoKK.path,
+                        onPressed: () async {
+                          final pickedFile = await picker.pickImage(
+                            source: ImageSource.gallery,
+                          );
+                          setState(() {
+                            if (pickedFile != null) {
+                              fotoKK = File(pickedFile.path ?? "no_photo");
+                            }
+                          });
+                        },
+                      ),
+                      inputTypeFile(
+                        title: "ktp ortu",
+                        // path: fotoKK.path,
+                        onPressed: () async {
+                          final pickedFile = await picker.pickImage(
+                            source: ImageSource.gallery,
+                          );
+                          setState(() {
+                            if (pickedFile != null) {
+                              fotoKtpOrtu = File(pickedFile.path ?? "no_photo");
+                            }
+                          });
+                        },
+                      ),
+                    ],
+                  ),
               ],
             ),
           ),

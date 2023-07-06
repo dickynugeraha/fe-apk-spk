@@ -3,7 +3,7 @@ import 'package:ppdb_prestasi/widgets/custom_design.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth.dart';
 import '../models/http_exception.dart';
-import '../screens/kategori/kategori_screen.dart';
+import '../screens/sekolah/sekolah_screen.dart';
 import '../screens/dashboard_screen.dart';
 
 class AuthLogin extends StatefulWidget {
@@ -33,7 +33,7 @@ class _AuthLoginState extends State<AuthLogin> {
       if (widget.isAdminSection) {
         await Provider.of<Auth>(context, listen: false)
             .login(authData["username"], authData["password"], "/admin/login");
-        Navigator.of(context).pushReplacementNamed(KategoriScreen.routeName);
+        Navigator.of(context).pushReplacementNamed(SekolahScreen.routeName);
       } else {
         await Provider.of<Auth>(context, listen: false)
             .login(authData["username"], authData["password"], "/siswa/login");

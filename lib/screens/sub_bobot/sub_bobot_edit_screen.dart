@@ -141,7 +141,6 @@ class _SubBobotEditScreenState extends State<SubBobotEditScreen> {
                             "Kategori :",
                             style: TextStyle(fontSize: 15),
                           ),
-                          const SizedBox(width: 20),
                           _editingSubBobot.id != null
                               ? Text(
                                   _initValue["nama"],

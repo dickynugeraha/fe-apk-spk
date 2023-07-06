@@ -24,7 +24,9 @@ class KategoriProvider with ChangeNotifier {
       final response = await http.post(
         url,
         headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
+          'Content-Type': 'application/json;charset=UTF-8',
+          "Accept": "application/json",
+          "Authorization": "Bearer $tokenValue"
         },
         body: json.encode(
           {
