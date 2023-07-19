@@ -11,7 +11,7 @@ class SubBobotTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final subBobot = Provider.of<SubBobotProvider>(context).item;
 
-    return subBobot.bobotItem.isEmpty
+    return subBobot.subBobot.isEmpty
         ? const Padding(
             padding: EdgeInsets.only(top: 20),
             child: Text(
@@ -51,7 +51,7 @@ class SubBobotTable extends StatelessWidget {
                   ),
                 ),
               ],
-              rows: subBobot.bobotItem.map((el) {
+              rows: subBobot.subBobot.map((el) {
                 return DataRow(
                   cells: [
                     DataCell(SizedBox(

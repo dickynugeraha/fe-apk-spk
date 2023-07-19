@@ -13,6 +13,7 @@ class Siswa {
   final String fotoIjazah;
   final String fotoKK;
   final String fotoKtpOrtu;
+  final Prestasi prestasi;
 
   Siswa({
     @required this.nisn,
@@ -27,5 +28,22 @@ class Siswa {
     this.fotoIjazah,
     this.fotoKK,
     this.fotoKtpOrtu,
+    this.prestasi,
+  });
+}
+
+class Prestasi {
+  final String nilaiSemester;
+  final String nilaiUn;
+  final String nilaiUas;
+  final String prestasiAkademik;
+  final String prestasiNonAkademik;
+
+  Prestasi({
+    this.nilaiSemester,
+    this.nilaiUn,
+    this.nilaiUas,
+    this.prestasiAkademik,
+    this.prestasiNonAkademik,
   });
 }

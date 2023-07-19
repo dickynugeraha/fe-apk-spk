@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import '../models/bobot_item.dart';
 import '../models/kategori.dart';
 import '../models/sub_bobot.dart';
 import '../providers/helper.dart';
@@ -11,8 +10,8 @@ import '../providers/helper.dart';
 class SubBobotProvider with ChangeNotifier {
   String _token;
   String _username;
-  SubBobot _item;
-  SubBobot get item {
+  SubBobotWithKategori _item;
+  SubBobotWithKategori get item {
     return _item;
   }
 
@@ -44,15 +43,15 @@ class SubBobotProvider with ChangeNotifier {
       final extractData =
           json.decode(response.body)["data"][0] as Map<String, dynamic>;
       if (extractData != null) {
-        final loadedSubBobot = SubBobot(
+        final loadedSubBobot = SubBobotWithKategori(
           kategori: Kategori(
             id: extractData["id"],
             nama: extractData["nama"],
             sifat: extractData["sifat"],
           ),
-          bobotItem: (extractData["sub_bobot"] as List<dynamic>)
+          subBobot: (extractData["sub_bobot"] as List<dynamic>)
               .map(
-                (el) => BobotItem(
+                (el) => SubBobot(
                   id: el["id"],
                   bobot: el["bobot"],
                   keterangan: el["keterangan"],
@@ -69,11 +68,11 @@ class SubBobotProvider with ChangeNotifier {
     }
   }
 
-  BobotItem getById(String id) {
-    return item.bobotItem.firstWhere((el) => el.id == id);
+  SubBobot getById(String id) {
+    return item.subBobot.firstWhere((el) => el.id == id);
   }
 
-  Future<void> addSubBobot(BobotItem newSubBobot) async {
+  Future<void> addSubBobot(SubBobot newSubBobot) async {
     final url = Uri.parse("${Helper.domainUrl}/sub-bobot");
     try {
       final response = await http.post(
@@ -92,7 +91,7 @@ class SubBobotProvider with ChangeNotifier {
         ),
       );
       final subBobotId = json.decode(response.body)["sub_bobot_id"] as String;
-      item.bobotItem.add(BobotItem(
+      item.subBobot.add(SubBobot(
         id: subBobotId,
         bobot: newSubBobot.bobot,
         keterangan: newSubBobot.keterangan,
@@ -104,10 +103,10 @@ class SubBobotProvider with ChangeNotifier {
     }
   }
 
-  Future<void> editSubBobot(BobotItem newSubBobot) async {
+  Future<void> editSubBobot(SubBobot newSubBobot) async {
     final url = Uri.parse("${Helper.domainUrl}/sub-bobot/${newSubBobot.id}");
     final indexSubBobot =
-        item.bobotItem.indexWhere((element) => element.id == newSubBobot.id);
+        item.subBobot.indexWhere((element) => element.id == newSubBobot.id);
 
     if (indexSubBobot >= 0) {
       await http.put(
@@ -125,16 +124,16 @@ class SubBobotProvider with ChangeNotifier {
         ),
       );
 
-      item.bobotItem[indexSubBobot] = newSubBobot;
+      item.subBobot[indexSubBobot] = newSubBobot;
       notifyListeners();
     }
   }
 
   Future<void> deleteSubBobot(String id) async {
     final url = Uri.parse("${Helper.domainUrl}/sub-bobot/$id");
-    final indexSubBobot = item.bobotItem.indexWhere((el) => el.id == id);
-    var existingSubBobot = item.bobotItem[indexSubBobot];
-    item.bobotItem.removeAt(indexSubBobot);
+    final indexSubBobot = item.subBobot.indexWhere((el) => el.id == id);
+    var existingSubBobot = item.subBobot[indexSubBobot];
+    item.subBobot.removeAt(indexSubBobot);
     notifyListeners();
     final response = await http.delete(
       url,
@@ -146,7 +145,7 @@ class SubBobotProvider with ChangeNotifier {
     );
     final errorResponse = json.decode(response.body)["error"];
     if (errorResponse != null) {
-      item.bobotItem.insert(indexSubBobot, existingSubBobot);
+      item.subBobot.insert(indexSubBobot, existingSubBobot);
       notifyListeners();
       throw HttpException(errorResponse);
     }

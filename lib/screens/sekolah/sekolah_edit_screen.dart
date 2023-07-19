@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:file_picker/file_picker.dart';
 
 import '../../widgets/custom_design.dart';
 import '../../providers/sekolah.dart';
@@ -19,7 +19,6 @@ class SekolahEditScreen extends StatefulWidget {
 }
 
 class _SekolahEditScreenState extends State<SekolahEditScreen> {
-  final picker = ImagePicker();
   var sekolahId = "";
   bool isLoading = false;
   bool isInit = true;
@@ -169,50 +168,64 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
                           inputTypeFile(
                             title: "logo",
                             onPressed: () async {
-                              final pickedFile = await picker.pickImage(
-                                  source: ImageSource.gallery);
+                              final pickedFile =
+                                  await FilePicker.platform.pickFiles(
+                                allowMultiple: false,
+                              );
                               setState(() {
-                                fotoLogo = File(pickedFile.path);
+                                fotoLogo = File(pickedFile.files.single.path);
                               });
                             },
                           ),
                           inputTypeFile(
                             title: "alur pendaftaran",
                             onPressed: () async {
-                              final pickedFile = await picker.pickImage(
-                                  source: ImageSource.gallery);
+                              final pickedFile =
+                                  await FilePicker.platform.pickFiles(
+                                allowMultiple: false,
+                              );
                               setState(() {
-                                fotoAlurPendaftaran = File(pickedFile.path);
+                                fotoAlurPendaftaran =
+                                    File(pickedFile.files.single.path);
                               });
                             },
                           ),
                           inputTypeFile(
                             title: "identitas 1",
                             onPressed: () async {
-                              final pickedFile = await picker.pickImage(
-                                  source: ImageSource.gallery);
+                              final pickedFile =
+                                  await FilePicker.platform.pickFiles(
+                                allowMultiple: false,
+                              );
                               setState(() {
-                                fotoIdentitas1 = File(pickedFile.path);
+                                fotoIdentitas1 =
+                                    File(pickedFile.files.single.path);
                               });
                             },
                           ),
                           inputTypeFile(
                             title: "identitas 2",
                             onPressed: () async {
-                              final pickedFile = await picker.pickImage(
-                                  source: ImageSource.gallery);
+                              final pickedFile =
+                                  await FilePicker.platform.pickFiles(
+                                allowMultiple: false,
+                              );
                               setState(() {
-                                fotoIdentitas2 = File(pickedFile.path);
+                                fotoIdentitas2 =
+                                    File(pickedFile.files.single.path);
                               });
                             },
                           ),
                           inputTypeFile(
                             title: "identitas 3",
                             onPressed: () async {
-                              final pickedFile = await picker.pickImage(
-                                  source: ImageSource.gallery);
+                              final pickedFile =
+                                  await FilePicker.platform.pickFiles(
+                                allowMultiple: false,
+                              );
                               setState(() {
-                                fotoIdentitas3 = File(pickedFile.path);
+                                fotoIdentitas3 =
+                                    File(pickedFile.files.single.path);
                               });
                             },
                           ),

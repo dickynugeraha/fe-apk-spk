@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/siswa.dart';
@@ -17,7 +17,6 @@ class ProfilEditScreen extends StatefulWidget {
 }
 
 class _ProfilEditScreenState extends State<ProfilEditScreen> {
-  final picker = ImagePicker();
   bool isInit = true;
   bool isUpdateFoto = false;
   bool isLoading = false;
@@ -142,6 +141,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
                 TextFormField(
@@ -235,12 +235,13 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         // path: fotoAkte.path,
                         title: "profil",
                         onPressed: () async {
-                          final pickedFile = await picker.pickImage(
-                            source: ImageSource.gallery,
+                          final pickedFile =
+                              await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
                           );
                           setState(() {
                             if (pickedFile != null) {
-                              fotoProfil = File(pickedFile.path ?? "no_photo");
+                              fotoProfil = File(pickedFile.files.single.path);
                             }
                           });
                         },
@@ -249,12 +250,13 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         // path: fotoAkte.path,
                         title: "akte",
                         onPressed: () async {
-                          final pickedFile = await picker.pickImage(
-                            source: ImageSource.gallery,
+                          final pickedFile =
+                              await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
                           );
                           setState(() {
                             if (pickedFile != null) {
-                              fotoAkte = File(pickedFile.path ?? "no_photo");
+                              fotoAkte = File(pickedFile.files.single.path);
                             }
                           });
                         },
@@ -263,12 +265,13 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         title: "ijazah",
                         // path: fotoIjazah.path,
                         onPressed: () async {
-                          final pickedFile = await picker.pickImage(
-                            source: ImageSource.gallery,
+                          final pickedFile =
+                              await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
                           );
                           setState(() {
                             if (pickedFile != null) {
-                              fotoIjazah = File(pickedFile.path ?? "no_photo");
+                              fotoIjazah = File(pickedFile.files.single.path);
                             }
                           });
                         },
@@ -277,12 +280,13 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         title: "kk",
                         // path: fotoKK.path,
                         onPressed: () async {
-                          final pickedFile = await picker.pickImage(
-                            source: ImageSource.gallery,
+                          final pickedFile =
+                              await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
                           );
                           setState(() {
                             if (pickedFile != null) {
-                              fotoKK = File(pickedFile.path ?? "no_photo");
+                              fotoKK = File(pickedFile.files.single.path);
                             }
                           });
                         },
@@ -291,12 +295,13 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         title: "ktp ortu",
                         // path: fotoKK.path,
                         onPressed: () async {
-                          final pickedFile = await picker.pickImage(
-                            source: ImageSource.gallery,
+                          final pickedFile =
+                              await FilePicker.platform.pickFiles(
+                            allowMultiple: false,
                           );
                           setState(() {
                             if (pickedFile != null) {
-                              fotoKtpOrtu = File(pickedFile.path ?? "no_photo");
+                              fotoKtpOrtu = File(pickedFile.files.single.path);
                             }
                           });
                         },
@@ -316,39 +321,12 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
     String title,
     Function onPressed,
   }) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-            child: Text(
-          "Foto $title",
-          // path != null ? path : "Foto $title",
-          style: const TextStyle(overflow: TextOverflow.ellipsis),
-        )),
-        SizedBox(
-          width: 120,
-          child: ElevatedButton(
-            style: ButtonStyle(
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-            ),
-            onPressed: onPressed,
-            child: Row(children: [
-              const Icon(Icons.add_a_photo_rounded),
-              const SizedBox(width: 10),
-              Flexible(
-                child: Text(
-                  title,
-                  style: const TextStyle(overflow: TextOverflow.ellipsis),
-                ),
-              ),
-            ]),
-          ),
-        )
-      ],
-    );
+    return Row(children: [
+      TextButton.icon(
+        onPressed: onPressed,
+        icon: const Icon(Icons.add_a_photo_rounded),
+        label: Text("Foto $title"),
+      ),
+    ]);
   }
 }

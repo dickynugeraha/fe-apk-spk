@@ -77,9 +77,13 @@ class SiswaProvider with ChangeNotifier {
   Future<void> fetchAndSetSingleSiswa() async {
     final url = Uri.parse("${Helper.domainUrl}/siswa/$_nisn");
 
-    print(_nisn);
-
     try {
+      // _token = null;
+      // _nisn = null;
+      // final prefs = await SharedPreferences.getInstance();
+      // prefs.remove("dataAuth");
+      // prefs.clear();
+
       await Future.delayed(const Duration(seconds: 1));
 
       final response = await http.get(
@@ -88,6 +92,7 @@ class SiswaProvider with ChangeNotifier {
           "Content-Type": "application/json;charset=UTF-8",
           "Authorization": "Bearer $_token",
           "Accept": "application/json",
+          'Connection': 'Keep-Alive',
         },
       );
 
@@ -106,6 +111,13 @@ class SiswaProvider with ChangeNotifier {
         fotoIjazah: siswa["foto_ijazah"],
         fotoKK: siswa["foto_kk"],
         fotoKtpOrtu: siswa["foto_ktp_ortu"],
+        prestasi: Prestasi(
+          nilaiSemester: siswa["prestasi"]["nilai_semester"],
+          nilaiUas: siswa["prestasi"]["nilai_uas"],
+          nilaiUn: siswa["prestasi"]["nilai_un"],
+          prestasiAkademik: siswa["prestasi"]["prestasi_akademik"],
+          prestasiNonAkademik: siswa["prestasi"]["prestasi_non_akademik"],
+        ),
       );
       _item = loadedData;
       notifyListeners();
@@ -196,6 +208,85 @@ class SiswaProvider with ChangeNotifier {
       _item = newSiswa;
       // _items[indexSiswa] = newSiswa;
       notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateFilePrestasiSiswa(Map<String, String> filePath) async {
+    final url = Uri.parse("${Helper.domainUrl}/prestasi/$_nisn/update");
+
+    File nilaiSemesterFile = File(filePath["nilai_semester"]);
+    File nilaiUnFile = File(filePath["nilai_un"]);
+    File nilaiUasFile = File(filePath["nilai_uas"]);
+    File prestasiAkademikFile = File(filePath["prestasi_akademik"]);
+    File prestasiNonAkademikFile = File(filePath["prestasi_non_akademik"]);
+
+    try {
+      final request = http.MultipartRequest("POST", url);
+
+      request.headers.addAll(
+        {
+          "Content-Type": "multipart/form-data",
+          "Accept": "application/json",
+          "Authorization": "Bearer $_token"
+        },
+      );
+
+      request.files.add(
+        http.MultipartFile(
+          "nilai_semester",
+          nilaiSemesterFile.readAsBytes().asStream(),
+          nilaiSemesterFile.lengthSync(),
+          filename: nilaiSemesterFile.path.split("/").last,
+        ),
+      );
+
+      request.files.add(
+        http.MultipartFile(
+          "nilai_un",
+          nilaiUnFile.readAsBytes().asStream(),
+          nilaiUnFile.lengthSync(),
+          filename: nilaiUnFile.path.split("/").last,
+        ),
+      );
+
+      request.files.add(
+        http.MultipartFile(
+          "nilai_uas",
+          nilaiUasFile.readAsBytes().asStream(),
+          nilaiUasFile.lengthSync(),
+          filename: nilaiUasFile.path.split("/").last,
+        ),
+      );
+
+      request.files.add(
+        http.MultipartFile(
+          "prestasi_akademik",
+          prestasiAkademikFile.readAsBytes().asStream(),
+          prestasiAkademikFile.lengthSync(),
+          filename: prestasiAkademikFile.path.split("/").last,
+        ),
+      );
+
+      request.files.add(
+        http.MultipartFile(
+          "prestasi_non_akademik",
+          prestasiNonAkademikFile.readAsBytes().asStream(),
+          prestasiNonAkademikFile.lengthSync(),
+          filename: prestasiNonAkademikFile.path.split("/").last,
+        ),
+      );
+
+      final response = await request.send();
+      final responseStr = json.decode(await response.stream.bytesToString());
+
+      if (response.statusCode != 200) {
+        throw HttpException("Error");
+      }
+      if (responseStr["error"] != null) {
+        throw HttpException(responseStr["error"]["message"]);
+      }
     } catch (e) {
       rethrow;
     }

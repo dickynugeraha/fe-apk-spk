@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './profil/profil_screen.dart';
 import './prestasi/prestasi_screen.dart';
 import './home/home_screen.dart';
+import './prestasi/prestasi_bobot_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = "/dashboard";
@@ -18,6 +19,7 @@ class _ProfilScreenState extends State<DashboardScreen> {
     {"title": "Home", "page": const HomeScreen()},
     {"title": "Profil", "page": const ProfilScreen()},
     {"title": "Prestasi", "page": const PrestasiScreen()},
+    {"title": "Pembobotan", "page": const PrestasiBobotScreen()},
   ];
 
   void _changePage(int index) {
@@ -57,6 +59,13 @@ class _ProfilScreenState extends State<DashboardScreen> {
             label: "Prestasi",
             icon: Icon(
               Icons.format_list_numbered_rtl,
+              size: 20,
+            ),
+          ),
+          BottomNavigationBarItem(
+            label: "Bobot",
+            icon: Icon(
+              Icons.numbers,
               size: 20,
             ),
           )

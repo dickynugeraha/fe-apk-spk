@@ -156,25 +156,27 @@ class _BobotEditScreenState extends State<BobotEditScreen> {
                                         onChanged: (value) {
                                           final kategoriSelected =
                                               Provider.of<KategoriProvider>(
-                                                      context,
-                                                      listen: false)
-                                                  .getById(value);
+                                            context,
+                                            listen: false,
+                                          ).getById(value);
 
-                                          setState(() {
-                                            kategoriId_selected = value;
-                                            _editingBobot = Bobot(
-                                              id: _editingBobot.id,
-                                              parameterId:
-                                                  _editingBobot.parameterId,
-                                              bobot: _editingBobot.bobot,
-                                              kategori: Kategori(
-                                                id: _editingBobot.kategori.id,
-                                                nama: kategoriSelected.nama,
-                                                sifat: _editingBobot
-                                                    .kategori.sifat,
-                                              ),
-                                            );
-                                          });
+                                          setState(
+                                            () {
+                                              kategoriId_selected = value;
+                                              _editingBobot = Bobot(
+                                                id: _editingBobot.id,
+                                                parameterId:
+                                                    _editingBobot.parameterId,
+                                                bobot: _editingBobot.bobot,
+                                                kategori: Kategori(
+                                                  id: _editingBobot.kategori.id,
+                                                  nama: kategoriSelected.nama,
+                                                  sifat: _editingBobot
+                                                      .kategori.sifat,
+                                                ),
+                                              );
+                                            },
+                                          );
                                         },
                                       ),
                               ],

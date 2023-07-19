@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ppdb_prestasi/models/bobot_item.dart';
-import 'package:ppdb_prestasi/providers/kategori.dart';
+import 'package:provider/provider.dart';
+
+import '../../models/sub_bobot.dart';
+import '../../providers/kategori.dart';
 import '../../models/kategori.dart';
 import '../../providers/sub_bobot.dart';
-import 'package:provider/provider.dart';
 
 class SubBobotEditScreen extends StatefulWidget {
   static const routeName = "/sub-bobot-edit.dart";
@@ -17,7 +18,7 @@ class _SubBobotEditScreenState extends State<SubBobotEditScreen> {
   String kategoriId_selected;
   var _isInit = true;
   var _isLoading = false;
-  var _editingSubBobot = BobotItem(
+  var _editingSubBobot = SubBobot(
     id: null,
     bobot: 0,
     keterangan: "",
@@ -153,7 +154,7 @@ class _SubBobotEditScreenState extends State<SubBobotEditScreen> {
                                   onChanged: (newValue) {
                                     setState(() {
                                       kategoriId_selected = newValue;
-                                      _editingSubBobot = BobotItem(
+                                      _editingSubBobot = SubBobot(
                                         id: _editingSubBobot.id,
                                         keterangan: _editingSubBobot.keterangan,
                                         bobot: _editingSubBobot.bobot,
@@ -170,7 +171,7 @@ class _SubBobotEditScreenState extends State<SubBobotEditScreen> {
                             const InputDecoration(labelText: "Keterangan"),
                         initialValue: _initValue["keterangan"],
                         onSaved: (newValue) {
-                          _editingSubBobot = BobotItem(
+                          _editingSubBobot = SubBobot(
                             id: _editingSubBobot.id,
                             keterangan: newValue,
                             bobot: _editingSubBobot.bobot,
@@ -189,7 +190,7 @@ class _SubBobotEditScreenState extends State<SubBobotEditScreen> {
                         decoration: const InputDecoration(labelText: "Bobot"),
                         initialValue: _initValue["bobot"].toString(),
                         onSaved: (newValue) {
-                          _editingSubBobot = BobotItem(
+                          _editingSubBobot = SubBobot(
                             id: _editingSubBobot.id,
                             keterangan: _editingSubBobot.keterangan,
                             bobot: int.parse(newValue),

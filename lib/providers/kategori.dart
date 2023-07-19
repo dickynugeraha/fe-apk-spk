@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ppdb_prestasi/models/sub_bobot.dart';
 import 'dart:convert';
 
 import './helper.dart';
@@ -11,8 +12,14 @@ class KategoriProvider with ChangeNotifier {
   String username;
 
   List<Kategori> _items = [];
+  List<SubBobotWithKategori> _itemsSubBobot = [];
+
   List<Kategori> get items {
     return [..._items];
+  }
+
+  List<SubBobotWithKategori> get itemsSubBobot {
+    return [..._itemsSubBobot];
   }
 
   KategoriProvider(this.tokenValue, this.username, this._items);
@@ -42,6 +49,49 @@ class KategoriProvider with ChangeNotifier {
         sifat: kategori.sifat,
       );
       _items.add(newKategori);
+      notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> fetchKategoriWithSubBobot() async {
+    final url = Uri.parse("${Helper.domainUrl}/parameter/all");
+
+    try {
+      final response = await http.get(
+        url,
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Bearer $tokenValue"
+        },
+      );
+
+      final kategories = json.decode(response.body)["data"] as List<dynamic>;
+      final List<SubBobotWithKategori> loadedData = [];
+      for (var kategori in kategories) {
+        loadedData.add(
+          SubBobotWithKategori(
+            kategori: Kategori(
+              id: kategori["id"],
+              nama: kategori["nama"],
+              sifat: kategori["sifat"],
+            ),
+            subBobot: (kategori["sub_bobot"] as List<dynamic>)
+                .map(
+                  (el) => SubBobot(
+                    id: el["id"],
+                    bobot: el["bobot"],
+                    keterangan: el["keterangan"],
+                    parameterId: el["parameter_id"],
+                  ),
+                )
+                .toList(),
+          ),
+        );
+      }
+      _itemsSubBobot = loadedData;
       notifyListeners();
     } catch (e) {
       rethrow;

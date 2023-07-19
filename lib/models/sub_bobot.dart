@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
 
 import './kategori.dart';
-import 'bobot_item.dart';
 
-class SubBobot with ChangeNotifier {
+class SubBobotWithKategori with ChangeNotifier {
   final Kategori kategori;
-  final List<BobotItem> bobotItem;
+  final List<SubBobot> subBobot;
+
+  SubBobotWithKategori({
+    this.kategori,
+    this.subBobot,
+  });
+}
+
+class SubBobot {
+  final String id;
+  final int bobot;
+  final String keterangan;
+  final String parameterId;
 
   SubBobot({
-    this.kategori,
-    this.bobotItem,
+    this.id,
+    this.bobot,
+    this.keterangan,
+    this.parameterId,
   });
 }

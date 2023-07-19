@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:open_filex/open_filex.dart';
 
 import '../../providers/siswa.dart';
 import './profil_edit_screen.dart';
 import '../../providers/auth.dart';
+import '../../providers/kategori.dart';
 import '../../screens/auth_screen.dart';
 import '../../providers/helper.dart';
+import 'profil_foto_identitas.dart';
 
 class ProfilScreen extends StatefulWidget {
   const ProfilScreen({Key key}) : super(key: key);
@@ -23,6 +26,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
+      Provider.of<KategoriProvider>(context).fetchKategoriWithSubBobot();
+
       Provider.of<SiswaProvider>(context)
           .fetchAndSetSingleSiswa()
           .then((_) => _isLoading = false);
@@ -35,6 +40,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
   Widget build(BuildContext context) {
     final siswa = Provider.of<SiswaProvider>(context, listen: false).item;
     final mediaQuery = MediaQuery.of(context);
+
     return _isLoading
         ? Center(
             child: LoadingAnimationWidget.fourRotatingDots(
@@ -65,7 +71,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         radius: 50,
                         backgroundImage: siswa.fotoProfil != null
                             ? NetworkImage(
-                                "${Helper.domainNoApiUrl}/uploads/foto_profil/${siswa.fotoProfil}")
+                                "${Helper.domainNoApiUrl}/uploads/foto_profil/${siswa.fotoProfil}",
+                              )
                             : const AssetImage("assets/img/dummy_profile.jpeg"),
                       ),
                       const SizedBox(height: 15),
@@ -139,28 +146,54 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       profilItem(
                           Icons.phone, "No Hp Orang tua", siswa.noHpOrtu),
                       const Divider(),
-                      imageItem(
-                        context,
-                        "Foto akte kelahiran",
-                        "${Helper.domainNoApiUrl}/uploads/foto_akte/${siswa.fotoAkte}",
+                      detailItem(
+                        icon: Icons.image,
+                        title: "Detail foto identitas",
+                        onTaps: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const ProfilFotoIdentitas(),
+                          ));
+                        },
                       ),
                       const Divider(),
-                      imageItem(
-                        context,
-                        "Foto ijazah",
-                        "${Helper.domainNoApiUrl}/uploads/foto_ijazah/${siswa.fotoIjazah}",
-                      ),
-                      const Divider(),
-                      imageItem(
-                        context,
-                        "Foto ktp orang tua",
-                        "${Helper.domainNoApiUrl}/uploads/foto_ktp_ortu/${siswa.fotoKtpOrtu}",
-                      ),
-                      const Divider(),
-                      imageItem(
-                        context,
-                        "Foto kk",
-                        "${Helper.domainNoApiUrl}/uploads/foto_kk/${siswa.fotoKK}",
+                      detailItem(
+                        icon: Icons.file_open,
+                        title: "Detail file penilaian",
+                        onTaps: () async {
+                          showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                fileItem(
+                                  "File nilai semester",
+                                  "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_semester/${siswa.prestasi.nilaiSemester}",
+                                ),
+                                const SizedBox(height: 10),
+                                fileItem(
+                                  "File nilai UAS",
+                                  "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_uas/${siswa.prestasi.nilaiUas}",
+                                ),
+                                const SizedBox(height: 10),
+                                fileItem(
+                                  "File nilai UN",
+                                  "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_un/${siswa.prestasi.nilaiUn}",
+                                ),
+                                const SizedBox(height: 10),
+                                fileItem(
+                                  "File prestasi akademik",
+                                  "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_akademik/${siswa.prestasi.prestasiAkademik}",
+                                ),
+                                const SizedBox(height: 10),
+                                fileItem(
+                                  "File prestasi non akademik",
+                                  "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_non_akademik/${siswa.prestasi.prestasiNonAkademik}",
+                                ),
+                              ],
+                            )),
+                          );
+                        },
                       ),
                       const Divider(),
                     ],
@@ -169,6 +202,38 @@ class _ProfilScreenState extends State<ProfilScreen> {
               ),
             ],
           );
+  }
+
+  Widget fileItem(String title, String url) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Flexible(
+          child: Text(
+            title,
+            style: const TextStyle(fontSize: 16),
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        const SizedBox(width: 10),
+        GestureDetector(
+          onTap:
+              //  () {
+              //   OpenFilex.open(url);
+              // },
+              () async {
+            await launchUrl(
+              Uri.parse(url),
+            );
+          },
+          child: const Text(
+            "Lihat",
+            style: TextStyle(
+                color: Colors.blue, decoration: TextDecoration.underline),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget profilItem(IconData icon, String title, String valueText) {
@@ -190,52 +255,35 @@ class _ProfilScreenState extends State<ProfilScreen> {
     );
   }
 
-  Widget imageItem(BuildContext context, String title, String imageUrl) {
+  Widget detailItem({
+    IconData icon,
+    String title,
+    Function onTaps,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(left: 15),
       child: ListTile(
         title: Row(
           children: [
-            const Icon(Icons.image),
+            Icon(icon),
             const SizedBox(width: 10),
-            Text(title),
-          ],
-        ),
-        trailing: Container(
-          margin: const EdgeInsets.only(left: 35),
-          child: GestureDetector(
-            onTap: () async {
-              // await showModalBottomSheet(
-              //   context: context,
-              //   builder: (context) => Container(
-              //     padding: const EdgeInsets.all(20),
-              //     child: Image.network(imageUrl),
-              //   ),
-              // );
-              // final url = Uri.parse(imageUrl);
-              // await launchUrl(url);
-              await showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  content: Image.network(
-                    imageUrl,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title),
+                const SizedBox(height: 3),
+                GestureDetector(
+                  onTap: onTaps,
+                  child: const Text(
+                    "Lihat",
+                    style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline),
                   ),
                 ),
-              );
-            },
-            child:
-                // Image.network(
-                //   imageUrl,
-                //   height: 50,
-                //   width: 50,
-                //   fit: BoxFit.cover,
-                // ),
-                const Text(
-              "Lihat",
-              style: TextStyle(
-                  color: Colors.blue, decoration: TextDecoration.underline),
+              ],
             ),
-          ),
+          ],
         ),
       ),
     );

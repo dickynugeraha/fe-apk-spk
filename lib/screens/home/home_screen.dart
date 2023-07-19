@@ -6,6 +6,7 @@ import "package:provider/provider.dart";
 
 import '../../providers/sekolah.dart';
 import '../../providers/helper.dart';
+import '../../providers/kategori.dart';
 import '../../widgets/informasi_ppdb.dart';
 import '../../widgets/informasi_user_guide.dart';
 
@@ -25,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void didChangeDependencies() {
     if (isInit) {
+      Provider.of<KategoriProvider>(context).fetchKategoriWithSubBobot();
+
       Provider.of<SekolahProvider>(context)
           .getAndSetSekolahProfile()
           .then((_) => isLoading = false);
