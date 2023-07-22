@@ -14,6 +14,7 @@ class Siswa {
   final String fotoKK;
   final String fotoKtpOrtu;
   final Prestasi prestasi;
+  final Nilai nilai;
 
   Siswa({
     @required this.nisn,
@@ -29,10 +30,13 @@ class Siswa {
     this.fotoKK,
     this.fotoKtpOrtu,
     this.prestasi,
+    this.nilai,
   });
 }
 
 class Prestasi {
+  final String id;
+  final String nisn;
   final String nilaiSemester;
   final String nilaiUn;
   final String nilaiUas;
@@ -40,10 +44,28 @@ class Prestasi {
   final String prestasiNonAkademik;
 
   Prestasi({
+    this.id,
+    this.nisn,
     this.nilaiSemester,
     this.nilaiUn,
     this.nilaiUas,
     this.prestasiAkademik,
     this.prestasiNonAkademik,
+  });
+}
+
+class Nilai {
+  final String id;
+  final String nisn;
+  final String parameterId;
+  final String namaParameter;
+  final int nilai;
+
+  Nilai({
+    @required this.id,
+    @required this.nisn,
+    @required this.parameterId,
+    @required this.namaParameter,
+    @required this.nilai,
   });
 }

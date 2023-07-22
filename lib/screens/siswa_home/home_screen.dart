@@ -7,8 +7,8 @@ import "package:provider/provider.dart";
 import '../../providers/sekolah.dart';
 import '../../providers/helper.dart';
 import '../../providers/kategori.dart';
-import '../../widgets/informasi_ppdb.dart';
-import '../../widgets/informasi_user_guide.dart';
+import '../../widgets/home_informasi_ppdb.dart';
+import '../../widgets/home_informasi_user_guide.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';

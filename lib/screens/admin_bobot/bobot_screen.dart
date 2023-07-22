@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import '../../providers/bobot.dart';
-import '../../widgets/app_drawer.dart';
+import '../../widgets/admin_drawer.dart';
 import './bobot_edit_screen.dart';
-import '../../widgets/bobot_table.dart';
+import '../../widgets/table_bobot.dart';
 
 class BobotScreen extends StatefulWidget {
   static const routeName = "/bobot";
@@ -44,11 +45,13 @@ class _BobotScreenState extends State<BobotScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
-        drawer: const AppDrawer(),
+        drawer: const AdminDrawer(),
         body: _isLoading
             ? Center(
-                child: CircularProgressIndicator(
-                    color: Theme.of(context).splashColor),
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Colors.white,
+                  size: 50,
+                ),
               )
             : SingleChildScrollView(
                 child: Container(

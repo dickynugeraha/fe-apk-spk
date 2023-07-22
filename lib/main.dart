@@ -1,28 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// import 'package:shared_preferences/shared_preferences.dart';
+// import 'dart:convert';
 
+// provider
 import './providers/kategori.dart';
 import './providers/bobot.dart';
 import './providers/sub_bobot.dart';
 import './providers/auth.dart';
 import './providers/siswa.dart';
 import './providers/sekolah.dart';
+import './providers/nilai.dart';
 // admin screen
-import './screens/sub_bobot/sub_bobot_screen.dart';
-import './screens/sub_bobot/sub_bobot_edit_screen.dart';
-import './screens/kategori/kategori_screen.dart';
-import './screens/kategori/kategori_edit_screen.dart';
-import './screens/bobot/bobot_screen.dart';
-import './screens/bobot/bobot_edit_screen.dart';
-import './screens/sekolah/sekolah_screen.dart';
-import './screens/sekolah/sekolah_edit_screen.dart';
+import 'screens/admin_sub_bobot/sub_bobot_screen.dart';
+import 'screens/admin_sub_bobot/sub_bobot_edit_screen.dart';
+import 'screens/admin_kategori/kategori_screen.dart';
+import 'screens/admin_kategori/kategori_edit_screen.dart';
+import 'screens/admin_bobot/bobot_screen.dart';
+import 'screens/admin_bobot/bobot_edit_screen.dart';
+import 'screens/admin_sekolah/sekolah_screen.dart';
+import 'screens/admin_sekolah/sekolah_edit_screen.dart';
+import 'screens/admin_nilai/nilai_screen.dart';
+import 'screens/admin_nilai/nilai_detail_screen.dart';
 // siswa screen
-import './screens/profil/profil_edit_screen.dart';
-import './screens/home/home_screen.dart';
+import 'screens/siswa_profil/profil_edit_screen.dart';
+import 'screens/siswa_home/home_screen.dart';
 import './screens/auth_screen.dart';
-import './screens/dashboard_screen.dart';
+import './widgets/siswa_tab.dart';
 import './screens/splash_screen.dart';
 
+// String token;
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+
+//   final dataAuth =
+//       json.decode(prefs.getString("dataAuth")) as Map<String, Object>;
+//   token = dataAuth["token"];
+
+//   runApp(const MyApp());
+// }
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
@@ -62,9 +80,13 @@ class MyApp extends StatelessWidget {
               prevSiswa..update(auth.token, auth.nisn),
         ),
         ChangeNotifierProxyProvider<Auth, SekolahProvider>(
-          create: (context) => SekolahProvider(),
-          update: (context, auth, prevSekolah) =>
-              prevSekolah..update(auth.token),
+          create: (_) => SekolahProvider(),
+          update: (_, auth, prevSekolah) => prevSekolah..update(auth.token),
+        ),
+        ChangeNotifierProxyProvider<Auth, NilaiProvider>(
+          create: (_) => NilaiProvider(),
+          update: (_, auth, prevNilai) =>
+              prevNilai..update(auth.nisn, auth.token),
         ),
       ],
       child: Consumer<Auth>(
@@ -87,30 +109,35 @@ class MyApp extends StatelessWidget {
               ),
             ),
           ),
-          home: auth.isLogin
-              ? auth.username != null
-                  ? const SekolahScreen()
-                  : const DashboardScreen()
-              : FutureBuilder(
-                  future: auth.tryAutoLogin(),
-                  builder: (context, authSnapshot) =>
-                      authSnapshot.connectionState == ConnectionState.waiting
-                          ? const SplashScreen()
-                          : const AuthScreen(),
-                ),
+          home:
+              // token != null
+              auth.isLogin
+                  ? auth.username != null
+                      ? const SekolahScreen()
+                      : const DashboardScreen()
+                  : FutureBuilder(
+                      future: auth.tryAutoLogin(),
+                      builder: (context, authSnapshot) =>
+                          authSnapshot.connectionState ==
+                                  ConnectionState.waiting
+                              ? const SplashScreen()
+                              : const AuthScreen(),
+                    ),
           routes: {
             AuthScreen.routeName: (_) => const AuthScreen(),
             DashboardScreen.routeName: (_) => const DashboardScreen(),
             HomeScreen.routeName: (_) => const HomeScreen(),
-            SekolahScreen.routeName: (_) => const SekolahScreen(),
+            ProfilEditScreen.routeName: (_) => const ProfilEditScreen(),
             SekolahEditScreen.routeName: (_) => const SekolahEditScreen(),
+            SekolahScreen.routeName: (_) => const SekolahScreen(),
             KategoriScreen.routeName: (_) => const KategoriScreen(),
             KategoriEditScreen.routeName: (_) => const KategoriEditScreen(),
             BobotScreen.routeName: (_) => const BobotScreen(),
             BobotEditScreen.routeName: (_) => const BobotEditScreen(),
             SubBobotScreen.routeName: (_) => const SubBobotScreen(),
             SubBobotEditScreen.routeName: (_) => const SubBobotEditScreen(),
-            ProfilEditScreen.routeName: (_) => const ProfilEditScreen(),
+            NilaiScreen.routeName: (_) => const NilaiScreen(),
+            NilaiDetailScreen.routeName: (_) => const NilaiDetailScreen(),
           },
         ),
       ),

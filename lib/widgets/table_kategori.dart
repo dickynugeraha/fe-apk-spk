@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/kategori/kategori_edit_screen.dart';
-import '../screens/sub_bobot/sub_bobot_screen.dart';
+import '../screens/admin_kategori/kategori_edit_screen.dart';
+import '../screens/admin_sub_bobot/sub_bobot_screen.dart';
 import '../providers/kategori.dart';
 
 class KategoriTable extends StatelessWidget {

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/kategori.dart';
-import '../../widgets/app_drawer.dart';
+import '../../widgets/admin_drawer.dart';
 import './kategori_edit_screen.dart';
-import '../../widgets/kategori_table.dart';
+import '../../widgets/table_kategori.dart';
 
 class KategoriScreen extends StatefulWidget {
   static const routeName = "/kategori";
@@ -49,11 +50,13 @@ class _KategoriScreenState extends State<KategoriScreen> {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
-        drawer: const AppDrawer(),
+        drawer: const AdminDrawer(),
         body: _isLoading
             ? Center(
-                child: CircularProgressIndicator(
-                    color: Theme.of(context).splashColor),
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Colors.white,
+                  size: 50,
+                ),
               )
             : SingleChildScrollView(
                 child: SizedBox(

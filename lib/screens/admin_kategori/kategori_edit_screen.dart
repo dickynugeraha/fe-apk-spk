@@ -1,3 +1,4 @@
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -100,8 +101,11 @@ class _KategoriEditScreenState extends State<KategoriEditScreen> {
           ],
         ),
         body: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
+            ? Center(
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Colors.white,
+                  size: 50,
+                ),
               )
             : Container(
                 padding: const EdgeInsets.all(15),

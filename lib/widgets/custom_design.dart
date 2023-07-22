@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'app_drawer.dart';
+import 'admin_drawer.dart';
 
 class CustomDesign {
   static InputDecoration customInputDecoration(String label) {
@@ -63,7 +63,7 @@ class CustomDesign {
           elevation: 0,
           actions: [action],
         ),
-        drawer: isDrawer ? const AppDrawer() : null,
+        drawer: isDrawer ? const AdminDrawer() : null,
         body: child,
       ),
     );

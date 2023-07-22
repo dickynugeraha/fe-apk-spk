@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/kategori.dart';
@@ -17,7 +18,8 @@ class PrestasiScreen extends StatefulWidget {
 
 class _PrestasiScreenState extends State<PrestasiScreen> {
   bool isInit = true;
-  bool isLoading = false;
+  bool isLoading = true;
+  bool isAvailablePrestasi = false;
 
   File nilaiSemester;
   File nilaiUas;
@@ -29,7 +31,10 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
   void didChangeDependencies() {
     if (isInit) {
       Provider.of<KategoriProvider>(context).fetchKategoriWithSubBobot();
-
+      isAvailablePrestasi =
+          Provider.of<SiswaProvider>(context).item.prestasi == null
+              ? false
+              : true;
       isInit = false;
     }
     super.didChangeDependencies();
@@ -103,7 +108,14 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
       });
     }
 
-    return SingleChildScrollView(
+    return
+        //  isLoading
+        //     ? Center(
+        //         child: LoadingAnimationWidget.fourRotatingDots(
+        //             color: Theme.of(context).primaryColor, size: 50),
+        //       )
+        //     :
+        SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -154,95 +166,106 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
               child: Column(
                 children: [
                   Text(
-                    "Upload berkas nilai".toUpperCase(),
+                    isAvailablePrestasi == null
+                        ? "Upload berkas nilai".toUpperCase()
+                        : "Data bobot sudah diisi, silahkan tunggu hasil pengumuman hasil seleksi!"
+                            .toUpperCase(),
+                    textAlign: TextAlign.center,
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 15),
-                  inputFile(
-                    title: "nilai semester 1 - 5",
-                    onPress: () async {
-                      FilePickerResult result =
-                          await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                      );
-                      if (result != null) {
-                        setState(() {
-                          nilaiSemester = File(result.files.single.path);
-                        });
-                      }
-                    },
-                  ),
-                  inputFile(
-                    title: "nilai UN",
-                    onPress: () async {
-                      FilePickerResult result =
-                          await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                      );
-                      if (result != null) {
-                        setState(() {
-                          nilaiUN = File(result.files.single.path);
-                        });
-                      }
-                    },
-                  ),
-                  inputFile(
-                    title: "nilai UAS",
-                    onPress: () async {
-                      FilePickerResult result =
-                          await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                      );
-                      if (result != null) {
-                        setState(() {
-                          nilaiUas = File(result.files.single.path);
-                        });
-                      }
-                    },
-                  ),
-                  inputFile(
-                    title: "prestasi akademik",
-                    onPress: () async {
-                      FilePickerResult result =
-                          await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                      );
-                      if (result != null) {
-                        setState(() {
-                          prestasiAkademik = File(result.files.single.path);
-                        });
-                      }
-                    },
-                  ),
-                  inputFile(
-                    title: "prestasi Non-Akademik",
-                    onPress: () async {
-                      FilePickerResult result =
-                          await FilePicker.platform.pickFiles(
-                        allowMultiple: false,
-                      );
-                      if (result != null) {
-                        setState(() {
-                          prestasiNonAkademik = File(result.files.single.path);
-                        });
-                      }
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).primaryColor,
-                        padding: const EdgeInsets.all(12),
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                      ),
-                      onPressed: submitUploadFile,
-                      child: const Text("Submit"),
+                  if (isAvailablePrestasi == null)
+                    Column(
+                      children: [
+                        inputFile(
+                          title: "nilai semester 1 - 5",
+                          onPress: () async {
+                            FilePickerResult result =
+                                await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                            );
+                            if (result != null) {
+                              setState(() {
+                                nilaiSemester = File(result.files.single.path);
+                              });
+                            }
+                          },
+                        ),
+                        inputFile(
+                          title: "nilai UN",
+                          onPress: () async {
+                            FilePickerResult result =
+                                await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                            );
+                            if (result != null) {
+                              setState(() {
+                                nilaiUN = File(result.files.single.path);
+                              });
+                            }
+                          },
+                        ),
+                        inputFile(
+                          title: "nilai UAS",
+                          onPress: () async {
+                            FilePickerResult result =
+                                await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                            );
+                            if (result != null) {
+                              setState(() {
+                                nilaiUas = File(result.files.single.path);
+                              });
+                            }
+                          },
+                        ),
+                        inputFile(
+                          title: "prestasi akademik",
+                          onPress: () async {
+                            FilePickerResult result =
+                                await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                            );
+                            if (result != null) {
+                              setState(() {
+                                prestasiAkademik =
+                                    File(result.files.single.path);
+                              });
+                            }
+                          },
+                        ),
+                        inputFile(
+                          title: "prestasi Non-Akademik",
+                          onPress: () async {
+                            FilePickerResult result =
+                                await FilePicker.platform.pickFiles(
+                              allowMultiple: false,
+                            );
+                            if (result != null) {
+                              setState(() {
+                                prestasiNonAkademik =
+                                    File(result.files.single.path);
+                              });
+                            }
+                          },
+                        ),
+                        const SizedBox(height: 10),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor,
+                              padding: const EdgeInsets.all(12),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                            ),
+                            onPressed: submitUploadFile,
+                            child: const Text("Submit"),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
                 ],
               ),
             ),

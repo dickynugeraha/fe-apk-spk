@@ -65,9 +65,9 @@ class Auth with ChangeNotifier {
       );
       final responseBody = json.decode(response.body);
 
-      if (responseBody["error"] != null) {
+      if (responseBody["error"] != null || response.statusCode != 200) {
         var errorMessage = responseBody["error"]["message"];
-        throw HttpException(errorMessage);
+        throw HttpException(errorMessage ?? responseBody["message"]);
       }
 
       final prefs = await SharedPreferences.getInstance();

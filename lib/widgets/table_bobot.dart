@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/bobot/bobot_edit_screen.dart';
+import '../screens/admin_bobot/bobot_edit_screen.dart';
 import '../providers/bobot.dart';
 
 class BobotTable extends StatelessWidget {

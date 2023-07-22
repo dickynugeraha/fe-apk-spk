@@ -107,6 +107,8 @@ class BobotProvider with ChangeNotifier {
   Future<void> fetchAndSetBobot() async {
     final url = Uri.parse('${Helper.domainUrl}/bobot');
     try {
+      await Future.delayed(const Duration(seconds: 1));
+
       final response = await http.get(
         url,
         headers: {

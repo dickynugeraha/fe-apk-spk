@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/kategori.dart';
@@ -125,8 +126,10 @@ class _BobotEditScreenState extends State<BobotEditScreen> {
         ),
         body: _isLoading
             ? Center(
-                child: CircularProgressIndicator(
-                    color: Theme.of(context).splashColor),
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Colors.white,
+                  size: 50,
+                ),
               )
             : Container(
                 padding: const EdgeInsets.all(15),

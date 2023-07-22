@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
-import '../../models/http_exception.dart';
 
+import '../../models/http_exception.dart';
 import '../models/siswa.dart';
 import 'helper.dart';
 
@@ -33,7 +33,7 @@ class SiswaProvider with ChangeNotifier {
     final url = Uri.parse("${Helper.domainUrl}/siswa");
 
     try {
-      await Future.delayed(const Duration(milliseconds: 1500));
+      await Future.delayed(const Duration(seconds: 1));
 
       final response = await http.get(
         url,
@@ -52,26 +52,56 @@ class SiswaProvider with ChangeNotifier {
       List<Siswa> loadedDataSiswa = [];
 
       for (var siswa in allSiswa) {
-        loadedDataSiswa.add(Siswa(
-          nisn: siswa["nisn"],
-          asalSekolah: siswa["asal_sekolah"],
-          nama: siswa["nama"],
-          alamat: siswa["alamat"],
-          jenisKelamin: siswa["jenis_kelamin"],
-          email: siswa["email"],
-          noHpOrtu: siswa["no_hp_ortu"],
-          fotoProfil: siswa["foto_profil"],
-          fotoAkte: siswa["foto_akte"],
-          fotoIjazah: siswa["foto_ijazah"],
-          fotoKK: siswa["foto_kk"],
-          fotoKtpOrtu: siswa["foto_ktp_ortu"],
-        ));
+        final prestasi = siswa["prestasi"] != null
+            ? Prestasi(
+                id: siswa["prestasi"]["id"],
+                nisn: siswa["prestasi"]["nisn"],
+                nilaiSemester: siswa["prestasi"]["nilai_semester"],
+                nilaiUas: siswa["prestasi"]["nilai_uas"],
+                nilaiUn: siswa["prestasi"]["nilai_un"],
+                prestasiAkademik: siswa["prestasi"]["prestasi_akademik"],
+                prestasiNonAkademik: siswa["prestasi"]["prestasi_non_akademik"],
+              )
+            : null;
+
+        final nilai = siswa["nilai"] != null
+            ? Nilai(
+                id: siswa["nilai"]["id"],
+                nisn: siswa["nilai"]["nisn"],
+                parameterId: siswa["nilai"]["parameter_id"],
+                namaParameter: siswa["nilai"]["nama_parameter"],
+                nilai: siswa["nilai"]["nilai"],
+              )
+            : null;
+
+        loadedDataSiswa.add(
+          Siswa(
+            nisn: siswa["nisn"],
+            asalSekolah: siswa["asal_sekolah"],
+            nama: siswa["nama"],
+            alamat: siswa["alamat"],
+            jenisKelamin: siswa["jenis_kelamin"],
+            email: siswa["email"],
+            noHpOrtu: siswa["no_hp_ortu"],
+            fotoProfil: siswa["foto_profil"],
+            fotoAkte: siswa["foto_akte"],
+            fotoIjazah: siswa["foto_ijazah"],
+            fotoKK: siswa["foto_kk"],
+            fotoKtpOrtu: siswa["foto_ktp_ortu"],
+            prestasi: prestasi,
+            nilai: nilai,
+          ),
+        );
       }
       _items = loadedDataSiswa;
       notifyListeners();
     } catch (e) {
       rethrow;
     }
+  }
+
+  Siswa getByNisn(String nisn) {
+    return items.firstWhere((siswa) => siswa.nisn == nisn);
   }
 
   Future<void> fetchAndSetSingleSiswa() async {
@@ -84,7 +114,7 @@ class SiswaProvider with ChangeNotifier {
       // prefs.remove("dataAuth");
       // prefs.clear();
 
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 500));
 
       final response = await http.get(
         url,
@@ -92,12 +122,34 @@ class SiswaProvider with ChangeNotifier {
           "Content-Type": "application/json;charset=UTF-8",
           "Authorization": "Bearer $_token",
           "Accept": "application/json",
-          'Connection': 'Keep-Alive',
         },
       );
 
       final responseBody = json.decode(response.body);
       final siswa = responseBody["siswa"];
+
+      final prestasi = siswa["prestasi"] != null
+          ? Prestasi(
+              id: siswa["prestasi"]["id"],
+              nisn: siswa["prestasi"]["nisn"],
+              nilaiSemester: siswa["prestasi"]["nilai_semester"],
+              nilaiUas: siswa["prestasi"]["nilai_uas"],
+              nilaiUn: siswa["prestasi"]["nilai_un"],
+              prestasiAkademik: siswa["prestasi"]["prestasi_akademik"],
+              prestasiNonAkademik: siswa["prestasi"]["prestasi_non_akademik"],
+            )
+          : null;
+
+      final nilai = siswa["nilai"] != null
+          ? Nilai(
+              id: siswa["nilai"]["id"],
+              nisn: siswa["nilai"]["nisn"],
+              parameterId: siswa["nilai"]["parameter_id"],
+              namaParameter: siswa["nilai"]["nama_parameter"],
+              nilai: siswa["nilai"]["nilai"],
+            )
+          : null;
+
       final loadedData = Siswa(
         nisn: siswa["nisn"],
         asalSekolah: siswa["asal_sekolah"],
@@ -111,13 +163,8 @@ class SiswaProvider with ChangeNotifier {
         fotoIjazah: siswa["foto_ijazah"],
         fotoKK: siswa["foto_kk"],
         fotoKtpOrtu: siswa["foto_ktp_ortu"],
-        prestasi: Prestasi(
-          nilaiSemester: siswa["prestasi"]["nilai_semester"],
-          nilaiUas: siswa["prestasi"]["nilai_uas"],
-          nilaiUn: siswa["prestasi"]["nilai_un"],
-          prestasiAkademik: siswa["prestasi"]["prestasi_akademik"],
-          prestasiNonAkademik: siswa["prestasi"]["prestasi_non_akademik"],
-        ),
+        prestasi: prestasi,
+        nilai: nilai,
       );
       _item = loadedData;
       notifyListeners();

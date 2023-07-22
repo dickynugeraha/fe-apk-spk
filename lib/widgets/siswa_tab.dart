@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import './profil/profil_screen.dart';
-import './prestasi/prestasi_screen.dart';
-import './home/home_screen.dart';
-import './prestasi/prestasi_bobot_screen.dart';
+import '../screens/siswa_profil/profil_screen.dart';
+import '../screens/siswa_prestasi/prestasi_screen.dart';
+import '../screens/siswa_home/home_screen.dart';
+import '../screens/siswa_prestasi/prestasi_bobot_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = "/dashboard";

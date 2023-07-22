@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import './sub_bobot_edit_screen.dart';
 import '../../providers/sub_bobot.dart';
-import '../../widgets/sub_bobot_table.dart';
+import '../../widgets/table_sub_bobot.dart';
 
 class SubBobotScreen extends StatefulWidget {
   static const routeName = "/sub-bobot";
@@ -50,8 +51,10 @@ class _SubBobotScreenState extends State<SubBobotScreen> {
         ),
         body: _isLoading
             ? Center(
-                child: CircularProgressIndicator(
-                    color: Theme.of(context).splashColor),
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Colors.white,
+                  size: 50,
+                ),
               )
             : SingleChildScrollView(
                 child: Container(

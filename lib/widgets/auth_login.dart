@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:ppdb_prestasi/widgets/custom_design.dart';
 import 'package:provider/provider.dart';
+import './custom_design.dart';
 import '../providers/auth.dart';
 import '../models/http_exception.dart';
-import '../screens/sekolah/sekolah_screen.dart';
-import '../screens/dashboard_screen.dart';
+import '../screens/admin_sekolah/sekolah_screen.dart';
+import 'siswa_tab.dart';
 
 class AuthLogin extends StatefulWidget {
   final bool isAdminSection;
