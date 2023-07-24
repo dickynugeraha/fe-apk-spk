@@ -4,7 +4,7 @@ import '../screens/admin_kategori/kategori_screen.dart';
 import '../screens/admin_bobot/bobot_screen.dart';
 import "../screens/auth_screen.dart";
 import '../screens/admin_sekolah/sekolah_screen.dart';
-import '../screens/admin_nilai/nilai_screen.dart';
+import '../screens/admin_siswa/siswa_screen.dart';
 import '../providers/auth.dart';
 
 class AdminDrawer extends StatelessWidget {
@@ -71,7 +71,7 @@ class AdminDrawer extends StatelessWidget {
                     Icons.line_weight,
                     color: Theme.of(context).primaryColor,
                   ),
-                  title: const Text("Sub Bobot"),
+                  title: const Text("Sub bobot"),
                   onTap: () => Navigator.of(context).pushReplacementNamed(
                     KategoriScreen.routeName,
                     arguments: false,
@@ -80,8 +80,13 @@ class AdminDrawer extends StatelessWidget {
                 const Divider(),
                 navItem(
                   Icons.format_list_numbered_rtl,
-                  "Siswa & Prestasi",
-                  NilaiScreen.routeName,
+                  "Calon siswa",
+                  SiswaScreen.routeName,
+                ),
+                navItem(
+                  Icons.picture_as_pdf_sharp,
+                  "Hasil seleksi",
+                  SiswaScreen.routeName,
                 ),
                 const Divider(),
                 ListTile(
@@ -97,7 +102,6 @@ class AdminDrawer extends StatelessWidget {
                     Provider.of<Auth>(context, listen: false).logout();
                   },
                 ),
-
                 const Divider(),
               ],
             ),

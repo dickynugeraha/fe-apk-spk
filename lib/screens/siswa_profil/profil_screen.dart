@@ -10,7 +10,7 @@ import '../../providers/auth.dart';
 import '../../providers/kategori.dart';
 import '../auth_screen.dart';
 import '../../providers/helper.dart';
-import 'profil_foto_identitas.dart';
+import '../../widgets/foto_identitas_siswa.dart';
 
 class ProfilScreen extends StatefulWidget {
   const ProfilScreen({Key key}) : super(key: key);
@@ -151,7 +151,8 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         title: "Foto identitas",
                         onTaps: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const ProfilFotoIdentitas(),
+                            builder: (context) =>
+                                FotoIdentitasSiswa(nisn: siswa.nisn),
                           ));
                         },
                       ),
@@ -163,35 +164,40 @@ class _ProfilScreenState extends State<ProfilScreen> {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  fileItem(
-                                    "File nilai semester",
-                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_semester/${siswa.prestasi.nilaiSemester}",
-                                  ),
-                                  const SizedBox(height: 10),
-                                  fileItem(
-                                    "File nilai UAS",
-                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_uas/${siswa.prestasi.nilaiUas}",
-                                  ),
-                                  const SizedBox(height: 10),
-                                  fileItem(
-                                    "File nilai UN",
-                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_un/${siswa.prestasi.nilaiUn}",
-                                  ),
-                                  const SizedBox(height: 10),
-                                  fileItem(
-                                    "File prestasi akademik",
-                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_akademik/${siswa.prestasi.prestasiAkademik}",
-                                  ),
-                                  const SizedBox(height: 10),
-                                  fileItem(
-                                    "File prestasi non akademik",
-                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_non_akademik/${siswa.prestasi.prestasiNonAkademik}",
-                                  ),
-                                ],
-                              ),
+                              content: siswa.prestasi == null
+                                  ? const Text(
+                                      "File belum di upload",
+                                      textAlign: TextAlign.center,
+                                    )
+                                  : Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        fileItem(
+                                          "File nilai semester",
+                                          "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_semester/${siswa.prestasi.nilaiSemester}",
+                                        ),
+                                        const SizedBox(height: 10),
+                                        fileItem(
+                                          "File nilai UAS",
+                                          "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_uas/${siswa.prestasi.nilaiUas}",
+                                        ),
+                                        const SizedBox(height: 10),
+                                        fileItem(
+                                          "File nilai UN",
+                                          "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_un/${siswa.prestasi.nilaiUn}",
+                                        ),
+                                        const SizedBox(height: 10),
+                                        fileItem(
+                                          "File prestasi akademik",
+                                          "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_akademik/${siswa.prestasi.prestasiAkademik}",
+                                        ),
+                                        const SizedBox(height: 10),
+                                        fileItem(
+                                          "File prestasi non akademik",
+                                          "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_non_akademik/${siswa.prestasi.prestasiNonAkademik}",
+                                        ),
+                                      ],
+                                    ),
                             ),
                           );
                         },

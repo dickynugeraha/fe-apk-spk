@@ -4,17 +4,17 @@ import 'package:provider/provider.dart';
 
 import '../../widgets/custom_design.dart';
 import '../../providers/siswa.dart';
-import '../../widgets/table_nilai.dart';
+import '../../widgets/table_siswa.dart';
 
-class NilaiScreen extends StatefulWidget {
-  static const routeName = "/nilai";
-  const NilaiScreen({Key key}) : super(key: key);
+class SiswaScreen extends StatefulWidget {
+  static const routeName = "/siswa";
+  const SiswaScreen({Key key}) : super(key: key);
 
   @override
-  State<NilaiScreen> createState() => _NilaiScreenState();
+  State<SiswaScreen> createState() => _NilaiScreenState();
 }
 
-class _NilaiScreenState extends State<NilaiScreen> {
+class _NilaiScreenState extends State<SiswaScreen> {
   bool isLoading = true;
   bool isInit = true;
   @override
@@ -33,7 +33,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
   @override
   Widget build(BuildContext context) {
     return CustomDesign.adminHeader(
-      barTitle: "Nilai",
+      barTitle: "Calon siswa",
       isDrawer: true,
       action: const SizedBox.shrink(),
       child: isLoading
@@ -47,7 +47,7 @@ class _NilaiScreenState extends State<NilaiScreen> {
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(15),
-                child: const NilaiTable(),
+                child: const SiswaTable(),
               ),
             ),
     );

@@ -18,7 +18,6 @@ class PrestasiBobotScreen extends StatefulWidget {
 class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
   bool isInit = true;
   bool isLoading = false;
-  bool isAvailableBobot = false;
 
   List<SubBobotWithKategori> kategoriWithSubBobot = [];
   final List<Map<String, dynamic>> dynamicSlectedId = [];
@@ -26,9 +25,6 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
   @override
   void didChangeDependencies() {
     if (isInit) {
-      isAvailableBobot =
-          Provider.of<SiswaProvider>(context).item.nilai == null ? false : true;
-
       kategoriWithSubBobot =
           Provider.of<KategoriProvider>(context, listen: false).itemsSubBobot;
       int count = 0;
@@ -49,6 +45,7 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
+    final siswa = Provider.of<SiswaProvider>(context, listen: false).item;
 
     Future<void> submitBobot() async {
       // print(dynamicSlectedId);
@@ -124,71 +121,70 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
               ),
               const SizedBox(height: 20),
               Text(
-                isAvailableBobot == null
-                    ? "Upload berkas nilai".toUpperCase()
+                siswa.nilai == null
+                    ? "Isi bobot diri".toUpperCase()
                     : "Data bobot sudah diisi, silahkan tunggu hasil pengumuman hasil seleksi!"
                         .toUpperCase(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              if (isAvailableBobot == null)
-                Column(
-                  children: [
-                    SizedBox(
-                      height: deviceHeight * 0.5,
-                      child: ListView.builder(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 22, vertical: 8),
-                        shrinkWrap: true,
-                        itemCount: kategoriWithSubBobot.length,
-                        itemBuilder: (context, index) => SingleChildScrollView(
-                          child: Column(
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                kategoriWithSubBobot[index].kategori.nama,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontSize: 16, fontStyle: FontStyle.italic),
-                              ),
-                              DropdownButton(
-                                value: dynamicSlectedId[index]
-                                    ["subBobotId$index"],
-                                items: _dropdownItems(
-                                    kategoriWithSubBobot[index].subBobot),
-                                onChanged: (value) {
-                                  setState(() {
-                                    dynamicSlectedId[index]
-                                        ["subBobotId$index"] = value;
-                                  });
-                                },
-                              ),
-                              const SizedBox(height: 10),
-                            ],
+              const SizedBox(height: 10),
+              if (siswa.nilai == null)
+                SizedBox(
+                  height: deviceHeight * 0.5,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 22,
+                      vertical: 8,
+                    ),
+                    shrinkWrap: true,
+                    itemCount: kategoriWithSubBobot.length,
+                    itemBuilder: (context, index) => SingleChildScrollView(
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            kategoriWithSubBobot[index].kategori.nama,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                fontSize: 16, fontStyle: FontStyle.italic),
                           ),
-                        ),
+                          DropdownButton(
+                            value: dynamicSlectedId[index]["subBobotId$index"],
+                            items: _dropdownItems(
+                                kategoriWithSubBobot[index].subBobot),
+                            onChanged: (value) {
+                              setState(() {
+                                dynamicSlectedId[index]["subBobotId$index"] =
+                                    value;
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                        ],
                       ),
                     ),
-                    const Spacer(),
-                    Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Theme.of(context).primaryColor,
-                          padding: const EdgeInsets.all(12),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                        ),
-                        onPressed: submitBobot,
-                        child: const Text("Submit"),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
+                  ),
                 ),
+              const Spacer(),
+              if (siswa.nilai == null)
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      padding: const EdgeInsets.all(12),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
+                    onPressed: submitBobot,
+                    child: const Text("Submit"),
+                  ),
+                ),
+              const SizedBox(height: 10),
             ],
           );
   }

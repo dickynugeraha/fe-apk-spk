@@ -19,7 +19,6 @@ class PrestasiScreen extends StatefulWidget {
 class _PrestasiScreenState extends State<PrestasiScreen> {
   bool isInit = true;
   bool isLoading = true;
-  bool isAvailablePrestasi = false;
 
   File nilaiSemester;
   File nilaiUas;
@@ -31,10 +30,7 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
   void didChangeDependencies() {
     if (isInit) {
       Provider.of<KategoriProvider>(context).fetchKategoriWithSubBobot();
-      isAvailablePrestasi =
-          Provider.of<SiswaProvider>(context).item.prestasi == null
-              ? false
-              : true;
+
       isInit = false;
     }
     super.didChangeDependencies();
@@ -43,6 +39,8 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceSize = MediaQuery.of(context).size.height;
+
+    final siswa = Provider.of<SiswaProvider>(context, listen: false).item;
 
     Future<void> submitUploadFile() async {
       if (nilaiSemester == null ||
@@ -108,14 +106,7 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
       });
     }
 
-    return
-        //  isLoading
-        //     ? Center(
-        //         child: LoadingAnimationWidget.fourRotatingDots(
-        //             color: Theme.of(context).primaryColor, size: 50),
-        //       )
-        //     :
-        SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -166,7 +157,7 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
               child: Column(
                 children: [
                   Text(
-                    isAvailablePrestasi == null
+                    siswa.prestasi == null
                         ? "Upload berkas nilai".toUpperCase()
                         : "Data bobot sudah diisi, silahkan tunggu hasil pengumuman hasil seleksi!"
                             .toUpperCase(),
@@ -174,7 +165,7 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 15),
-                  if (isAvailablePrestasi == null)
+                  if (siswa.prestasi == null)
                     Column(
                       children: [
                         inputFile(

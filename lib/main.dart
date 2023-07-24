@@ -20,8 +20,8 @@ import 'screens/admin_bobot/bobot_screen.dart';
 import 'screens/admin_bobot/bobot_edit_screen.dart';
 import 'screens/admin_sekolah/sekolah_screen.dart';
 import 'screens/admin_sekolah/sekolah_edit_screen.dart';
-import 'screens/admin_nilai/nilai_screen.dart';
-import 'screens/admin_nilai/nilai_detail_screen.dart';
+import 'screens/admin_siswa/siswa_screen.dart';
+import 'screens/admin_siswa/siswa_detail_screen.dart';
 // siswa screen
 import 'screens/siswa_profil/profil_edit_screen.dart';
 import 'screens/siswa_home/home_screen.dart';
@@ -136,8 +136,8 @@ class MyApp extends StatelessWidget {
             BobotEditScreen.routeName: (_) => const BobotEditScreen(),
             SubBobotScreen.routeName: (_) => const SubBobotScreen(),
             SubBobotEditScreen.routeName: (_) => const SubBobotEditScreen(),
-            NilaiScreen.routeName: (_) => const NilaiScreen(),
-            NilaiDetailScreen.routeName: (_) => const NilaiDetailScreen(),
+            SiswaScreen.routeName: (_) => const SiswaScreen(),
+            SiswaDetailScreen.routeName: (_) => const SiswaDetailScreen(),
           },
         ),
       ),
