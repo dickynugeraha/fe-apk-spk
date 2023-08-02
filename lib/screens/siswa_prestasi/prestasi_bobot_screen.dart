@@ -123,7 +123,7 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
               Text(
                 siswa.nilai == null
                     ? "Isi bobot diri".toUpperCase()
-                    : "Data bobot sudah diisi, silahkan tunggu hasil pengumuman hasil seleksi!"
+                    : "Data bobot sudah diisi, silahkan tunggu pengumuman hasil seleksi!"
                         .toUpperCase(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontWeight: FontWeight.bold),
@@ -131,7 +131,7 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
               const SizedBox(height: 10),
               if (siswa.nilai == null)
                 SizedBox(
-                  height: deviceHeight * 0.5,
+                  height: deviceHeight * 0.45,
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 22,

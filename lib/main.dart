@@ -22,6 +22,7 @@ import 'screens/admin_sekolah/sekolah_screen.dart';
 import 'screens/admin_sekolah/sekolah_edit_screen.dart';
 import 'screens/admin_siswa/siswa_screen.dart';
 import 'screens/admin_siswa/siswa_detail_screen.dart';
+import 'screens/admin_nilai/nilai_screen.dart';
 // siswa screen
 import 'screens/siswa_profil/profil_edit_screen.dart';
 import 'screens/siswa_home/home_screen.dart';
@@ -138,6 +139,7 @@ class MyApp extends StatelessWidget {
             SubBobotEditScreen.routeName: (_) => const SubBobotEditScreen(),
             SiswaScreen.routeName: (_) => const SiswaScreen(),
             SiswaDetailScreen.routeName: (_) => const SiswaDetailScreen(),
+            NilaiScreen.routeName: (_) => const NilaiScreen(),
           },
         ),
       ),

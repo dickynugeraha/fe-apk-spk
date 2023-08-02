@@ -41,7 +41,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
     final siswa = Provider.of<SiswaProvider>(context, listen: false).item;
     final mediaQuery = MediaQuery.of(context);
 
-    return _isLoading
+    return _isLoading || siswa == null || siswa.nama.isEmpty
         ? Center(
             child: LoadingAnimationWidget.fourRotatingDots(
               color: Theme.of(context).primaryColor,
@@ -150,10 +150,14 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         icon: Icons.image,
                         title: "Foto identitas",
                         onTaps: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) =>
-                                FotoIdentitasSiswa(nisn: siswa.nisn),
-                          ));
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => FotoIdentitasSiswa(
+                                nisn: siswa.nisn,
+                                adminPage: false,
+                              ),
+                            ),
+                          );
                         },
                       ),
                       const Divider(),

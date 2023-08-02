@@ -69,3 +69,17 @@ class Nilai {
     @required this.nilai,
   });
 }
+
+class Ranking {
+  final String nisn;
+  final String nama;
+  final String asalSekolah;
+  final double nilai;
+
+  Ranking({
+    @required this.nama,
+    @required this.nisn,
+    @required this.asalSekolah,
+    @required this.nilai,
+  });
+}

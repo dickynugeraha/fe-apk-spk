@@ -159,7 +159,7 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
                   Text(
                     siswa.prestasi == null
                         ? "Upload berkas nilai".toUpperCase()
-                        : "Data bobot sudah diisi, silahkan tunggu hasil pengumuman hasil seleksi!"
+                        : "File sudah di upload, silahkan tunggu pengumuman hasil seleksi!"
                             .toUpperCase(),
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontWeight: FontWeight.bold),

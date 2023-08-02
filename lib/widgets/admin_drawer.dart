@@ -5,6 +5,7 @@ import '../screens/admin_bobot/bobot_screen.dart';
 import "../screens/auth_screen.dart";
 import '../screens/admin_sekolah/sekolah_screen.dart';
 import '../screens/admin_siswa/siswa_screen.dart';
+import '../screens/admin_nilai/nilai_screen.dart';
 import '../providers/auth.dart';
 
 class AdminDrawer extends StatelessWidget {
@@ -79,14 +80,15 @@ class AdminDrawer extends StatelessWidget {
                 ),
                 const Divider(),
                 navItem(
-                  Icons.format_list_numbered_rtl,
+                  Icons.supervised_user_circle,
                   "Calon siswa",
                   SiswaScreen.routeName,
                 ),
+                const Divider(),
                 navItem(
-                  Icons.picture_as_pdf_sharp,
-                  "Hasil seleksi",
-                  SiswaScreen.routeName,
+                  Icons.format_list_numbered_rtl,
+                  "Nilai dan ranking",
+                  NilaiScreen.routeName,
                 ),
                 const Divider(),
                 ListTile(
@@ -102,7 +104,6 @@ class AdminDrawer extends StatelessWidget {
                     Provider.of<Auth>(context, listen: false).logout();
                   },
                 ),
-                const Divider(),
               ],
             ),
           ),

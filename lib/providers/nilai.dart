@@ -9,9 +9,8 @@ class NilaiProvider with ChangeNotifier {
   String _nisn;
   String _token;
 
-  List<Nilai> _items;
-  Nilai _item;
-  bool _isAvailableNilai;
+  List<Ranking> _items;
+  Ranking _item;
 
   void update(String nisnEntered, String tokenEntered) {
     _nisn = nisnEntered;
@@ -19,21 +18,17 @@ class NilaiProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Nilai> get items {
+  List<Ranking> get items {
     return [..._items];
   }
 
-  Nilai get item {
+  Ranking get item {
     return _item;
-  }
-
-  bool get isAvailableNilai {
-    return _isAvailableNilai;
   }
 
   Future<void> storeNilai(List<Map<String, dynamic>> data) async {
     try {
-      final response = await http.post(
+      await http.post(
         Uri.parse("${Helper.domainUrl}/nilai"),
         headers: {
           "Content-Type": "application/json",
@@ -50,20 +45,32 @@ class NilaiProvider with ChangeNotifier {
     }
   }
 
-  Future<void> setAndSetNilaiSiswa() async {
+  Future<void> getHasilPerhitungan() async {
     try {
       await Future.delayed(const Duration(seconds: 1));
       final response = await http.get(
-        Uri.parse("${Helper.domainUrl}/nilai/$_nisn"),
+        Uri.parse("${Helper.domainUrl}/nilai"),
         headers: {
           "Content-Type": "application/json",
           "Accept": "application/json",
           "Authorization": "Bearer $_token",
         },
       );
+      final dataSeleksi = json.decode(response.body)["data"];
 
-      // final nilai = json.decode(response.body)["nilai"];
+      List<Ranking> loadedData = [];
 
+      for (var siswa in dataSeleksi) {
+        loadedData.add(
+          Ranking(
+            nama: siswa["nama"],
+            nisn: siswa["nisn"],
+            asalSekolah: siswa["asal_sekolah"],
+            nilai: siswa["ranking"],
+          ),
+        );
+      }
+      _items = loadedData;
       notifyListeners();
     } catch (e) {
       rethrow;

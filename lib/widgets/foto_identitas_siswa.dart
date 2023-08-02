@@ -6,12 +6,23 @@ import '../providers/helper.dart';
 
 class FotoIdentitasSiswa extends StatelessWidget {
   final String nisn;
-  const FotoIdentitasSiswa({Key key, this.nisn}) : super(key: key);
+  final bool adminPage;
+  const FotoIdentitasSiswa({
+    Key key,
+    this.nisn,
+    this.adminPage,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final siswa =
-        Provider.of<SiswaProvider>(context, listen: false).getByNisn(nisn);
+    var siswa;
+
+    if (adminPage) {
+      siswa =
+          Provider.of<SiswaProvider>(context, listen: false).getByNisn(nisn);
+    } else {
+      siswa = Provider.of<SiswaProvider>(context, listen: false).item;
+    }
 
     return Scaffold(
       appBar: AppBar(title: const SizedBox.shrink()),
