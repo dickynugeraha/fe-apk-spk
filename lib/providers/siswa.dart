@@ -70,7 +70,7 @@ class SiswaProvider with ChangeNotifier {
                 nisn: siswa["nilai"]["nisn"],
                 parameterId: siswa["nilai"]["parameter_id"],
                 namaParameter: siswa["nilai"]["nama_parameter"],
-                nilai: siswa["nilai"]["nilai"],
+                nilai: int.parse(siswa["nilai"]["nilai"]),
               )
             : null;
 
@@ -114,7 +114,7 @@ class SiswaProvider with ChangeNotifier {
       // prefs.remove("dataAuth");
       // prefs.clear();
 
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(seconds: 1));
 
       final response = await http.get(
         url,
@@ -140,15 +140,15 @@ class SiswaProvider with ChangeNotifier {
             )
           : null;
 
-      final nilai = siswa["nilai"] != null
-          ? Nilai(
+      final nilai = siswa["nilai"] == null
+          ? null
+          : Nilai(
               id: siswa["nilai"]["id"],
               nisn: siswa["nilai"]["nisn"],
               parameterId: siswa["nilai"]["parameter_id"],
               namaParameter: siswa["nilai"]["nama_parameter"],
-              nilai: siswa["nilai"]["nilai"],
-            )
-          : null;
+              nilai: int.parse(siswa["nilai"]["nilai"]),
+            );
 
       final loadedData = Siswa(
         nisn: siswa["nisn"],
@@ -252,8 +252,22 @@ class SiswaProvider with ChangeNotifier {
         throw HttpException(responseStr["error"]["message"]);
       }
 
-      _item = newSiswa;
-      // _items[indexSiswa] = newSiswa;
+      Siswa newSiswaUpdate = Siswa(
+        nisn: newSiswa.nisn,
+        asalSekolah: newSiswa.asalSekolah,
+        nama: newSiswa.nama,
+        alamat: newSiswa.alamat,
+        jenisKelamin: newSiswa.jenisKelamin,
+        email: newSiswa.email,
+        noHpOrtu: newSiswa.noHpOrtu,
+        fotoProfil: newSiswa.fotoProfil ?? _item.fotoProfil,
+        fotoAkte: newSiswa.fotoAkte ?? _item.fotoAkte,
+        fotoIjazah: newSiswa.fotoIjazah ?? _item.fotoIjazah,
+        fotoKK: newSiswa.fotoKK ?? _item.fotoKK,
+        fotoKtpOrtu: newSiswa.fotoKtpOrtu ?? _item.fotoKtpOrtu,
+      );
+
+      _item = newSiswaUpdate;
       notifyListeners();
     } catch (e) {
       rethrow;
@@ -328,12 +342,92 @@ class SiswaProvider with ChangeNotifier {
       final response = await request.send();
       final responseStr = json.decode(await response.stream.bytesToString());
 
+      Siswa newSiswaUpdate = Siswa(
+        nisn: item.nisn,
+        asalSekolah: item.asalSekolah,
+        nama: item.nama,
+        alamat: item.alamat,
+        jenisKelamin: item.jenisKelamin,
+        email: item.email,
+        noHpOrtu: item.noHpOrtu,
+        fotoProfil: item.fotoProfil,
+        fotoAkte: item.fotoAkte,
+        fotoIjazah: item.fotoIjazah,
+        fotoKK: item.fotoKK,
+        fotoKtpOrtu: item.fotoKtpOrtu,
+        prestasi: Prestasi(
+          id: "UUID",
+          nilaiSemester: nilaiSemesterFile.path.split("/").last,
+          nilaiUn: nilaiUnFile.path.split("/").last,
+          nilaiUas: nilaiUasFile.path.split("/").last,
+          prestasiAkademik: prestasiAkademikFile.path.split("/").last,
+          prestasiNonAkademik: prestasiNonAkademikFile.path.split("/").last,
+        ),
+      );
+
+      _item = newSiswaUpdate;
+      notifyListeners();
+
       if (response.statusCode != 200) {
         throw HttpException("Error");
       }
       if (responseStr["error"] != null) {
         throw HttpException(responseStr["error"]["message"]);
       }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> storeBobotSiswa(List<Map<String, dynamic>> data) async {
+    try {
+      await http.post(
+        Uri.parse("${Helper.domainUrl}/nilai"),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": "Bearer $_token",
+        },
+        body: json.encode({
+          "nisn": _nisn,
+          "nilai": data,
+        }),
+      );
+
+      Siswa newSiswaUpdate = Siswa(
+        nisn: item.nisn,
+        asalSekolah: item.asalSekolah,
+        nama: item.nama,
+        alamat: item.alamat,
+        jenisKelamin: item.jenisKelamin,
+        email: item.email,
+        noHpOrtu: item.noHpOrtu,
+        fotoProfil: item.fotoProfil,
+        fotoAkte: item.fotoAkte,
+        fotoIjazah: item.fotoIjazah,
+        fotoKK: item.fotoKK,
+        fotoKtpOrtu: item.fotoKtpOrtu,
+        prestasi: item.prestasi != null
+            ? Prestasi(
+                id: "UUID",
+                nilaiSemester: item.prestasi.nilaiSemester,
+                nilaiUn: item.prestasi.nilaiUn,
+                nilaiUas: item.prestasi.nilaiUas,
+                prestasiAkademik: item.prestasi.prestasiAkademik,
+                prestasiNonAkademik: item.prestasi.prestasiNonAkademik,
+              )
+            : null,
+        nilai: Nilai(
+          id: "UUID",
+          namaParameter: "Kategori1",
+          nilai: 4,
+          nisn: _nisn,
+          parameterId: "UUID",
+        ),
+      );
+
+      _item = newSiswaUpdate;
+      notifyListeners();
     } catch (e) {
       rethrow;
     }

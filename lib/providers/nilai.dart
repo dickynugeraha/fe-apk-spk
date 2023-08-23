@@ -66,7 +66,7 @@ class NilaiProvider with ChangeNotifier {
             nama: siswa["nama"],
             nisn: siswa["nisn"],
             asalSekolah: siswa["asal_sekolah"],
-            nilai: siswa["ranking"],
+            nilai: double.parse(siswa["ranking"]),
           ),
         );
       }

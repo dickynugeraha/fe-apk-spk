@@ -53,7 +53,7 @@ class SubBobotProvider with ChangeNotifier {
               .map(
                 (el) => SubBobot(
                   id: el["id"],
-                  bobot: el["bobot"],
+                  bobot: int.parse(el["bobot"]),
                   keterangan: el["keterangan"],
                   parameterId: el["parameter_id"],
                 ),

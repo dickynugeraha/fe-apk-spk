@@ -122,7 +122,7 @@ class BobotProvider with ChangeNotifier {
       for (var el in bobotList) {
         bobotLoaded.add(Bobot(
           id: el["id"],
-          bobot: el["bobot"],
+          bobot: double.parse(el["bobot"]),
           parameterId: el["parameter_id"],
           kategori: Kategori(
             id: el["parameter"]["id"],

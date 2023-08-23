@@ -92,6 +92,7 @@ class MyApp extends StatelessWidget {
       ],
       child: Consumer<Auth>(
         builder: (context, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
             scaffoldBackgroundColor: const Color(0xffF1F1F9),
             fontFamily: "Montserrat",
@@ -101,14 +102,19 @@ class MyApp extends StatelessWidget {
                 .copyWith(secondary: Colors.amber),
             errorColor: const Color.fromARGB(255, 210, 51, 75),
             textTheme: const TextTheme(
-              headline1: TextStyle(
-                fontFamily: "Kaushan Script",
-                fontSize: 40,
-                fontStyle: FontStyle.italic,
-                color: Colors.white,
-                letterSpacing: 5,
-              ),
-            ),
+                headline1: TextStyle(
+                  fontFamily: "Kaushan Script",
+                  fontSize: 40,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.white,
+                  letterSpacing: 5,
+                ),
+                headline2: TextStyle(
+                  fontFamily: "Montserrat",
+                  fontSize: 15,
+                  color: Colors.white,
+                  letterSpacing: 5,
+                )),
           ),
           home:
               // token != null

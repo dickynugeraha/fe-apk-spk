@@ -61,6 +61,23 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
         return;
       }
       form.currentState.save();
+      if (isUpdateFoto) {
+        if (fotoAkte == null ||
+            fotoIjazah == null ||
+            fotoKK == null ||
+            fotoProfil == null ||
+            fotoKtpOrtu == null) {
+          CustomDesign.customAwesomeDialog(
+            context: context,
+            dialogSuccess: false,
+            isPop: false,
+            title: "Gagal",
+            desc: "Semua foto harus di upload",
+          );
+          return;
+        }
+      }
+
       setState(() {
         isLoading = true;
       });

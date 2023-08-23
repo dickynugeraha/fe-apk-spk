@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:open_filex/open_filex.dart';
 
 import '../../providers/siswa.dart';
 import './profil_edit_screen.dart';
@@ -38,10 +36,11 @@ class _ProfilScreenState extends State<ProfilScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final siswa = Provider.of<SiswaProvider>(context, listen: false).item;
-    final mediaQuery = MediaQuery.of(context);
+    final siswa = Provider.of<SiswaProvider>(context).item;
 
-    return _isLoading || siswa == null || siswa.nama.isEmpty
+    final height = MediaQuery.of(context).size.height;
+
+    return _isLoading
         ? Center(
             child: LoadingAnimationWidget.fourRotatingDots(
               color: Theme.of(context).primaryColor,
@@ -56,7 +55,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   bottomRight: Radius.circular(40),
                 ),
                 child: Container(
-                  height: (mediaQuery.size.height) * 0.37,
+                  height: (height) * 0.37,
                   width: double.infinity,
                   decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -69,11 +68,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
                     children: [
                       CircleAvatar(
                         radius: 50,
-                        backgroundImage: siswa.fotoProfil != null
-                            ? NetworkImage(
-                                "${Helper.domainNoApiUrl}/uploads/foto_profil/${siswa.fotoProfil}",
-                              )
-                            : const AssetImage("assets/img/dummy_profile.jpeg"),
+                        backgroundImage: NetworkImage(
+                          "${Helper.domainNoApiUrl}/uploads/foto_profil/${siswa.fotoProfil}",
+                        ),
                       ),
                       const SizedBox(height: 15),
                       Row(
@@ -121,7 +118,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                 ),
               ),
               SizedBox(
-                height: (mediaQuery.size.height) * 0.55,
+                height: (height) * 0.55,
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
                   child: Column(
@@ -161,89 +158,12 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         },
                       ),
                       const Divider(),
-                      detailItem(
-                        icon: Icons.file_open,
-                        title: "File penilaian",
-                        onTaps: () async {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              content: siswa.prestasi == null
-                                  ? const Text(
-                                      "File belum di upload",
-                                      textAlign: TextAlign.center,
-                                    )
-                                  : Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        fileItem(
-                                          "File nilai semester",
-                                          "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_semester/${siswa.prestasi.nilaiSemester}",
-                                        ),
-                                        const SizedBox(height: 10),
-                                        fileItem(
-                                          "File nilai UAS",
-                                          "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_uas/${siswa.prestasi.nilaiUas}",
-                                        ),
-                                        const SizedBox(height: 10),
-                                        fileItem(
-                                          "File nilai UN",
-                                          "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_un/${siswa.prestasi.nilaiUn}",
-                                        ),
-                                        const SizedBox(height: 10),
-                                        fileItem(
-                                          "File prestasi akademik",
-                                          "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_akademik/${siswa.prestasi.prestasiAkademik}",
-                                        ),
-                                        const SizedBox(height: 10),
-                                        fileItem(
-                                          "File prestasi non akademik",
-                                          "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_non_akademik/${siswa.prestasi.prestasiNonAkademik}",
-                                        ),
-                                      ],
-                                    ),
-                            ),
-                          );
-                        },
-                      ),
                     ],
                   ),
                 ),
               ),
             ],
           );
-  }
-
-  Widget fileItem(String title, String url) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Flexible(
-          child: Text(
-            title,
-            style: const TextStyle(fontSize: 16),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        const SizedBox(width: 10),
-        GestureDetector(
-          onTap:
-              //  () {
-              //   OpenFilex.open(url);
-              // },
-              () async {
-            await launchUrl(
-              Uri.parse(url),
-            );
-          },
-          child: const Text(
-            "Lihat",
-            style: TextStyle(
-                color: Colors.blue, decoration: TextDecoration.underline),
-          ),
-        ),
-      ],
-    );
   }
 
   Widget profilItem(IconData icon, String title, String valueText) {

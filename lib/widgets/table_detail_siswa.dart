@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:ppdb_prestasi/widgets/foto_identitas_siswa.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -45,11 +46,14 @@ class DetailSiswaTable extends StatelessWidget {
               DataCell(
                 GestureDetector(
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => FotoIdentitasSiswa(
-                        nisn: siswa.nisn,
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => FotoIdentitasSiswa(
+                          nisn: siswa.nisn,
+                          adminPage: true,
+                        ),
                       ),
-                    ));
+                    );
                   },
                   child: const Text(
                     "Lihat",
@@ -156,15 +160,14 @@ class DetailSiswaTable extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         GestureDetector(
-          onTap:
-              //  () {
-              //   OpenFilex.open(url);
-              // },
-              () async {
-            await launchUrl(
-              Uri.parse(url),
-            );
+          onTap: () {
+            OpenFilex.open(url);
           },
+          //     () async {
+          //   await launchUrl(
+          //     Uri.parse(url),
+          //   );
+          // },
           child: const Text(
             "Lihat",
             style: TextStyle(

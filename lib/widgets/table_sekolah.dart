@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/helper.dart';
 import '../providers/sekolah.dart';
 
 class SekolahTable extends StatelessWidget {
@@ -10,6 +11,9 @@ class SekolahTable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final sekolah = Provider.of<SekolahProvider>(context, listen: false).item;
+
+    print(sekolah.nama);
+    print(sekolah.pendaftaranDibuka);
 
     return Card(
       child: DataTable(
@@ -44,7 +48,16 @@ class SekolahTable extends StatelessWidget {
           DataRow(cells: [
             const DataCell(Text("Logo sekolah")),
             DataCell(GestureDetector(
-              onTap: () {},
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: Image.network(
+                      "${Helper.domainNoApiUrl}/uploads/foto_logo/${sekolah.fotoLogo}",
+                    ),
+                  ),
+                );
+              },
               child: const Text(
                 "Lihat",
                 style: TextStyle(
@@ -57,20 +70,33 @@ class SekolahTable extends StatelessWidget {
           DataRow(cells: [
             const DataCell(Text("Foto identitas sekolah")),
             DataCell(GestureDetector(
-              onTap: () {},
-              child: const Text(
-                "Lihat",
-                style: TextStyle(
-                  color: Colors.blue,
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            )),
-          ]),
-          DataRow(cells: [
-            const DataCell(Text("Foto alur pendaftaran")),
-            DataCell(GestureDetector(
-              onTap: () {},
+              onTap: () {
+                var fotoSekolah = sekolah.fotoIdentitasSekolah.split("|");
+
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: Container(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Image.network(
+                            "${Helper.domainNoApiUrl}/uploads/foto_identitas_sekolah/${fotoSekolah[0]}",
+                          ),
+                          const Divider(),
+                          Image.network(
+                            "${Helper.domainNoApiUrl}/uploads/foto_identitas_sekolah/${fotoSekolah[1]}",
+                          ),
+                          const Divider(),
+                          Image.network(
+                            "${Helper.domainNoApiUrl}/uploads/foto_identitas_sekolah/${fotoSekolah[2]}",
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
               child: const Text(
                 "Lihat",
                 style: TextStyle(

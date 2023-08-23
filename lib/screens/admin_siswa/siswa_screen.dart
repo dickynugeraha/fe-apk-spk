@@ -11,10 +11,10 @@ class SiswaScreen extends StatefulWidget {
   const SiswaScreen({Key key}) : super(key: key);
 
   @override
-  State<SiswaScreen> createState() => _NilaiScreenState();
+  State<SiswaScreen> createState() => _SiswaScreenState();
 }
 
-class _NilaiScreenState extends State<SiswaScreen> {
+class _SiswaScreenState extends State<SiswaScreen> {
   bool isLoading = true;
   bool isInit = true;
   @override

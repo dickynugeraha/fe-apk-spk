@@ -47,14 +47,15 @@ class _AuthRegisterState extends State<AuthRegister> {
         title: "Successfully",
         desc: "Siswa berhasil mendaftar!",
         dialogSuccess: true,
+        isPop: false,
       );
-      widget.changeSection();
     } on HttpException catch (errorMessage) {
       CustomDesign.customAwesomeDialog(
         context: context,
         title: "Error occured",
         desc: errorMessage.toString(),
         dialogSuccess: false,
+        isPop: false,
       );
     } catch (e) {
       CustomDesign.customAwesomeDialog(
@@ -62,6 +63,7 @@ class _AuthRegisterState extends State<AuthRegister> {
         title: "Error occured",
         desc: e.toString(),
         dialogSuccess: false,
+        isPop: false,
       );
     }
     setState(() {

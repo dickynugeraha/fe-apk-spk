@@ -18,10 +18,9 @@ class FotoIdentitasSiswa extends StatelessWidget {
     var siswa;
 
     if (adminPage) {
-      siswa =
-          Provider.of<SiswaProvider>(context, listen: false).getByNisn(nisn);
+      siswa = Provider.of<SiswaProvider>(context).getByNisn(nisn);
     } else {
-      siswa = Provider.of<SiswaProvider>(context, listen: false).item;
+      siswa = Provider.of<SiswaProvider>(context).item;
     }
 
     return Scaffold(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:ppdb_prestasi/models/siswa.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/kategori.dart';
@@ -17,7 +18,7 @@ class PrestasiBobotScreen extends StatefulWidget {
 
 class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
   bool isInit = true;
-  bool isLoading = false;
+  bool isLoading = true;
 
   List<SubBobotWithKategori> kategoriWithSubBobot = [];
   final List<Map<String, dynamic>> dynamicSlectedId = [];
@@ -25,6 +26,10 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
   @override
   void didChangeDependencies() {
     if (isInit) {
+      Provider.of<SiswaProvider>(context)
+          .fetchAndSetSingleSiswa()
+          .then((_) => isLoading = false);
+
       kategoriWithSubBobot =
           Provider.of<KategoriProvider>(context, listen: false).itemsSubBobot;
       int count = 0;
@@ -33,6 +38,7 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
           "kategoriId$count": kategoriItem.kategori.id,
           "kategoriNama$count": kategoriItem.kategori.nama,
           "subBobotId$count": kategoriItem.subBobot[0].id,
+          "subBobotKeterangan$count": kategoriItem.subBobot[0].keterangan,
           "nilai$count": kategoriItem.subBobot[0].bobot,
         });
         count++;
@@ -45,7 +51,7 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
-    final siswa = Provider.of<SiswaProvider>(context, listen: false).item;
+    final siswa = Provider.of<SiswaProvider>(context).item;
 
     Future<void> submitBobot() async {
       // print(dynamicSlectedId);
@@ -53,8 +59,8 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
         isLoading = true;
       });
       try {
-        await Provider.of<NilaiProvider>(context, listen: false)
-            .storeNilai(dynamicSlectedId);
+        await Provider.of<SiswaProvider>(context, listen: false)
+            .storeBobotSiswa(dynamicSlectedId);
         CustomDesign.customAwesomeDialog(
           context: context,
           title: "Success",
@@ -110,10 +116,14 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
                         ),
                         const SizedBox(height: 15),
                         const Text(
-                          "Silahkan kalkulasi nilai rata-rata per kategori (0-100). Jika terindikasi melakukan kecurangan dengan menambahkan point nilai, akan langsung kami DISKUALIFIKASI dan dinyatakan TIDAK DITERIMA dalam pelaksanaan PPDB tahun ini.",
+                          "1. Silahkan kalkulasi nilai rata-rata per kategori (0-100). Jika terindikasi melakukan kecurangan dengan menambahkan point nilai, akan langsung kami DISKUALIFIKASI dan dinyatakan TIDAK DITERIMA dalam pelaksanaan PPDB tahun ini.",
                           textAlign: TextAlign.justify,
                         ),
                         const SizedBox(height: 15),
+                        const Text(
+                          "2. Siswa hanya diberi kesempatan sekali submit, jadi pastikan data yang diisi sudah benar.",
+                          textAlign: TextAlign.justify,
+                        ),
                       ],
                     ),
                   ),

@@ -43,21 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
     final sekolah = Provider.of<SekolahProvider>(context, listen: false).item;
 
-    // List<String> fotoCarousel = sekolah.fotoIdentitasSekolah?.split("|");
-
-    // List<Widget> listCarousel() {
-    //   List<Widget> items = [];
-
-    //   for (var i = 0; i < fotoCarousel?.length; i++) {
-    //     items.add(
-    //       carouselItem(
-    //         "${Helper.domainNoApiUrl}/uploads/foto_identitas_sekolah/${fotoCarousel[i]}",
-    //       ),
-    //     );
-    //   }
-    //   return items;
-    // }
-
     return SafeArea(
       child: isLoading
           ? Center(
@@ -89,7 +74,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               CircleAvatar(
                                 backgroundColor: Colors.white,
                                 child: Image.network(
-                                  // "http://192.168.56.1:8000/uploads/foto_logo/${sekolah.fotoLogo}",
                                   "${Helper.domainNoApiUrl}/uploads/foto_logo/${sekolah.fotoLogo}",
                                   fit: BoxFit.cover,
                                 ),
@@ -172,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             linkItem(
                               link: "https://www.siap-ppdb.com/",
                               imageUrl:
-                                  "https://png.pngtree.com/png-clipart/20230403/original/pngtree-ppdb-logo-design-vector-png-image_9019669.png",
+                                  "https://2.bp.blogspot.com/-YM5tRwdKpo4/WSDVRtpUpwI/AAAAAAAAAL4/EuPkjwJcLqwgZmwJkNYAktP4Th5MbR-SACLcB/s1600/PPDB.png",
                               title: "PPDB",
                               subtitle:
                                   "Peraturan perundang-undangan yang mengatur PPDB di Indonesia",

@@ -24,7 +24,6 @@ class _SiswaDetailScreenState extends State<SiswaDetailScreen> {
   Widget build(BuildContext context) {
     final nisn = ModalRoute.of(context).settings.arguments as String;
 
-    print(nisn);
     return CustomDesign.adminHeader(
       action: const SizedBox.shrink(),
       barTitle: "Detail calon siswa",
