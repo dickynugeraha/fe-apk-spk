@@ -99,9 +99,7 @@ class _AuthLoginState extends State<AuthLogin> {
                         style: const TextStyle(color: Colors.grey),
                       ),
                     ),
-                    keyboardType: widget.isAdminSection
-                        ? TextInputType.text
-                        : TextInputType.number,
+                    keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value.isEmpty) {
                         return widget.isAdminSection
@@ -170,7 +168,7 @@ class _AuthLoginState extends State<AuthLogin> {
                     child: SizedBox(
                       width: double.infinity,
                       child: Text(
-                        isLoading ? "..." : "Login",
+                        isLoading ? "Loading..." : "Login",
                         textAlign: TextAlign.center,
                       ),
                     ),

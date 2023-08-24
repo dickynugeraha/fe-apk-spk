@@ -147,6 +147,7 @@ class SiswaProvider with ChangeNotifier {
               nisn: siswa["nilai"]["nisn"],
               parameterId: siswa["nilai"]["parameter_id"],
               namaParameter: siswa["nilai"]["nama_parameter"],
+              // nilai: siswa["nilai"]["nilai"],
               nilai: int.parse(siswa["nilai"]["nilai"]),
             );
 
@@ -381,7 +382,7 @@ class SiswaProvider with ChangeNotifier {
 
   Future<void> storeBobotSiswa(List<Map<String, dynamic>> data) async {
     try {
-      await http.post(
+      final response = await http.post(
         Uri.parse("${Helper.domainUrl}/nilai"),
         headers: {
           "Content-Type": "application/json",
@@ -393,6 +394,8 @@ class SiswaProvider with ChangeNotifier {
           "nilai": data,
         }),
       );
+
+      print(json.decode(response.body));
 
       Siswa newSiswaUpdate = Siswa(
         nisn: item.nisn,

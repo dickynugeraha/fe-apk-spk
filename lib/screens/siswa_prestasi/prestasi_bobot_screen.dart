@@ -51,10 +51,13 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
   @override
   Widget build(BuildContext context) {
     final deviceHeight = MediaQuery.of(context).size.height;
-    final siswa = Provider.of<SiswaProvider>(context).item;
+    final siswa = Provider.of<SiswaProvider>(context, listen: false).item;
+
+    print(dynamicSlectedId);
 
     Future<void> submitBobot() async {
       // print(dynamicSlectedId);
+      // return;
       setState(() {
         isLoading = true;
       });
@@ -171,7 +174,7 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
                               });
                             },
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 20),
                         ],
                       ),
                     ),

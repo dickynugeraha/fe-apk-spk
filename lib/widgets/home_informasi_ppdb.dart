@@ -44,18 +44,23 @@ class InformasiPPDB extends StatelessWidget {
                   textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 10),
-                const Text(
-                  "4. Tanggal - tanggal penting dalam proses seleksi PPDB dapat dilihat di halaman Home bagian sekolah.",
+                Text(
+                  "4. Tanggal pendaftaran dibuka: ${sekolah.pendaftaranDibuka.substring(0, 11)}, tanggal pendaftaran ditutup: ${sekolah.pendaftaranDitutup.substring(0, 11)}.",
+                  textAlign: TextAlign.left,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "5. Tanggal pengumuman seleksi: ${sekolah.pengumumanSeleksi.substring(0, 11)}, pengumuman seleksi dapat dilihat melalui gmail masing-masing.",
                   textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  "5. Hasil seleksi tidak dapat diganggu gugat oleh pihak manapun.",
+                  "6. Hasil seleksi tidak dapat diganggu gugat oleh pihak manapun.",
                   textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 10),
                 const Text(
-                  "6. Bagi siswa yang lolos diharapkan langsung melakukan daftar ulang dengan mendatangi sekolah.",
+                  "7. Bagi siswa yang lolos diharapkan langsung melakukan daftar ulang dengan mendatangi sekolah, dengan melampirkan bukti keterima.",
                   textAlign: TextAlign.justify,
                 ),
               ],

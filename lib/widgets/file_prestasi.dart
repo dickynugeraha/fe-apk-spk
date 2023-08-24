@@ -3,6 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../providers/helper.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart';
 
 class FilePrestasi extends StatelessWidget {
   final String nilaiSemester;
@@ -61,28 +62,24 @@ class FilePrestasi extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Flexible(
-          child: Text(
-            title,
-            style: const TextStyle(fontSize: 16),
-            overflow: TextOverflow.ellipsis,
-          ),
+        Text(
+          title,
+          style: const TextStyle(fontSize: 16),
         ),
         const SizedBox(width: 10),
-        GestureDetector(
-          onTap:
-              //  () {
-              //   OpenFilex.open(url);
-              // },
-              () async {
-            await launchUrl(
-              Uri.parse(url),
-            );
-          },
-          child: const Text(
-            "Lihat",
-            style: TextStyle(
-                color: Colors.blue, decoration: TextDecoration.underline),
+        Flexible(
+          child: GestureDetector(
+            onTap: () async {
+              await Clipboard.setData(ClipboardData(text: url));
+            },
+            child: const Text(
+              "Copy url",
+              style: TextStyle(
+                color: Colors.blue,
+                decoration: TextDecoration.underline,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ),
         ),
       ],
