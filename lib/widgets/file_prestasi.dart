@@ -25,8 +25,7 @@ class FilePrestasi extends StatelessWidget {
   Widget build(BuildContext context) {
     print(
         "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_semester/$nilaiSemester");
-    // print(nilaiUas);
-    // print(nilaiUn);
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [

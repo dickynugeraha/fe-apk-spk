@@ -53,11 +53,7 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
     final deviceHeight = MediaQuery.of(context).size.height;
     final siswa = Provider.of<SiswaProvider>(context, listen: false).item;
 
-    print(dynamicSlectedId);
-
     Future<void> submitBobot() async {
-      // print(dynamicSlectedId);
-      // return;
       setState(() {
         isLoading = true;
       });

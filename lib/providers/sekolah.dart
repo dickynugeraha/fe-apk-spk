@@ -123,14 +123,28 @@ class SekolahProvider with ChangeNotifier {
       final response = await request.send();
       final responseStr = json.decode(await response.stream.bytesToString());
 
+      final updatedSekolah = Sekolah(
+        nama: newSekolah.nama,
+        deskripsi: newSekolah.deskripsi,
+        pendaftaranDibuka: newSekolah.pendaftaranDibuka,
+        pendaftaranDitutup: newSekolah.pendaftaranDitutup,
+        pengumumanSeleksi: newSekolah.pengumumanSeleksi,
+        fotoAlurPendaftaran:
+            newSekolah.fotoAlurPendaftaran ?? _item.fotoAlurPendaftaran,
+        fotoIdentitasSekolah:
+            newSekolah.fotoIdentitasSekolah ?? _item.fotoIdentitasSekolah,
+        fotoLogo: newSekolah.fotoLogo ?? _item.fotoLogo,
+      );
+
+      _item = updatedSekolah;
+      notifyListeners();
+
       if (response.statusCode != 200) {
         throw HttpException(responseStr["error"]["message"]);
       }
       if (responseStr["error"] != null) {
         throw HttpException(responseStr["error"]["message"]);
       }
-      _item = newSekolah;
-      notifyListeners();
     } catch (e) {
       rethrow;
     }

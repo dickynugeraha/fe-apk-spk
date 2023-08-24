@@ -10,10 +10,7 @@ class SekolahTable extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final sekolah = Provider.of<SekolahProvider>(context, listen: false).item;
-
-    print(sekolah.nama);
-    print(sekolah.pendaftaranDibuka);
+    final sekolah = Provider.of<SekolahProvider>(context).item;
 
     return Card(
       child: DataTable(
