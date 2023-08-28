@@ -59,7 +59,7 @@ class KategoriProvider with ChangeNotifier {
     final url = Uri.parse("${Helper.domainUrl}/parameter/all");
 
     try {
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 200));
       final response = await http.get(
         url,
         headers: {
@@ -104,7 +104,7 @@ class KategoriProvider with ChangeNotifier {
     final url = Uri.parse('${Helper.domainUrl}/parameter');
 
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 200));
       final response = await http.get(
         url,
         headers: {

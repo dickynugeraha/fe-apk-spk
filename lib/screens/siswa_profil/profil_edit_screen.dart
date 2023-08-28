@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/siswa.dart';
@@ -152,184 +153,198 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Form(
-          key: form,
-          child: Padding(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                TextFormField(
-                  decoration: CustomDesign.customInputDecoration("Nisn"),
-                  controller: nisnController,
-                  readOnly: true,
-                  onSaved: (newValue) {
-                    nisnController.text = newValue;
-                  },
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Text("Jenis kelamin"),
-                    const SizedBox(width: 15),
-                    DropdownButton(
-                      value: _genderValue,
-                      items: const [
-                        DropdownMenuItem(value: "L", child: Text("Laki-laki")),
-                        DropdownMenuItem(value: "P", child: Text("Perempuan")),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          _genderValue = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  decoration: CustomDesign.customInputDecoration("Nama"),
-                  controller: namaController,
-                  onSaved: (newValue) {
-                    namaController.text = newValue;
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  decoration: CustomDesign.customInputDecoration("Email"),
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  onSaved: (newValue) {
-                    emailController.text = newValue;
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  decoration: CustomDesign.customInputDecoration("Alamat"),
-                  maxLines: 3,
-                  controller: alamatController,
-                  onSaved: (newValue) {
-                    alamatController.text = newValue;
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  decoration: CustomDesign.customInputDecoration(
-                    "No hp orang tua",
-                  ),
-                  controller: noHpOrtuController,
-                  keyboardType: TextInputType.number,
-                  onSaved: (newValue) {
-                    noHpOrtuController.text = newValue;
-                  },
-                ),
-                const SizedBox(height: 20),
-                TextFormField(
-                  decoration: CustomDesign.customInputDecoration(
-                    "Asal sekolah",
-                  ),
-                  controller: asalSekolahController,
-                  onSaved: (newValue) {
-                    asalSekolahController.text = newValue;
-                  },
-                ),
-                const SizedBox(height: 20),
-                CheckboxListTile(
-                  title: const Text("Update data foto"),
-                  value: isUpdateFoto,
-                  onChanged: (value) {
-                    setState(() {
-                      isUpdateFoto = value;
-                    });
-                  },
-                ),
-                if (isUpdateFoto)
-                  Column(
+      body: isLoading
+          ? Center(
+              child: LoadingAnimationWidget.fourRotatingDots(
+                color: Theme.of(context).primaryColor,
+                size: 50,
+              ),
+            )
+          : SingleChildScrollView(
+              child: Form(
+                key: form,
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      inputTypeFile(
-                        // path: fotoAkte.path,
-                        title: "profil",
-                        onPressed: () async {
-                          final pickedFile =
-                              await FilePicker.platform.pickFiles(
-                            allowMultiple: false,
-                          );
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        decoration: CustomDesign.customInputDecoration("Nisn"),
+                        controller: nisnController,
+                        readOnly: true,
+                        onSaved: (newValue) {
+                          nisnController.text = newValue;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          const Text("Jenis kelamin"),
+                          const SizedBox(width: 15),
+                          DropdownButton(
+                            value: _genderValue,
+                            items: const [
+                              DropdownMenuItem(
+                                  value: "L", child: Text("Laki-laki")),
+                              DropdownMenuItem(
+                                  value: "P", child: Text("Perempuan")),
+                            ],
+                            onChanged: (value) {
+                              setState(() {
+                                _genderValue = value;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        decoration: CustomDesign.customInputDecoration("Nama"),
+                        controller: namaController,
+                        onSaved: (newValue) {
+                          namaController.text = newValue;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        decoration: CustomDesign.customInputDecoration("Email"),
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        onSaved: (newValue) {
+                          emailController.text = newValue;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        decoration:
+                            CustomDesign.customInputDecoration("Alamat"),
+                        maxLines: 3,
+                        controller: alamatController,
+                        onSaved: (newValue) {
+                          alamatController.text = newValue;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        decoration: CustomDesign.customInputDecoration(
+                          "No hp orang tua",
+                        ),
+                        controller: noHpOrtuController,
+                        keyboardType: TextInputType.number,
+                        onSaved: (newValue) {
+                          noHpOrtuController.text = newValue;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      TextFormField(
+                        decoration: CustomDesign.customInputDecoration(
+                          "Asal sekolah",
+                        ),
+                        controller: asalSekolahController,
+                        onSaved: (newValue) {
+                          asalSekolahController.text = newValue;
+                        },
+                      ),
+                      const SizedBox(height: 20),
+                      CheckboxListTile(
+                        title: const Text("Update data foto"),
+                        value: isUpdateFoto,
+                        onChanged: (value) {
                           setState(() {
-                            if (pickedFile != null) {
-                              fotoProfil = File(pickedFile.files.single.path);
-                            }
+                            isUpdateFoto = value;
                           });
                         },
                       ),
-                      inputTypeFile(
-                        // path: fotoAkte.path,
-                        title: "akte",
-                        onPressed: () async {
-                          final pickedFile =
-                              await FilePicker.platform.pickFiles(
-                            allowMultiple: false,
-                          );
-                          setState(() {
-                            if (pickedFile != null) {
-                              fotoAkte = File(pickedFile.files.single.path);
-                            }
-                          });
-                        },
-                      ),
-                      inputTypeFile(
-                        title: "ijazah",
-                        // path: fotoIjazah.path,
-                        onPressed: () async {
-                          final pickedFile =
-                              await FilePicker.platform.pickFiles(
-                            allowMultiple: false,
-                          );
-                          setState(() {
-                            if (pickedFile != null) {
-                              fotoIjazah = File(pickedFile.files.single.path);
-                            }
-                          });
-                        },
-                      ),
-                      inputTypeFile(
-                        title: "kk",
-                        // path: fotoKK.path,
-                        onPressed: () async {
-                          final pickedFile =
-                              await FilePicker.platform.pickFiles(
-                            allowMultiple: false,
-                          );
-                          setState(() {
-                            if (pickedFile != null) {
-                              fotoKK = File(pickedFile.files.single.path);
-                            }
-                          });
-                        },
-                      ),
-                      inputTypeFile(
-                        title: "ktp ortu",
-                        // path: fotoKK.path,
-                        onPressed: () async {
-                          final pickedFile =
-                              await FilePicker.platform.pickFiles(
-                            allowMultiple: false,
-                          );
-                          setState(() {
-                            if (pickedFile != null) {
-                              fotoKtpOrtu = File(pickedFile.files.single.path);
-                            }
-                          });
-                        },
-                      ),
+                      if (isUpdateFoto)
+                        Column(
+                          children: [
+                            inputTypeFile(
+                              // path: fotoAkte.path,
+                              title: "profil",
+                              onPressed: () async {
+                                final pickedFile =
+                                    await FilePicker.platform.pickFiles(
+                                  allowMultiple: false,
+                                );
+                                setState(() {
+                                  if (pickedFile != null) {
+                                    fotoProfil =
+                                        File(pickedFile.files.single.path);
+                                  }
+                                });
+                              },
+                            ),
+                            inputTypeFile(
+                              // path: fotoAkte.path,
+                              title: "akte",
+                              onPressed: () async {
+                                final pickedFile =
+                                    await FilePicker.platform.pickFiles(
+                                  allowMultiple: false,
+                                );
+                                setState(() {
+                                  if (pickedFile != null) {
+                                    fotoAkte =
+                                        File(pickedFile.files.single.path);
+                                  }
+                                });
+                              },
+                            ),
+                            inputTypeFile(
+                              title: "ijazah",
+                              // path: fotoIjazah.path,
+                              onPressed: () async {
+                                final pickedFile =
+                                    await FilePicker.platform.pickFiles(
+                                  allowMultiple: false,
+                                );
+                                setState(() {
+                                  if (pickedFile != null) {
+                                    fotoIjazah =
+                                        File(pickedFile.files.single.path);
+                                  }
+                                });
+                              },
+                            ),
+                            inputTypeFile(
+                              title: "kk",
+                              // path: fotoKK.path,
+                              onPressed: () async {
+                                final pickedFile =
+                                    await FilePicker.platform.pickFiles(
+                                  allowMultiple: false,
+                                );
+                                setState(() {
+                                  if (pickedFile != null) {
+                                    fotoKK = File(pickedFile.files.single.path);
+                                  }
+                                });
+                              },
+                            ),
+                            inputTypeFile(
+                              title: "ktp ortu",
+                              // path: fotoKK.path,
+                              onPressed: () async {
+                                final pickedFile =
+                                    await FilePicker.platform.pickFiles(
+                                  allowMultiple: false,
+                                );
+                                setState(() {
+                                  if (pickedFile != null) {
+                                    fotoKtpOrtu =
+                                        File(pickedFile.files.single.path);
+                                  }
+                                });
+                              },
+                            ),
+                          ],
+                        ),
                     ],
                   ),
-              ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 

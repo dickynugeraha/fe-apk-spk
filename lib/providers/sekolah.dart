@@ -25,7 +25,7 @@ class SekolahProvider with ChangeNotifier {
     final url = Uri.parse("${Helper.domainUrl}/sekolah");
 
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 200));
 
       final response = await http.get(
         url,

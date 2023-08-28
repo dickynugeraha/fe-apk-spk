@@ -154,7 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           children: [
                             linkItem(
-                              link: "https://www.siap-ppdb.com/",
+                              link: "https://siap-ppdb.com/",
                               imageUrl:
                                   "https://2.bp.blogspot.com/-YM5tRwdKpo4/WSDVRtpUpwI/AAAAAAAAAL4/EuPkjwJcLqwgZmwJkNYAktP4Th5MbR-SACLcB/s1600/PPDB.png",
                               title: "PPDB",

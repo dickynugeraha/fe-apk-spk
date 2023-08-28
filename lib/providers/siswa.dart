@@ -33,7 +33,7 @@ class SiswaProvider with ChangeNotifier {
     final url = Uri.parse("${Helper.domainUrl}/siswa");
 
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 200));
 
       final response = await http.get(
         url,
@@ -114,7 +114,7 @@ class SiswaProvider with ChangeNotifier {
       // prefs.remove("dataAuth");
       // prefs.clear();
 
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 200));
 
       final response = await http.get(
         url,

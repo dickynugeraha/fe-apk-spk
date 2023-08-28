@@ -47,7 +47,7 @@ class NilaiProvider with ChangeNotifier {
 
   Future<void> getHasilPerhitungan() async {
     try {
-      await Future.delayed(const Duration(seconds: 1));
+      await Future.delayed(const Duration(milliseconds: 200));
       final response = await http.get(
         Uri.parse("${Helper.domainUrl}/nilai"),
         headers: {
