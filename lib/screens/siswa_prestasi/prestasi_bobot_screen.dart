@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:ppdb_prestasi/models/siswa.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/kategori.dart';
 import '../../models/sub_bobot.dart';
-import '../../providers/nilai.dart';
 import '../../providers/siswa.dart';
 import '../../widgets/custom_design.dart';
 
 class PrestasiBobotScreen extends StatefulWidget {
-  const PrestasiBobotScreen({Key key}) : super(key: key);
+  const PrestasiBobotScreen({Key? key}) : super(key: key);
 
   @override
   State<PrestasiBobotScreen> createState() => _PrestasiBobotScreenState();
@@ -35,11 +33,11 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
       int count = 0;
       for (var kategoriItem in kategoriWithSubBobot) {
         dynamicSlectedId.add({
-          "kategoriId$count": kategoriItem.kategori.id,
-          "kategoriNama$count": kategoriItem.kategori.nama,
-          "subBobotId$count": kategoriItem.subBobot[0].id,
-          "subBobotKeterangan$count": kategoriItem.subBobot[0].keterangan,
-          "nilai$count": kategoriItem.subBobot[0].bobot,
+          "kategoriId$count": kategoriItem.kategori!.id,
+          "kategoriNama$count": kategoriItem.kategori!.nama,
+          "subBobotId$count": kategoriItem.subBobot![0].id,
+          "subBobotKeterangan$count": kategoriItem.subBobot![0].keterangan,
+          "nilai$count": kategoriItem.subBobot![0].bobot,
         });
         count++;
       }
@@ -130,7 +128,7 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
               ),
               const SizedBox(height: 20),
               Text(
-                siswa.nilai == null
+                siswa!.nilai == null
                     ? "Isi bobot diri".toUpperCase()
                     : "Data bobot sudah diisi, silahkan tunggu pengumuman hasil seleksi!"
                         .toUpperCase(),
@@ -138,61 +136,7 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              if (siswa.nilai == null)
-                SizedBox(
-                  height: deviceHeight * 0.45,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 22,
-                      vertical: 8,
-                    ),
-                    shrinkWrap: true,
-                    itemCount: kategoriWithSubBobot.length,
-                    itemBuilder: (context, index) => SingleChildScrollView(
-                      child: Column(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            kategoriWithSubBobot[index].kategori.nama,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontSize: 16, fontStyle: FontStyle.italic),
-                          ),
-                          DropdownButton(
-                            value: dynamicSlectedId[index]["subBobotId$index"],
-                            items: _dropdownItems(
-                                kategoriWithSubBobot[index].subBobot),
-                            onChanged: (value) {
-                              setState(() {
-                                dynamicSlectedId[index]["subBobotId$index"] =
-                                    value;
-                              });
-                            },
-                          ),
-                          const SizedBox(height: 20),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
               const Spacer(),
-              if (siswa.nilai == null)
-                Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      padding: const EdgeInsets.all(12),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20)),
-                    ),
-                    onPressed: submitBobot,
-                    child: const Text("Submit"),
-                  ),
-                ),
               const SizedBox(height: 10),
             ],
           );
@@ -204,7 +148,7 @@ class _PrestasiBobotScreenState extends State<PrestasiBobotScreen> {
       items.add(
         DropdownMenuItem(
           value: subBobot.id,
-          child: Text(subBobot.keterangan),
+          child: Text(subBobot.keterangan!),
         ),
       );
     }

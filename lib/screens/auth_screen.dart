@@ -10,7 +10,7 @@ enum AuthMode { Login, Register }
 
 class AuthScreen extends StatefulWidget {
   static const routeName = "/auth";
-  const AuthScreen({Key key}) : super(key: key);
+  const AuthScreen({Key? key}) : super(key: key);
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -79,11 +79,12 @@ class _AuthScreenState extends State<AuthScreen> {
                             children: [
                               Text(
                                 "e-Prestasi",
-                                style: Theme.of(context).textTheme.headline1,
+                                style: Theme.of(context).textTheme.displayLarge,
                               ),
                               Text(
-                                "PPDB ${sekolah.nama}",
-                                style: Theme.of(context).textTheme.headline2,
+                                "PPDB ${sekolah!.nama!}",
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
                               ),
                             ],
                           ),

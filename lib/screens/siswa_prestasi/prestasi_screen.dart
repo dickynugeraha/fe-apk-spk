@@ -1,6 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
-import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:ppdb_prestasi/widgets/file_prestasi.dart';
@@ -11,7 +11,7 @@ import '../../providers/siswa.dart';
 import '../../widgets/custom_design.dart';
 
 class PrestasiScreen extends StatefulWidget {
-  const PrestasiScreen({Key key}) : super(key: key);
+  const PrestasiScreen({Key? key}) : super(key: key);
 
   @override
   State<PrestasiScreen> createState() => _PrestasiScreenState();
@@ -21,11 +21,11 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
   bool isInit = true;
   bool isLoading = true;
 
-  File nilaiSemester;
-  File nilaiUas;
-  File nilaiUN;
-  File prestasiAkademik;
-  File prestasiNonAkademik;
+  File? nilaiSemester;
+  File? nilaiUas;
+  File? nilaiUN;
+  File? prestasiAkademik;
+  File? prestasiNonAkademik;
 
   @override
   void didChangeDependencies() {
@@ -48,11 +48,7 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
     final siswa = Provider.of<SiswaProvider>(context).item;
 
     Future<void> submitUploadFile() async {
-      if (nilaiSemester == null ||
-          nilaiUN == null ||
-          nilaiUas == null ||
-          prestasiAkademik == null ||
-          prestasiNonAkademik == null) {
+      if (nilaiUN == null) {
         CustomDesign.customAwesomeDialog(
           context: context,
           dialogSuccess: false,
@@ -70,11 +66,11 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
         await Provider.of<SiswaProvider>(context, listen: false)
             .updateFilePrestasiSiswa(
           {
-            "nilai_semester": nilaiSemester.path,
-            "nilai_un": nilaiUN.path,
-            "nilai_uas": nilaiUas.path,
-            "prestasi_akademik": prestasiAkademik.path,
-            "prestasi_non_akademik": prestasiNonAkademik.path,
+            "nilai_semester": nilaiSemester!.path,
+            "nilai_un": nilaiUN!.path,
+            "nilai_uas": nilaiUas!.path,
+            "prestasi_akademik": prestasiAkademik!.path,
+            "prestasi_non_akademik": prestasiNonAkademik!.path,
           },
         );
         CustomDesign.customAwesomeDialog(
@@ -170,110 +166,14 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
                     child: Column(
                       children: [
                         const SizedBox(height: 15),
-                        if (siswa.prestasi != null)
-                          FilePrestasi(
-                            nilaiSemester: siswa.prestasi.nilaiSemester,
-                            nilaiUas: siswa.prestasi.nilaiUas,
-                            nilaiUn: siswa.prestasi.nilaiUn,
-                            prestasiAkademik: siswa.prestasi.prestasiAkademik,
-                            prestasiNonAkademik:
-                                siswa.prestasi.prestasiNonAkademik,
-                          ),
-                        if (siswa.prestasi == null)
-                          Column(
-                            children: [
-                              inputFile(
-                                title: "nilai semester 1 - 5",
-                                onPress: () async {
-                                  FilePickerResult result =
-                                      await FilePicker.platform.pickFiles(
-                                    allowMultiple: false,
-                                  );
-                                  if (result != null) {
-                                    setState(() {
-                                      nilaiSemester =
-                                          File(result.files.single.path);
-                                    });
-                                  }
-                                },
-                              ),
-                              inputFile(
-                                title: "nilai UN",
-                                onPress: () async {
-                                  FilePickerResult result =
-                                      await FilePicker.platform.pickFiles(
-                                    allowMultiple: false,
-                                  );
-                                  if (result != null) {
-                                    setState(() {
-                                      nilaiUN = File(result.files.single.path);
-                                    });
-                                  }
-                                },
-                              ),
-                              inputFile(
-                                title: "nilai UAS",
-                                onPress: () async {
-                                  FilePickerResult result =
-                                      await FilePicker.platform.pickFiles(
-                                    allowMultiple: false,
-                                  );
-                                  if (result != null) {
-                                    setState(() {
-                                      nilaiUas = File(result.files.single.path);
-                                    });
-                                  }
-                                },
-                              ),
-                              inputFile(
-                                title: "prestasi akademik",
-                                onPress: () async {
-                                  FilePickerResult result =
-                                      await FilePicker.platform.pickFiles(
-                                    allowMultiple: false,
-                                  );
-                                  if (result != null) {
-                                    setState(() {
-                                      prestasiAkademik =
-                                          File(result.files.single.path);
-                                    });
-                                  }
-                                },
-                              ),
-                              inputFile(
-                                title: "prestasi Non-Akademik",
-                                onPress: () async {
-                                  FilePickerResult result =
-                                      await FilePicker.platform.pickFiles(
-                                    allowMultiple: false,
-                                  );
-                                  if (result != null) {
-                                    setState(() {
-                                      prestasiNonAkademik =
-                                          File(result.files.single.path);
-                                    });
-                                  }
-                                },
-                              ),
-                              const SizedBox(height: 10),
-                              SizedBox(
-                                width: double.infinity,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        Theme.of(context).primaryColor,
-                                    padding: const EdgeInsets.all(12),
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                  ),
-                                  onPressed: submitUploadFile,
-                                  child: const Text("Submit"),
-                                ),
-                              ),
-                            ],
-                          ),
+                        FilePrestasi(
+                          nilaiSemester: siswa!.prestasi!.nilaiSemester,
+                          nilaiUas: siswa.prestasi!.nilaiUas,
+                          nilaiUn: siswa.prestasi!.nilaiUn,
+                          prestasiAkademik: siswa.prestasi!.prestasiAkademik,
+                          prestasiNonAkademik:
+                              siswa.prestasi!.prestasiNonAkademik,
+                        ),
                       ],
                     ),
                   ),
@@ -284,8 +184,8 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
   }
 
   Widget inputFile({
-    String title,
-    Function onPress,
+    required String title,
+    Function()? onPress,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -297,7 +197,7 @@ class _PrestasiScreenState extends State<PrestasiScreen> {
         TextButton.icon(
           onPressed: onPress,
           icon: const Icon(Icons.file_open),
-          label: Text(toBeginningOfSentenceCase(title)),
+          label: Text(title),
         ),
         const SizedBox(height: 5),
       ],

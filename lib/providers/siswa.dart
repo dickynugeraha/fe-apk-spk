@@ -10,23 +10,23 @@ import '../models/siswa.dart';
 import 'helper.dart';
 
 class SiswaProvider with ChangeNotifier {
-  Siswa _item;
-  List<Siswa> _items;
-  String _nisn;
-  String _token;
+  Siswa? _item;
+  List<Siswa>? _items;
+  String? _nisn;
+  String? _token;
 
-  void update(String tokenAsign, String nisnAsign) {
+  void update(String? tokenAsign, String nisnAsign) {
     _token = tokenAsign;
     _nisn = nisnAsign;
     notifyListeners();
   }
 
-  Siswa get item {
+  Siswa? get item {
     return _item;
   }
 
   List<Siswa> get items {
-    return [..._items];
+    return [..._items!];
   }
 
   Future<void> fetchAndSetAllSiswa() async {
@@ -189,21 +189,21 @@ class SiswaProvider with ChangeNotifier {
       );
 
       request.fields.addAll({
-        "nama": newSiswa.nama,
-        "alamat": newSiswa.alamat,
-        "email": newSiswa.email,
-        "no_hp_ortu": newSiswa.noHpOrtu,
-        "asal_sekolah": newSiswa.asalSekolah,
-        "jenis_kelamin": newSiswa.jenisKelamin,
+        "nama": newSiswa.nama!,
+        "alamat": newSiswa.alamat!,
+        "email": newSiswa.email!,
+        "no_hp_ortu": newSiswa.noHpOrtu!,
+        "asal_sekolah": newSiswa.asalSekolah!,
+        "jenis_kelamin": newSiswa.jenisKelamin!,
         "is_update_foto": isUpdateFoto ? "1" : "0",
       });
 
       if (isUpdateFoto) {
-        final profilFile = File(newSiswa.fotoProfil);
-        final akteFile = File(newSiswa.fotoAkte);
-        final ijazahFile = File(newSiswa.fotoIjazah);
-        final kkFile = File(newSiswa.fotoKK);
-        final ktpOrtuFile = File(newSiswa.fotoKtpOrtu);
+        final profilFile = File(newSiswa.fotoProfil!);
+        final akteFile = File(newSiswa.fotoAkte!);
+        final ijazahFile = File(newSiswa.fotoIjazah!);
+        final kkFile = File(newSiswa.fotoKK!);
+        final ktpOrtuFile = File(newSiswa.fotoKtpOrtu!);
 
         request.files.add(
           http.MultipartFile(
@@ -261,11 +261,11 @@ class SiswaProvider with ChangeNotifier {
         jenisKelamin: newSiswa.jenisKelamin,
         email: newSiswa.email,
         noHpOrtu: newSiswa.noHpOrtu,
-        fotoProfil: newSiswa.fotoProfil ?? _item.fotoProfil,
-        fotoAkte: newSiswa.fotoAkte ?? _item.fotoAkte,
-        fotoIjazah: newSiswa.fotoIjazah ?? _item.fotoIjazah,
-        fotoKK: newSiswa.fotoKK ?? _item.fotoKK,
-        fotoKtpOrtu: newSiswa.fotoKtpOrtu ?? _item.fotoKtpOrtu,
+        fotoProfil: newSiswa.fotoProfil ?? _item!.fotoProfil,
+        fotoAkte: newSiswa.fotoAkte ?? _item!.fotoAkte,
+        fotoIjazah: newSiswa.fotoIjazah ?? _item!.fotoIjazah,
+        fotoKK: newSiswa.fotoKK ?? _item!.fotoKK,
+        fotoKtpOrtu: newSiswa.fotoKtpOrtu ?? _item!.fotoKtpOrtu,
       );
 
       _item = newSiswaUpdate;
@@ -278,11 +278,11 @@ class SiswaProvider with ChangeNotifier {
   Future<void> updateFilePrestasiSiswa(Map<String, String> filePath) async {
     final url = Uri.parse("${Helper.domainUrl}/prestasi/$_nisn/update");
 
-    File nilaiSemesterFile = File(filePath["nilai_semester"]);
-    File nilaiUnFile = File(filePath["nilai_un"]);
-    File nilaiUasFile = File(filePath["nilai_uas"]);
-    File prestasiAkademikFile = File(filePath["prestasi_akademik"]);
-    File prestasiNonAkademikFile = File(filePath["prestasi_non_akademik"]);
+    File nilaiSemesterFile = File(filePath["nilai_semester"]!);
+    File nilaiUnFile = File(filePath["nilai_un"]!);
+    File nilaiUasFile = File(filePath["nilai_uas"]!);
+    File prestasiAkademikFile = File(filePath["prestasi_akademik"]!);
+    File prestasiNonAkademikFile = File(filePath["prestasi_non_akademik"]!);
 
     try {
       final request = http.MultipartRequest("POST", url);
@@ -344,18 +344,18 @@ class SiswaProvider with ChangeNotifier {
       final responseStr = json.decode(await response.stream.bytesToString());
 
       Siswa newSiswaUpdate = Siswa(
-        nisn: item.nisn,
-        asalSekolah: item.asalSekolah,
-        nama: item.nama,
-        alamat: item.alamat,
-        jenisKelamin: item.jenisKelamin,
-        email: item.email,
-        noHpOrtu: item.noHpOrtu,
-        fotoProfil: item.fotoProfil,
-        fotoAkte: item.fotoAkte,
-        fotoIjazah: item.fotoIjazah,
-        fotoKK: item.fotoKK,
-        fotoKtpOrtu: item.fotoKtpOrtu,
+        nisn: item!.nisn,
+        asalSekolah: item!.asalSekolah,
+        nama: item!.nama,
+        alamat: item!.alamat,
+        jenisKelamin: item!.jenisKelamin,
+        email: item!.email,
+        noHpOrtu: item!.noHpOrtu,
+        fotoProfil: item!.fotoProfil,
+        fotoAkte: item!.fotoAkte,
+        fotoIjazah: item!.fotoIjazah,
+        fotoKK: item!.fotoKK,
+        fotoKtpOrtu: item!.fotoKtpOrtu,
         prestasi: Prestasi(
           id: "UUID",
           nilaiSemester: nilaiSemesterFile.path.split("/").last,
@@ -398,26 +398,26 @@ class SiswaProvider with ChangeNotifier {
       print(json.decode(response.body));
 
       Siswa newSiswaUpdate = Siswa(
-        nisn: item.nisn,
-        asalSekolah: item.asalSekolah,
-        nama: item.nama,
-        alamat: item.alamat,
-        jenisKelamin: item.jenisKelamin,
-        email: item.email,
-        noHpOrtu: item.noHpOrtu,
-        fotoProfil: item.fotoProfil,
-        fotoAkte: item.fotoAkte,
-        fotoIjazah: item.fotoIjazah,
-        fotoKK: item.fotoKK,
-        fotoKtpOrtu: item.fotoKtpOrtu,
-        prestasi: item.prestasi != null
+        nisn: item!.nisn,
+        asalSekolah: item!.asalSekolah,
+        nama: item!.nama,
+        alamat: item!.alamat,
+        jenisKelamin: item!.jenisKelamin,
+        email: item!.email,
+        noHpOrtu: item!.noHpOrtu,
+        fotoProfil: item!.fotoProfil,
+        fotoAkte: item!.fotoAkte,
+        fotoIjazah: item!.fotoIjazah,
+        fotoKK: item!.fotoKK,
+        fotoKtpOrtu: item!.fotoKtpOrtu,
+        prestasi: item!.prestasi != null
             ? Prestasi(
                 id: "UUID",
-                nilaiSemester: item.prestasi.nilaiSemester,
-                nilaiUn: item.prestasi.nilaiUn,
-                nilaiUas: item.prestasi.nilaiUas,
-                prestasiAkademik: item.prestasi.prestasiAkademik,
-                prestasiNonAkademik: item.prestasi.prestasiNonAkademik,
+                nilaiSemester: item!.prestasi!.nilaiSemester,
+                nilaiUn: item!.prestasi!.nilaiUn,
+                nilaiUas: item!.prestasi!.nilaiUas,
+                prestasiAkademik: item!.prestasi!.prestasiAkademik,
+                prestasiNonAkademik: item!.prestasi!.prestasiNonAkademik,
               )
             : null,
         nilai: Nilai(

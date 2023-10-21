@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import './kategori.dart';
 
 class SubBobotWithKategori with ChangeNotifier {
-  final Kategori kategori;
-  final List<SubBobot> subBobot;
+  final Kategori? kategori;
+  final List<SubBobot>? subBobot;
 
   SubBobotWithKategori({
     this.kategori,
@@ -13,10 +13,10 @@ class SubBobotWithKategori with ChangeNotifier {
 }
 
 class SubBobot {
-  final String id;
-  final int bobot;
-  final String keterangan;
-  final String parameterId;
+  final String? id;
+  final int? bobot;
+  final String? keterangan;
+  final String? parameterId;
 
   SubBobot({
     this.id,

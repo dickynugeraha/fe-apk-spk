@@ -9,7 +9,7 @@ import '../screens/admin_nilai/nilai_screen.dart';
 import '../providers/auth.dart';
 
 class AdminDrawer extends StatelessWidget {
-  const AdminDrawer({Key key}) : super(key: key);
+  const AdminDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

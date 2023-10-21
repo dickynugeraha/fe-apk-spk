@@ -6,23 +6,23 @@ import './helper.dart';
 import '../models/siswa.dart';
 
 class NilaiProvider with ChangeNotifier {
-  String _nisn;
-  String _token;
+  String? _nisn;
+  String? _token;
 
-  List<Ranking> _items;
-  Ranking _item;
+  List<Ranking>? _items;
+  Ranking? _item;
 
-  void update(String nisnEntered, String tokenEntered) {
+  void update(String nisnEntered, String? tokenEntered) {
     _nisn = nisnEntered;
     _token = tokenEntered;
     notifyListeners();
   }
 
   List<Ranking> get items {
-    return [..._items];
+    return [..._items!];
   }
 
-  Ranking get item {
+  Ranking? get item {
     return _item;
   }
 

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:ppdb_prestasi/widgets/foto_identitas_siswa.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../providers/siswa.dart';
 import '../providers/helper.dart';
 
 class DetailSiswaTable extends StatelessWidget {
   final String nisn;
-  const DetailSiswaTable({Key key, this.nisn}) : super(key: key);
+  const DetailSiswaTable({Key? key, required this.nisn}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +32,13 @@ class DetailSiswaTable extends StatelessWidget {
           ),
         ],
         rows: [
-          siswaItem("Nama", siswa.nama),
-          siswaItem("Nisn", siswa.nisn),
-          siswaItem("Email", siswa.email),
-          siswaItem("Asal sekolah", siswa.asalSekolah),
-          siswaItem("Alamat", siswa.alamat),
-          siswaItem("Jenis Kelamin", siswa.jenisKelamin),
-          siswaItem("No hp orang tua", siswa.noHpOrtu),
+          siswaItem("Nama", siswa.nama!),
+          siswaItem("Nisn", siswa.nisn!),
+          siswaItem("Email", siswa.email!),
+          siswaItem("Asal sekolah", siswa.asalSekolah!),
+          siswaItem("Alamat", siswa.alamat!),
+          siswaItem("Jenis Kelamin", siswa.jenisKelamin!),
+          siswaItem("No hp orang tua", siswa.noHpOrtu!),
           DataRow(
             cells: [
               const DataCell(Text("Foto identitas")),
@@ -49,7 +48,7 @@ class DetailSiswaTable extends StatelessWidget {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => FotoIdentitasSiswa(
-                          nisn: siswa.nisn,
+                          nisn: siswa.nisn!,
                           adminPage: true,
                         ),
                       ),
@@ -85,27 +84,27 @@ class DetailSiswaTable extends StatelessWidget {
                                 children: [
                                   fileItem(
                                     "File nilai semester",
-                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_semester/${siswa.prestasi.nilaiSemester}",
+                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_semester/${siswa.prestasi!.nilaiSemester}",
                                   ),
                                   const SizedBox(height: 10),
                                   fileItem(
                                     "File nilai UAS",
-                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_uas/${siswa.prestasi.nilaiUas}",
+                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_uas/${siswa.prestasi!.nilaiUas}",
                                   ),
                                   const SizedBox(height: 10),
                                   fileItem(
                                     "File nilai UN",
-                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_un/${siswa.prestasi.nilaiUn}",
+                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/nilai_un/${siswa.prestasi!.nilaiUn}",
                                   ),
                                   const SizedBox(height: 10),
                                   fileItem(
                                     "File prestasi akademik",
-                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_akademik/${siswa.prestasi.prestasiAkademik}",
+                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_akademik/${siswa.prestasi!.prestasiAkademik}",
                                   ),
                                   const SizedBox(height: 10),
                                   fileItem(
                                     "File prestasi non akademik",
-                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_non_akademik/${siswa.prestasi.prestasiNonAkademik}",
+                                    "${Helper.domainNoApiUrl}/uploads/file_prestasi/prestasi_non_akademik/${siswa.prestasi!.prestasiNonAkademik}",
                                   ),
                                 ],
                               ),

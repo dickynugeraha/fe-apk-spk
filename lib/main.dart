@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
@@ -45,7 +47,7 @@ import './screens/splash_screen.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -57,9 +59,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProxyProvider<Auth, KategoriProvider>(
           create: (_) => KategoriProvider("", "", []),
           update: (_, auth, previousKategori) => KategoriProvider(
-            auth.token,
+            auth.token!,
             auth.username,
-            previousKategori.items ?? [],
+            previousKategori?.items ?? [],
           ),
         ),
         ChangeNotifierProxyProvider<Auth, BobotProvider>(
@@ -67,27 +69,27 @@ class MyApp extends StatelessWidget {
           update: (_, auth, prevBobot) => BobotProvider(
             auth.token,
             auth.username,
-            prevBobot.items ?? [],
+            prevBobot?.items ?? [],
           ),
         ),
         ChangeNotifierProxyProvider<Auth, SubBobotProvider>(
           create: (_) => SubBobotProvider(),
           update: (_, auth, previousSubBobot) =>
-              previousSubBobot..update(auth.token, auth.username),
+              previousSubBobot!..update(auth.token, auth.username),
         ),
         ChangeNotifierProxyProvider<Auth, SiswaProvider>(
           create: (_) => SiswaProvider(),
           update: (_, auth, prevSiswa) =>
-              prevSiswa..update(auth.token, auth.nisn),
+              prevSiswa!..update(auth.token, auth.nisn),
         ),
         ChangeNotifierProxyProvider<Auth, SekolahProvider>(
           create: (_) => SekolahProvider(),
-          update: (_, auth, prevSekolah) => prevSekolah..update(auth.token),
+          update: (_, auth, prevSekolah) => prevSekolah!..update(auth.token),
         ),
         ChangeNotifierProxyProvider<Auth, NilaiProvider>(
           create: (_) => NilaiProvider(),
           update: (_, auth, prevNilai) =>
-              prevNilai..update(auth.nisn, auth.token),
+              prevNilai!..update(auth.nisn, auth.token),
         ),
       ],
       child: Consumer<Auth>(
@@ -98,23 +100,23 @@ class MyApp extends StatelessWidget {
             fontFamily: "Montserrat",
             primaryColor: Colors.blue,
             splashColor: Colors.amber,
-            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-                .copyWith(secondary: Colors.amber),
-            errorColor: const Color.fromARGB(255, 210, 51, 75),
             textTheme: const TextTheme(
-                headline1: TextStyle(
+                displayLarge: TextStyle(
                   fontFamily: "Kaushan Script",
                   fontSize: 40,
                   fontStyle: FontStyle.italic,
                   color: Colors.white,
                   letterSpacing: 5,
                 ),
-                headline2: TextStyle(
+                displayMedium: TextStyle(
                   fontFamily: "Montserrat",
                   fontSize: 15,
                   color: Colors.white,
                   letterSpacing: 5,
                 )),
+            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
+                .copyWith(secondary: Colors.amber)
+                .copyWith(error: const Color.fromARGB(255, 210, 51, 75)),
           ),
           home:
               // token != null
@@ -144,7 +146,7 @@ class MyApp extends StatelessWidget {
             SubBobotScreen.routeName: (_) => const SubBobotScreen(),
             SubBobotEditScreen.routeName: (_) => const SubBobotEditScreen(),
             SiswaScreen.routeName: (_) => const SiswaScreen(),
-            SiswaDetailScreen.routeName: (_) => const SiswaDetailScreen(),
+            SiswaDetailScreen.routeName: (_) => SiswaDetailScreen(),
             NilaiScreen.routeName: (_) => const NilaiScreen(),
           },
         ),

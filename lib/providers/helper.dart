@@ -8,7 +8,7 @@ class Helper {
   static const domainNoApiUrl = "https://e-prestasi.safesor.co.id";
 
   static void checkAuthentication(String token, BuildContext context) {
-    if (token.isEmpty || token == null) {
+    if (token.isEmpty) {
       Navigator.of(context).pushReplacementNamed(AuthScreen.routeName);
     }
   }

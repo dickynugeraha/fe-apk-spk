@@ -8,7 +8,7 @@ import '../../widgets/table_siswa.dart';
 
 class SiswaScreen extends StatefulWidget {
   static const routeName = "/siswa";
-  const SiswaScreen({Key key}) : super(key: key);
+  const SiswaScreen({Key? key}) : super(key: key);
 
   @override
   State<SiswaScreen> createState() => _SiswaScreenState();

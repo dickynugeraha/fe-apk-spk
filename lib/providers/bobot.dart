@@ -8,15 +8,15 @@ import '../models/bobot.dart';
 import '../models/kategori.dart';
 
 class BobotProvider with ChangeNotifier {
-  String _token;
-  String _username;
+  final String _token;
+  final String _username;
 
   List<Bobot> _items = [];
   List<Bobot> get items {
     return [..._items];
   }
 
-  String get token {
+  String? get token {
     return _token;
   }
 
@@ -27,7 +27,7 @@ class BobotProvider with ChangeNotifier {
   BobotProvider(this._token, this._username, this._items);
 
   Bobot findById(String bobotId) {
-    return _items.firstWhere((bobot) => bobot.id == bobotId);
+    return _items!.firstWhere((bobot) => bobot.id == bobotId);
   }
 
   Future<void> addBobot(String parameterId, Bobot valueBobot) async {
@@ -53,11 +53,11 @@ class BobotProvider with ChangeNotifier {
         parameterId: parameterId,
         kategori: Kategori(
           id: parameterId,
-          nama: valueBobot.kategori.nama,
-          sifat: valueBobot.kategori.sifat,
+          nama: valueBobot.kategori!.nama,
+          sifat: valueBobot.kategori!.sifat,
         ),
       );
-      _items.add(newBobot);
+      _items!.add(newBobot);
       notifyListeners();
     } catch (e) {
       rethrow;
@@ -65,7 +65,7 @@ class BobotProvider with ChangeNotifier {
   }
 
   Future<void> editBobot(Bobot newBobot) async {
-    final bobotIndex = _items.indexWhere((el) => el.id == newBobot.id);
+    final bobotIndex = _items!.indexWhere((el) => el.id == newBobot.id);
     final url = Uri.parse("${Helper.domainUrl}/bobot/${newBobot.id}");
     if (bobotIndex >= 0) {
       await http.put(
@@ -79,15 +79,15 @@ class BobotProvider with ChangeNotifier {
           "bobot": newBobot.bobot,
         }),
       );
-      _items[bobotIndex] = newBobot;
+      _items![bobotIndex] = newBobot;
       notifyListeners();
     }
   }
 
   Future<void> deleteBobot(String bobotId) async {
-    final bobotIndex = _items.indexWhere((element) => element.id == bobotId);
-    var choosenBobot = _items[bobotIndex];
-    _items.removeAt(bobotIndex);
+    final bobotIndex = _items!.indexWhere((element) => element.id == bobotId);
+    Bobot? choosenBobot = _items![bobotIndex];
+    _items!.removeAt(bobotIndex);
     notifyListeners();
     final url = Uri.parse("${Helper.domainUrl}/bobot/$bobotId");
     final response = await http.delete(url, headers: {
@@ -97,7 +97,7 @@ class BobotProvider with ChangeNotifier {
     });
     final responseData = json.decode(response.body);
     if (responseData["error"] != null) {
-      _items.insert(bobotIndex, choosenBobot);
+      _items!.insert(bobotIndex, choosenBobot);
       notifyListeners();
       throw HttpException(responseData["error"]);
     }

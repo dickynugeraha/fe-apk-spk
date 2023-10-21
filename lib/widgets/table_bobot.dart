@@ -5,7 +5,7 @@ import '../screens/admin_bobot/bobot_edit_screen.dart';
 import '../providers/bobot.dart';
 
 class BobotTable extends StatelessWidget {
-  const BobotTable({Key key}) : super(key: key);
+  const BobotTable({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class BobotTable extends StatelessWidget {
           cells: [
             DataCell(SizedBox(
               width: 100,
-              child: Text(el.kategori.nama),
+              child: Text(el.kategori!.nama!),
             )),
             DataCell(Text((el.bobot).toString())),
             DataCell(
@@ -78,7 +78,7 @@ class BobotTable extends StatelessWidget {
                                     try {
                                       await Provider.of<BobotProvider>(context,
                                               listen: false)
-                                          .deleteBobot(el.id);
+                                          .deleteBobot(el.id!);
 
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(

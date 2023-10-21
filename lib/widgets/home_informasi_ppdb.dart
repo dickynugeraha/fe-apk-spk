@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../providers/sekolah.dart';
 
 class InformasiPPDB extends StatelessWidget {
-  const InformasiPPDB({Key key}) : super(key: key);
+  const InformasiPPDB({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +45,12 @@ class InformasiPPDB extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "4. Tanggal pendaftaran dibuka: ${sekolah.pendaftaranDibuka.substring(0, 11)}, tanggal pendaftaran ditutup: ${sekolah.pendaftaranDitutup.substring(0, 11)}.",
+                  "4. Tanggal pendaftaran dibuka: ${sekolah!.pendaftaranDibuka!.substring(0, 11)}, tanggal pendaftaran ditutup: ${sekolah.pendaftaranDitutup!.substring(0, 11)}.",
                   textAlign: TextAlign.left,
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "5. Tanggal pengumuman seleksi: ${sekolah.pengumumanSeleksi.substring(0, 11)}, pengumuman seleksi dapat dilihat melalui gmail masing-masing.",
+                  "5. Tanggal pengumuman seleksi: ${sekolah.pengumumanSeleksi!.substring(0, 11)}, pengumuman seleksi dapat dilihat melalui gmail masing-masing.",
                   textAlign: TextAlign.justify,
                 ),
                 const SizedBox(height: 10),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ppdb_prestasi/models/siswa.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/siswa.dart';
@@ -8,19 +9,19 @@ class FotoIdentitasSiswa extends StatelessWidget {
   final String nisn;
   final bool adminPage;
   const FotoIdentitasSiswa({
-    Key key,
-    this.nisn,
-    this.adminPage,
+    Key? key,
+    required this.nisn,
+    required this.adminPage,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var siswa;
+    Siswa siswa;
 
     if (adminPage) {
       siswa = Provider.of<SiswaProvider>(context).getByNisn(nisn);
     } else {
-      siswa = Provider.of<SiswaProvider>(context).item;
+      siswa = Provider.of<SiswaProvider>(context).item!;
     }
 
     return Scaffold(

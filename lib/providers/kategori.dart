@@ -158,7 +158,7 @@ class KategoriProvider with ChangeNotifier {
   Future<void> deleteKategori(String kategoriId) async {
     final indexKategori =
         _items.indexWhere((kategori) => kategori.id == kategoriId);
-    var choosenKategori = _items[indexKategori];
+    Kategori? choosenKategori = _items[indexKategori];
     _items.removeAt(indexKategori);
     notifyListeners();
     final url = Uri.parse('${Helper.domainUrl}/parameter/$kategoriId');

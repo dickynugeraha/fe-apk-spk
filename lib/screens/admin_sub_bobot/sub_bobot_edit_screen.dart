@@ -8,14 +8,14 @@ import '../../providers/sub_bobot.dart';
 
 class SubBobotEditScreen extends StatefulWidget {
   static const routeName = "/sub-bobot-edit.dart";
-  const SubBobotEditScreen({Key key}) : super(key: key);
+  const SubBobotEditScreen({Key? key}) : super(key: key);
 
   @override
   State<SubBobotEditScreen> createState() => _SubBobotEditScreenState();
 }
 
 class _SubBobotEditScreenState extends State<SubBobotEditScreen> {
-  String kategoriId_selected;
+  String? kategoriId_selected;
   var _isInit = true;
   var _isLoading = false;
   var _editingSubBobot = SubBobot(
@@ -32,47 +32,46 @@ class _SubBobotEditScreenState extends State<SubBobotEditScreen> {
     "parameterId": "",
   };
   final _form = GlobalKey<FormState>();
-  List<Kategori> kategories;
+  List<Kategori>? kategories;
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
       final args =
-          ModalRoute.of(context).settings.arguments as Map<String, String>;
+          ModalRoute.of(context)?.settings.arguments as Map<String, String>?;
       kategories = Provider.of<KategoriProvider>(context, listen: false).items;
 
       if (args != null) {
         _editingSubBobot =
-            Provider.of<SubBobotProvider>(context).getById(args['id']);
+            Provider.of<SubBobotProvider>(context).getById(args!['id']!);
         _initValue = {
-          "id": _editingSubBobot.id,
-          "nama": args["kategori"],
-          "bobot": _editingSubBobot.bobot,
-          "keterangan": _editingSubBobot.keterangan,
-          "parameterId": _editingSubBobot.parameterId,
+          "id": _editingSubBobot.id!,
+          "nama": args["kategori"]!,
+          "bobot": _editingSubBobot.bobot!,
+          "keterangan": _editingSubBobot.keterangan!,
+          "parameterId": _editingSubBobot.parameterId!,
         };
       }
-
-      _isInit = false;
     }
+    _isInit = false;
     super.didChangeDependencies();
   }
 
   List<DropdownMenuItem<String>> get kategoriesDropdown {
     List<DropdownMenuItem<String>> items = [];
 
-    for (var el in kategories) {
-      items.add(DropdownMenuItem(value: el.id, child: Text(el.nama)));
+    for (var el in kategories!) {
+      items.add(DropdownMenuItem(value: el.id, child: Text(el.nama!)));
     }
     return items;
   }
 
   Future<void> _formSave() async {
-    final isValid = _form.currentState.validate();
+    final isValid = _form.currentState!.validate();
     if (!isValid) {
       return;
     }
-    _form.currentState.save();
+    _form.currentState!.save();
 
     setState(() {
       _isLoading = true;
@@ -144,7 +143,7 @@ class _SubBobotEditScreenState extends State<SubBobotEditScreen> {
                           ),
                           _editingSubBobot.id != null
                               ? Text(
-                                  _initValue["nama"],
+                                  _initValue["nama"] as String,
                                   style: const TextStyle(
                                       fontStyle: FontStyle.italic),
                                 )
@@ -169,7 +168,7 @@ class _SubBobotEditScreenState extends State<SubBobotEditScreen> {
                       TextFormField(
                         decoration:
                             const InputDecoration(labelText: "Keterangan"),
-                        initialValue: _initValue["keterangan"],
+                        initialValue: _initValue["keterangan"] as String,
                         onSaved: (newValue) {
                           _editingSubBobot = SubBobot(
                             id: _editingSubBobot.id,
@@ -179,7 +178,7 @@ class _SubBobotEditScreenState extends State<SubBobotEditScreen> {
                           );
                         },
                         validator: ((value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return "Silahkan input keterangan";
                           }
                           return null;
@@ -193,13 +192,13 @@ class _SubBobotEditScreenState extends State<SubBobotEditScreen> {
                           _editingSubBobot = SubBobot(
                             id: _editingSubBobot.id,
                             keterangan: _editingSubBobot.keterangan,
-                            bobot: int.parse(newValue),
+                            bobot: int.parse(newValue!),
                             parameterId: _editingSubBobot.parameterId,
                           );
                         },
                         keyboardType: TextInputType.number,
                         validator: ((value) {
-                          if (value.isEmpty) {
+                          if (value!.isEmpty) {
                             return "Silahkan input nama kategori";
                           }
                           return null;

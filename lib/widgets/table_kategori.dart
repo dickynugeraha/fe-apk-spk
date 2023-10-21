@@ -7,7 +7,7 @@ import '../providers/kategori.dart';
 
 class KategoriTable extends StatelessWidget {
   final bool isKategoriPage;
-  const KategoriTable(this.isKategoriPage, {Key key}) : super(key: key);
+  const KategoriTable(this.isKategoriPage, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class KategoriTable extends StatelessWidget {
       rows: kategories.map((kategori) {
         return DataRow(
           cells: [
-            DataCell(Text(kategori.nama)),
+            DataCell(Text(kategori.nama!)),
             DataCell(
               Row(
                 children: [
@@ -81,7 +81,7 @@ class KategoriTable extends StatelessWidget {
                                       await Provider.of<KategoriProvider>(
                                               context,
                                               listen: false)
-                                          .deleteKategori(kategori.id);
+                                          .deleteKategori(kategori.id!);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(

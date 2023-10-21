@@ -5,7 +5,7 @@ import '../providers/siswa.dart';
 import '../screens/admin_siswa/siswa_detail_screen.dart';
 
 class SiswaTable extends StatelessWidget {
-  const SiswaTable({Key key}) : super(key: key);
+  const SiswaTable({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class SiswaTable extends StatelessWidget {
                   return DataRow(
                     cells: [
                       DataCell(
-                        Text(siswa.nama),
+                        Text(siswa.nama!),
                       ),
                       DataCell(
                         IconButton(

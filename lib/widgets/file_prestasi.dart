@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../providers/helper.dart';
-import 'dart:io';
-import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 
 class FilePrestasi extends StatelessWidget {
-  final String nilaiSemester;
-  final String nilaiUn;
-  final String nilaiUas;
-  final String prestasiAkademik;
-  final String prestasiNonAkademik;
+  final String? nilaiSemester;
+  final String? nilaiUn;
+  final String? nilaiUas;
+  final String? prestasiAkademik;
+  final String? prestasiNonAkademik;
 
   const FilePrestasi({
-    Key key,
+    Key? key,
     this.nilaiSemester,
     this.nilaiUas,
     this.nilaiUn,

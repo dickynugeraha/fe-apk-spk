@@ -9,7 +9,7 @@ import '../../widgets/table_sub_bobot.dart';
 class SubBobotScreen extends StatefulWidget {
   static const routeName = "/sub-bobot";
 
-  const SubBobotScreen({Key key}) : super(key: key);
+  const SubBobotScreen({Key? key}) : super(key: key);
 
   @override
   State<SubBobotScreen> createState() => _SubBobotScreenState();
@@ -22,10 +22,12 @@ class _SubBobotScreenState extends State<SubBobotScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final kategoriId = ModalRoute.of(context).settings.arguments as String;
-      Provider.of<SubBobotProvider>(context)
-          .fetchAndSetSubBobot(kategoriId)
-          .then((_) => _isLoading = false);
+      final kategoriId = ModalRoute.of(context)?.settings.arguments as String?;
+      if (kategoriId != null) {
+        Provider.of<SubBobotProvider>(context)
+            .fetchAndSetSubBobot(kategoriId!)
+            .then((_) => _isLoading = false);
+      }
       _isInit = false;
     }
 
@@ -45,7 +47,7 @@ class _SubBobotScreenState extends State<SubBobotScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(_isLoading ? "" : subBobot.kategori.nama),
+          title: Text(_isLoading ? "" : subBobot!.kategori!.nama!),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),

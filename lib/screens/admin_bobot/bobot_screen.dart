@@ -9,7 +9,7 @@ import '../../widgets/table_bobot.dart';
 class BobotScreen extends StatefulWidget {
   static const routeName = "/bobot";
 
-  const BobotScreen({Key key}) : super(key: key);
+  const BobotScreen({Key? key}) : super(key: key);
 
   @override
   State<BobotScreen> createState() => _BobotScreenState();

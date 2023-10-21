@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 
 class Siswa {
-  final String nisn;
-  final String asalSekolah;
-  final String nama;
-  final String alamat;
-  final String jenisKelamin;
-  final String email;
-  final String noHpOrtu;
-  final String fotoProfil;
-  final String fotoAkte;
-  final String fotoIjazah;
-  final String fotoKK;
-  final String fotoKtpOrtu;
-  final Prestasi prestasi;
-  final Nilai nilai;
+  final String? nisn;
+  final String? asalSekolah;
+  final String? nama;
+  final String? alamat;
+  final String? jenisKelamin;
+  final String? email;
+  final String? noHpOrtu;
+  final String? fotoProfil;
+  final String? fotoAkte;
+  final String? fotoIjazah;
+  final String? fotoKK;
+  final String? fotoKtpOrtu;
+  final Prestasi? prestasi;
+  final Nilai? nilai;
 
   Siswa({
     @required this.nisn,
@@ -35,13 +35,13 @@ class Siswa {
 }
 
 class Prestasi {
-  final String id;
-  final String nisn;
-  final String nilaiSemester;
-  final String nilaiUn;
-  final String nilaiUas;
-  final String prestasiAkademik;
-  final String prestasiNonAkademik;
+  final String? id;
+  final String? nisn;
+  final String? nilaiSemester;
+  final String? nilaiUn;
+  final String? nilaiUas;
+  final String? prestasiAkademik;
+  final String? prestasiNonAkademik;
 
   Prestasi({
     this.id,
@@ -55,11 +55,11 @@ class Prestasi {
 }
 
 class Nilai {
-  final String id;
-  final String nisn;
-  final String parameterId;
-  final String namaParameter;
-  final int nilai;
+  final String? id;
+  final String? nisn;
+  final String? parameterId;
+  final String? namaParameter;
+  final int? nilai;
 
   Nilai({
     @required this.id,
@@ -71,10 +71,10 @@ class Nilai {
 }
 
 class Ranking {
-  final String nisn;
-  final String nama;
-  final String asalSekolah;
-  final double nilai;
+  final String? nisn;
+  final String? nama;
+  final String? asalSekolah;
+  final double? nilai;
 
   Ranking({
     @required this.nama,

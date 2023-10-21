@@ -8,7 +8,7 @@ import '../../widgets/table_nilai.dart';
 
 class NilaiScreen extends StatefulWidget {
   static const routeName = "/nilai-ranking";
-  const NilaiScreen({Key key}) : super(key: key);
+  const NilaiScreen({Key? key}) : super(key: key);
 
   @override
   State<NilaiScreen> createState() => _NilaiScreenState();

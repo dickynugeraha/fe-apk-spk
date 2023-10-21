@@ -5,13 +5,13 @@ import '../screens/admin_sub_bobot/sub_bobot_edit_screen.dart';
 import '../providers/sub_bobot.dart';
 
 class SubBobotTable extends StatelessWidget {
-  const SubBobotTable({Key key}) : super(key: key);
+  const SubBobotTable({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final subBobot = Provider.of<SubBobotProvider>(context).item;
 
-    return subBobot.subBobot.isEmpty
+    return subBobot!.subBobot!.isEmpty
         ? const Padding(
             padding: EdgeInsets.only(top: 20),
             child: Text(
@@ -51,7 +51,7 @@ class SubBobotTable extends StatelessWidget {
                   ),
                 ),
               ],
-              rows: subBobot.subBobot.map(
+              rows: subBobot!.subBobot!.map(
                 (el) {
                   return DataRow(
                     cells: [
@@ -59,7 +59,7 @@ class SubBobotTable extends StatelessWidget {
                         width: 100,
                         child: Text((el.bobot).toString()),
                       )),
-                      DataCell(Text(el.keterangan)),
+                      DataCell(Text(el.keterangan!)),
                       DataCell(
                         Row(
                           children: [
@@ -69,7 +69,7 @@ class SubBobotTable extends StatelessWidget {
                                     SubBobotEditScreen.routeName,
                                     arguments: {
                                       "id": el.id,
-                                      "kategori": subBobot.kategori.nama,
+                                      "kategori": subBobot!.kategori!.nama!,
                                     },
                                   );
                                 },
@@ -100,7 +100,7 @@ class SubBobotTable extends StatelessWidget {
                                                             SubBobotProvider>(
                                                         context,
                                                         listen: false)
-                                                    .deleteSubBobot(el.id);
+                                                    .deleteSubBobot(el.id!);
 
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(

@@ -9,7 +9,7 @@ import '../../models/kategori.dart';
 
 class BobotEditScreen extends StatefulWidget {
   static const routeName = "/bobot-edit";
-  const BobotEditScreen({Key key}) : super(key: key);
+  const BobotEditScreen({Key? key}) : super(key: key);
 
   @override
   State<BobotEditScreen> createState() => _BobotEditScreenState();
@@ -35,26 +35,26 @@ class _BobotEditScreenState extends State<BobotEditScreen> {
     },
   };
   final _form = GlobalKey<FormState>();
-  List<Kategori> kategories;
-  String kategoriId_selected;
+  List<Kategori>? kategories;
+  String? kategoriId_selected;
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final bobotId = ModalRoute.of(context).settings.arguments as String;
+      final bobotId = ModalRoute.of(context)?.settings.arguments as String?;
       kategories = Provider.of<KategoriProvider>(context, listen: false).items;
 
       if (bobotId != null) {
         _editingBobot = Provider.of<BobotProvider>(context, listen: false)
             .findById(bobotId);
         _initValue = {
-          "id": _editingBobot.id,
-          "bobot": _editingBobot.bobot,
-          "parameterId": _editingBobot.parameterId,
+          "id": _editingBobot.id!,
+          "bobot": _editingBobot.bobot!,
+          "parameterId": _editingBobot.parameterId!,
           "kategori": {
-            "id": _editingBobot.kategori.id,
-            "nama": _editingBobot.kategori.nama,
-            "sifat": _editingBobot.kategori.sifat,
+            "id": _editingBobot.kategori!.id,
+            "nama": _editingBobot.kategori!.nama,
+            "sifat": _editingBobot.kategori!.sifat,
           }
         };
       }
@@ -65,18 +65,18 @@ class _BobotEditScreenState extends State<BobotEditScreen> {
 
   List<DropdownMenuItem<String>> get kategoriesDropdown {
     List<DropdownMenuItem<String>> items = [];
-    for (var el in kategories) {
-      items.add(DropdownMenuItem(value: el.id, child: Text(el.nama)));
+    for (var el in kategories!) {
+      items.add(DropdownMenuItem(value: el.id, child: Text(el.nama!)));
     }
     return items;
   }
 
   Future<void> _formSave() async {
-    final isValid = _form.currentState.validate();
+    final isValid = _form.currentState!.validate();
     if (!isValid) {
       return;
     }
-    _form.currentState.save();
+    _form.currentState!.save();
     setState(() {
       _isLoading = true;
     });
@@ -86,7 +86,7 @@ class _BobotEditScreenState extends State<BobotEditScreen> {
     } else {
       try {
         await Provider.of<BobotProvider>(context, listen: false).addBobot(
-          kategoriId_selected,
+          kategoriId_selected!,
           _editingBobot,
         );
       } catch (e) {
@@ -149,7 +149,7 @@ class _BobotEditScreenState extends State<BobotEditScreen> {
                                 ),
                                 _editingBobot.id != null
                                     ? Text(
-                                        _editingBobot.kategori.nama,
+                                        _editingBobot.kategori!.nama!,
                                         style: const TextStyle(
                                             fontStyle: FontStyle.italic),
                                       )
@@ -161,7 +161,7 @@ class _BobotEditScreenState extends State<BobotEditScreen> {
                                               Provider.of<KategoriProvider>(
                                             context,
                                             listen: false,
-                                          ).getById(value);
+                                          ).getById(value!);
 
                                           setState(
                                             () {
@@ -172,10 +172,11 @@ class _BobotEditScreenState extends State<BobotEditScreen> {
                                                     _editingBobot.parameterId,
                                                 bobot: _editingBobot.bobot,
                                                 kategori: Kategori(
-                                                  id: _editingBobot.kategori.id,
+                                                  id: _editingBobot
+                                                      .kategori!.id,
                                                   nama: kategoriSelected.nama,
                                                   sifat: _editingBobot
-                                                      .kategori.sifat,
+                                                      .kategori!.sifat,
                                                 ),
                                               );
                                             },
@@ -193,17 +194,17 @@ class _BobotEditScreenState extends State<BobotEditScreen> {
                                 _editingBobot = Bobot(
                                   id: _editingBobot.id,
                                   parameterId: _editingBobot.parameterId,
-                                  bobot: double.parse(newValue),
+                                  bobot: double.parse(newValue!),
                                   kategori: Kategori(
-                                    id: _editingBobot.kategori.id,
-                                    nama: _editingBobot.kategori.nama,
-                                    sifat: _editingBobot.kategori.sifat,
+                                    id: _editingBobot.kategori!.id,
+                                    nama: _editingBobot.kategori!.nama,
+                                    sifat: _editingBobot.kategori!.sifat,
                                   ),
                                 );
                               },
                               keyboardType: TextInputType.number,
                               validator: ((value) {
-                                if (value.isEmpty) {
+                                if (value!.isEmpty) {
                                   return "Silahkan input nama kategori";
                                 }
                                 return null;

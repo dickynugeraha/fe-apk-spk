@@ -12,7 +12,7 @@ import '../../models/sekolah.dart';
 class SekolahEditScreen extends StatefulWidget {
   static const routeName = "/sekolah-edit";
 
-  const SekolahEditScreen({Key key}) : super(key: key);
+  const SekolahEditScreen({Key? key}) : super(key: key);
 
   @override
   State<SekolahEditScreen> createState() => _SekolahEditScreenState();
@@ -30,21 +30,21 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
   final pendaftaranBukaController = TextEditingController();
   final pendaftaranTutupController = TextEditingController();
   final pengumumanSeleksiController = TextEditingController();
-  File fotoLogo;
-  File fotoIdentitas1;
-  File fotoIdentitas2;
-  File fotoIdentitas3;
-  File fotoAlurPendaftaran;
+  File? fotoLogo;
+  File? fotoIdentitas1;
+  File? fotoIdentitas2;
+  File? fotoIdentitas3;
+  File? fotoAlurPendaftaran;
 
   @override
   void didChangeDependencies() {
     if (isInit) {
       final sekolah = Provider.of<SekolahProvider>(context, listen: false).item;
-      namaController.text = sekolah.nama;
-      deskripsiController.text = sekolah.deskripsi;
-      pendaftaranBukaController.text = sekolah.pendaftaranDibuka;
-      pendaftaranTutupController.text = sekolah.pendaftaranDitutup;
-      pengumumanSeleksiController.text = sekolah.pengumumanSeleksi;
+      namaController.text = sekolah!.nama!;
+      deskripsiController.text = sekolah!.deskripsi!;
+      pendaftaranBukaController.text = sekolah!.pendaftaranDibuka!;
+      pendaftaranTutupController.text = sekolah!.pendaftaranDitutup!;
+      pengumumanSeleksiController.text = sekolah!.pengumumanSeleksi!;
       isInit = false;
     }
     super.didChangeDependencies();
@@ -53,10 +53,10 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
   @override
   Widget build(BuildContext context) {
     Future<void> submitForm() async {
-      if (!form.currentState.validate()) {
+      if (!form.currentState!.validate()) {
         return;
       }
-      form.currentState.save();
+      form.currentState!.save();
       setState(() {
         isLoading = true;
       });
@@ -71,9 +71,9 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
                   pendaftaranDitutup: pendaftaranTutupController.text,
                   pengumumanSeleksi: pengumumanSeleksiController.text,
                   fotoIdentitasSekolah:
-                      "${fotoIdentitas1.path}|${fotoIdentitas2.path}|${fotoIdentitas3.path}",
-                  fotoLogo: fotoLogo.path,
-                  fotoAlurPendaftaran: fotoAlurPendaftaran.path,
+                      "${fotoIdentitas1!.path}|${fotoIdentitas2!.path}|${fotoIdentitas3!.path}",
+                  fotoLogo: fotoLogo!.path,
+                  fotoAlurPendaftaran: fotoAlurPendaftaran!.path,
                 )
               : Sekolah(
                   deskripsi: deskripsiController.text,
@@ -135,7 +135,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
                       controller: namaController,
                       onSaved: (newValue) {
                         setState(() {
-                          namaController.text = newValue;
+                          namaController.text = newValue!;
                         });
                       },
                     ),
@@ -147,7 +147,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
                       maxLines: 4,
                       onSaved: (newValue) {
                         setState(() {
-                          deskripsiController.text = newValue;
+                          deskripsiController.text = newValue!;
                         });
                       },
                     ),
@@ -157,7 +157,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
                       value: isUpdateFoto,
                       onChanged: (value) {
                         setState(() {
-                          isUpdateFoto = value;
+                          isUpdateFoto = value!;
                         });
                       },
                     ),
@@ -173,7 +173,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
                                 allowMultiple: false,
                               );
                               setState(() {
-                                fotoLogo = File(pickedFile.files.single.path);
+                                fotoLogo = File(pickedFile!.files.single.path!);
                               });
                             },
                           ),
@@ -186,7 +186,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
                               );
                               setState(() {
                                 fotoAlurPendaftaran =
-                                    File(pickedFile.files.single.path);
+                                    File(pickedFile!.files.single.path!);
                               });
                             },
                           ),
@@ -199,7 +199,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
                               );
                               setState(() {
                                 fotoIdentitas1 =
-                                    File(pickedFile.files.single.path);
+                                    File(pickedFile!.files.single.path!);
                               });
                             },
                           ),
@@ -212,7 +212,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
                               );
                               setState(() {
                                 fotoIdentitas2 =
-                                    File(pickedFile.files.single.path);
+                                    File(pickedFile!.files.single.path!);
                               });
                             },
                           ),
@@ -225,7 +225,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
                               );
                               setState(() {
                                 fotoIdentitas3 =
-                                    File(pickedFile.files.single.path);
+                                    File(pickedFile!.files.single.path!);
                               });
                             },
                           ),
@@ -247,7 +247,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
 
                         setState(() {
                           pendaftaranBukaController.text =
-                              DateFormat("dd-MM-yyyy").format(date);
+                              DateFormat("dd-MM-yyyy").format(date!);
                         });
                       },
                     ),
@@ -267,7 +267,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
 
                         setState(() {
                           pendaftaranTutupController.text =
-                              DateFormat("dd-MM-yyyy").format(date);
+                              DateFormat("dd-MM-yyyy").format(date!);
                         });
                       },
                     ),
@@ -287,7 +287,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
 
                         setState(() {
                           pengumumanSeleksiController.text =
-                              DateFormat("dd-MM-yyyy").format(date);
+                              DateFormat("dd-MM-yyyy").format(date!);
                         });
                       },
                     ),
@@ -301,20 +301,10 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
     );
   }
 
-  // Future<void> inputDate(BuildContext context) async {
-  //   showBottomSheet(
-  //     context: context,
-  //     builder: (context) => Container(
-  //       padding: const EdgeInsets.all(20),
-  //       child: ,
-  //     ),
-  //   );
-  // }
-
   Widget inputTypeFile({
     // String path,
-    String title,
-    Function onPressed,
+    String? title,
+    Function()? onPressed,
   }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -341,7 +331,7 @@ class _SekolahEditScreenState extends State<SekolahEditScreen> {
               const SizedBox(width: 10),
               Flexible(
                 child: Text(
-                  title,
+                  title!,
                   style: const TextStyle(overflow: TextOverflow.ellipsis),
                 ),
               ),

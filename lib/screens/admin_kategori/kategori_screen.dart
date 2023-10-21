@@ -10,7 +10,7 @@ import '../../widgets/table_kategori.dart';
 class KategoriScreen extends StatefulWidget {
   static const routeName = "/kategori";
 
-  const KategoriScreen({Key key}) : super(key: key);
+  const KategoriScreen({Key? key}) : super(key: key);
 
   @override
   State<KategoriScreen> createState() => _KategoriScreenState();
@@ -19,12 +19,12 @@ class KategoriScreen extends StatefulWidget {
 class _KategoriScreenState extends State<KategoriScreen> {
   var _isInit = true;
   var _isLoading = true;
-  bool _isKategoriPage;
+  bool? _isKategoriPage;
 
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      _isKategoriPage = ModalRoute.of(context).settings.arguments as bool;
+      _isKategoriPage = ModalRoute.of(context)?.settings.arguments as bool;
       _isKategoriPage ??= true;
       Provider.of<KategoriProvider>(context)
           .fetchAndSetKategories()
@@ -46,7 +46,7 @@ class _KategoriScreenState extends State<KategoriScreen> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(_isKategoriPage ? "Kategori" : "Sub Bobot"),
+          title: Text(_isKategoriPage! ? "Kategori" : "Sub Bobot"),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
@@ -63,11 +63,11 @@ class _KategoriScreenState extends State<KategoriScreen> {
                   width: double.infinity,
                   child: Card(
                     margin: const EdgeInsets.all(15),
-                    child: KategoriTable(_isKategoriPage),
+                    child: KategoriTable(_isKategoriPage!),
                   ),
                 ),
               ),
-        floatingActionButton: _isKategoriPage
+        floatingActionButton: _isKategoriPage!
             ? FloatingActionButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(KategoriEditScreen.routeName);

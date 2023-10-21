@@ -6,7 +6,7 @@ import '../providers/helper.dart';
 import '../providers/sekolah.dart';
 
 class SekolahTable extends StatelessWidget {
-  const SekolahTable({Key key}) : super(key: key);
+  const SekolahTable({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +30,14 @@ class SekolahTable extends StatelessWidget {
         rows: [
           DataRow(cells: [
             const DataCell(Text("Nama sekolah")),
-            DataCell(Text(sekolah.nama)),
+            DataCell(Text(sekolah!.nama!)),
           ]),
           DataRow(cells: [
             const DataCell(Text("Keunggulan")),
             DataCell(SizedBox(
               width: 200,
               child: Text(
-                sekolah.deskripsi,
+                sekolah.deskripsi!,
                 overflow: TextOverflow.ellipsis,
               ),
             )),
@@ -68,7 +68,7 @@ class SekolahTable extends StatelessWidget {
             const DataCell(Text("Foto identitas sekolah")),
             DataCell(GestureDetector(
               onTap: () {
-                var fotoSekolah = sekolah.fotoIdentitasSekolah.split("|");
+                var fotoSekolah = sekolah.fotoIdentitasSekolah!.split("|");
 
                 showDialog(
                   context: context,

@@ -6,7 +6,7 @@ import '../screens/siswa_prestasi/prestasi_bobot_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = "/dashboard";
-  const DashboardScreen({Key key}) : super(key: key);
+  const DashboardScreen({Key? key}) : super(key: key);
 
   @override
   State<DashboardScreen> createState() => _ProfilScreenState();

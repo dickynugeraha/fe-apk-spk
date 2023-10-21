@@ -13,7 +13,7 @@ import '../../widgets/home_informasi_user_guide.dart';
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
 
-  const HomeScreen({Key key}) : super(key: key);
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                sekolah.nama.toUpperCase(),
+                                sekolah!.nama!.toUpperCase(),
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               CircleAvatar(
                                 backgroundColor: Colors.white,
                                 child: Image.network(
-                                  "${Helper.domainNoApiUrl}/uploads/foto_logo/${sekolah.fotoLogo}",
+                                  "${Helper.domainNoApiUrl}/uploads/foto_logo/${sekolah!.fotoLogo}",
                                   fit: BoxFit.cover,
                                 ),
                               )
@@ -84,13 +84,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           CarouselSlider(
                             items: [
                               carouselItem(
-                                "${Helper.domainNoApiUrl}/uploads/foto_identitas_sekolah/${sekolah.fotoIdentitasSekolah.split("|").first}",
+                                "${Helper.domainNoApiUrl}/uploads/foto_identitas_sekolah/${sekolah.fotoIdentitasSekolah!.split("|").first}",
                               ),
                               carouselItem(
-                                "${Helper.domainNoApiUrl}/uploads/foto_identitas_sekolah/${sekolah.fotoIdentitasSekolah.split("|")[1]}",
+                                "${Helper.domainNoApiUrl}/uploads/foto_identitas_sekolah/${sekolah.fotoIdentitasSekolah!.split("|")[1]}",
                               ),
                               carouselItem(
-                                "${Helper.domainNoApiUrl}/uploads/foto_identitas_sekolah/${sekolah.fotoIdentitasSekolah.split("|").last}",
+                                "${Helper.domainNoApiUrl}/uploads/foto_identitas_sekolah/${sekolah.fotoIdentitasSekolah!.split("|").last}",
                               ),
                             ],
                             options: CarouselOptions(
@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   "${Helper.domainNoApiUrl}/uploads/foto_logo/${sekolah.fotoLogo}",
                               isPopup: true,
                               title:
-                                  "Pendaftaran jalur prestasi di ${sekolah.nama.toUpperCase()}",
+                                  "Pendaftaran jalur prestasi di ${sekolah.nama!.toUpperCase()}",
                               subtitle:
                                   "Alur dan tahapan pendaftaran jalur prestasi meliputi tata cara dan peraturan.",
                             ),
@@ -211,10 +211,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget linkItem({
     bool isInfoPPDB = true,
     bool isPopup = false,
-    String link,
-    String imageUrl,
-    String title,
-    String subtitle,
+    String? link,
+    String? imageUrl,
+    String? title,
+    String? subtitle,
   }) {
     return InkWell(
       onTap: () async {
@@ -232,7 +232,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         } else {
-          final url = Uri.parse(link);
+          final url = Uri.parse(link!);
           await launchUrl(url);
         }
       },
@@ -252,17 +252,17 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(200),
                 child: Image.network(
-                  imageUrl,
+                  imageUrl!,
                   fit: BoxFit.contain,
                 ),
               ),
             ),
             title: Text(
-              title,
+              title!,
               style: const TextStyle(fontSize: 14),
             ),
             subtitle: Text(
-              subtitle,
+              subtitle!,
               style: const TextStyle(
                 fontSize: 12,
                 fontStyle: FontStyle.italic,

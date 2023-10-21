@@ -9,7 +9,7 @@ import 'siswa_tab.dart';
 class AuthLogin extends StatefulWidget {
   final bool isAdminSection;
 
-  const AuthLogin(this.isAdminSection, {Key key}) : super(key: key);
+  const AuthLogin(this.isAdminSection, {Key? key}) : super(key: key);
 
   @override
   State<AuthLogin> createState() => _AuthLoginState();
@@ -21,22 +21,22 @@ class _AuthLoginState extends State<AuthLogin> {
   Map<String, String> authData = {"username": "", "password": ""};
 
   Future<void> submitForm() async {
-    if (!form.currentState.validate()) {
+    if (!form.currentState!.validate()) {
       return;
     }
-    form.currentState.save();
+    form.currentState!.save();
     setState(() {
       isLoading = true;
     });
 
     try {
       if (widget.isAdminSection) {
-        await Provider.of<Auth>(context, listen: false)
-            .login(authData["username"], authData["password"], "/admin/login");
+        await Provider.of<Auth>(context, listen: false).login(
+            authData["username"]!, authData["password"]!, "/admin/login");
         Navigator.of(context).pushReplacementNamed(SekolahScreen.routeName);
       } else {
-        await Provider.of<Auth>(context, listen: false)
-            .login(authData["username"], authData["password"], "/siswa/login");
+        await Provider.of<Auth>(context, listen: false).login(
+            authData["username"]!, authData["password"]!, "/siswa/login");
         Navigator.of(context).pushReplacementNamed(DashboardScreen.routeName);
       }
     } on HttpException catch (error) {
@@ -101,7 +101,7 @@ class _AuthLoginState extends State<AuthLogin> {
                     ),
                     keyboardType: TextInputType.text,
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return widget.isAdminSection
                             ? "Masukkan username"
                             : "Masukkan NISN";
@@ -109,7 +109,7 @@ class _AuthLoginState extends State<AuthLogin> {
                       return null;
                     },
                     onSaved: (newValue) {
-                      authData["username"] = newValue;
+                      authData["username"] = newValue!;
                     },
                   ),
                   const SizedBox(height: 20),
@@ -135,7 +135,7 @@ class _AuthLoginState extends State<AuthLogin> {
                     obscureText: true,
                     obscuringCharacter: '●',
                     validator: (value) {
-                      if (value.isEmpty) {
+                      if (value!.isEmpty) {
                         return "Masukkan password";
                       }
                       // if (value.length <= 5) {
@@ -145,7 +145,7 @@ class _AuthLoginState extends State<AuthLogin> {
                     },
                     onEditingComplete: () => {submitForm()},
                     onSaved: (newValue) {
-                      authData["password"] = newValue;
+                      authData["password"] = newValue!;
                     },
                   ),
                   const SizedBox(height: 20),

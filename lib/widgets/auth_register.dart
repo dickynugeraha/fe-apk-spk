@@ -7,8 +7,8 @@ import '../models/http_exception.dart';
 import '../widgets/custom_design.dart';
 
 class AuthRegister extends StatefulWidget {
-  final Function changeSection;
-  const AuthRegister({Key key, this.changeSection}) : super(key: key);
+  final Function()? changeSection;
+  const AuthRegister({Key? key, this.changeSection}) : super(key: key);
 
   @override
   State<AuthRegister> createState() => _AuthRegisterState();
@@ -30,10 +30,10 @@ class _AuthRegisterState extends State<AuthRegister> {
   String valueJenisKelamin = "L";
 
   Future<void> submitForm() async {
-    if (!form.currentState.validate()) {
+    if (!form.currentState!.validate()) {
       return;
     }
-    form.currentState.save();
+    form.currentState!.save();
 
     setState(() {
       isLoading = true;
@@ -101,7 +101,7 @@ class _AuthRegisterState extends State<AuthRegister> {
                                 CustomDesign.customInputDecoration("Nisn"),
                             keyboardType: TextInputType.number,
                             validator: (value) {
-                              return validateNullInput("Nisn", value);
+                              return validateNullInput("Nisn", value!);
                             },
                             onSaved: (newValue) {
                               authData["nisn"] = newValue.toString();
@@ -112,7 +112,7 @@ class _AuthRegisterState extends State<AuthRegister> {
                             decoration:
                                 CustomDesign.customInputDecoration("Nama"),
                             validator: (value) {
-                              return validateNullInput("Nama", value);
+                              return validateNullInput("Nama", value!);
                             },
                             onSaved: (newValue) {
                               authData["nama"] = newValue.toString();
@@ -142,8 +142,8 @@ class _AuthRegisterState extends State<AuthRegister> {
                                 ],
                                 onChanged: (value) {
                                   setState(() {
-                                    authData["jenis_kelamin"] = value;
-                                    valueJenisKelamin = value;
+                                    authData["jenis_kelamin"] = value!;
+                                    valueJenisKelamin = value!;
                                   });
                                 },
                               ),
@@ -154,7 +154,7 @@ class _AuthRegisterState extends State<AuthRegister> {
                             decoration: CustomDesign.customInputDecoration(
                                 "Asal sekolah"),
                             validator: (value) {
-                              return validateNullInput("asal sekolah", value);
+                              return validateNullInput("asal sekolah", value!);
                             },
                             onSaved: (newValue) {
                               authData["asal_sekolah"] = newValue.toString();
@@ -165,7 +165,7 @@ class _AuthRegisterState extends State<AuthRegister> {
                             decoration:
                                 CustomDesign.customInputDecoration("Alamat"),
                             validator: (value) {
-                              return validateNullInput("alamat", value);
+                              return validateNullInput("alamat", value!);
                             },
                             maxLines: 3,
                             onSaved: (newValue) {
@@ -178,7 +178,7 @@ class _AuthRegisterState extends State<AuthRegister> {
                                 "No hp ortu"),
                             keyboardType: TextInputType.number,
                             validator: (value) {
-                              return validateNullInput("no hp ortu", value);
+                              return validateNullInput("no hp ortu", value!);
                             },
                             onSaved: (newValue) {
                               authData["no_hp_ortu"] = newValue.toString();
@@ -190,10 +190,10 @@ class _AuthRegisterState extends State<AuthRegister> {
                                 CustomDesign.customInputDecoration("Email"),
                             keyboardType: TextInputType.emailAddress,
                             validator: (value) {
-                              if (!value.contains("@")) {
+                              if (!value!.contains("@")) {
                                 return "Silahkan masukan email dengan benar";
                               }
-                              return validateNullInput("email", value);
+                              return validateNullInput("email", value!);
                             },
                             onSaved: (newValue) {
                               authData["email"] = newValue.toString();
@@ -204,10 +204,10 @@ class _AuthRegisterState extends State<AuthRegister> {
                             decoration:
                                 CustomDesign.customInputDecoration("Password"),
                             validator: (value) {
-                              if (value.length < 6) {
+                              if (value!.length < 6) {
                                 return "Password harus lebih dari 6 karakter";
                               }
-                              return validateNullInput("password", value);
+                              return validateNullInput("password", value!);
                             },
                             obscureText: true,
                             obscuringCharacter: '●',
@@ -253,7 +253,7 @@ class _AuthRegisterState extends State<AuthRegister> {
     );
   }
 
-  String validateNullInput(String nameField, String valueEntered) {
+  String? validateNullInput(String nameField, String valueEntered) {
     if (valueEntered.isEmpty) {
       return "Field $nameField harus diisi";
     }

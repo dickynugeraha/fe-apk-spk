@@ -11,7 +11,7 @@ import '../../providers/helper.dart';
 import '../../widgets/foto_identitas_siswa.dart';
 
 class ProfilScreen extends StatefulWidget {
-  const ProfilScreen({Key key}) : super(key: key);
+  const ProfilScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfilScreen> createState() => _ProfilScreenState();
@@ -69,7 +69,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       CircleAvatar(
                         radius: 50,
                         backgroundImage: NetworkImage(
-                          "${Helper.domainNoApiUrl}/uploads/foto_profil/${siswa.fotoProfil}",
+                          "${Helper.domainNoApiUrl}/uploads/foto_profil/${siswa!.fotoProfil}",
                         ),
                       ),
                       const SizedBox(height: 15),
@@ -98,7 +98,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        siswa.asalSekolah,
+                        siswa.asalSekolah!,
                         style: const TextStyle(color: Colors.white),
                       ),
                       TextButton.icon(
@@ -124,10 +124,10 @@ class _ProfilScreenState extends State<ProfilScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      profilItem(Icons.numbers, "NISN", siswa.nisn),
+                      profilItem(Icons.numbers, "NISN", siswa.nisn!),
                       const Divider(),
                       profilItem(Icons.supervised_user_circle_outlined, "Nama",
-                          siswa.nama),
+                          siswa.nama!),
                       const Divider(),
                       profilItem(
                         Icons.male,
@@ -135,13 +135,13 @@ class _ProfilScreenState extends State<ProfilScreen> {
                         siswa.jenisKelamin == 'L' ? 'Laki-laki' : 'Perempuan',
                       ),
                       const Divider(),
-                      profilItem(Icons.email, "Email", siswa.email),
+                      profilItem(Icons.email, "Email", siswa.email!),
                       const Divider(),
                       profilItem(Icons.store_mall_directory_sharp, "Alamat",
-                          siswa.alamat),
+                          siswa.alamat!),
                       const Divider(),
                       profilItem(
-                          Icons.phone, "No Hp Orang tua", siswa.noHpOrtu),
+                          Icons.phone, "No Hp Orang tua", siswa.noHpOrtu!),
                       const Divider(),
                       detailItem(
                         icon: Icons.image,
@@ -150,7 +150,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => FotoIdentitasSiswa(
-                                nisn: siswa.nisn,
+                                nisn: siswa.nisn!,
                                 adminPage: false,
                               ),
                             ),
@@ -186,9 +186,9 @@ class _ProfilScreenState extends State<ProfilScreen> {
   }
 
   Widget detailItem({
-    IconData icon,
-    String title,
-    Function onTaps,
+    IconData? icon,
+    String? title,
+    Function()? onTaps,
   }) {
     return Padding(
       padding: const EdgeInsets.only(left: 15),
@@ -200,7 +200,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title),
+                Text(title!),
                 const SizedBox(height: 3),
                 GestureDetector(
                   onTap: onTaps,

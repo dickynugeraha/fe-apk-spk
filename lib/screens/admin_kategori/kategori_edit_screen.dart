@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously, unnecessary_null_comparison
+
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +10,7 @@ import '../../models/kategori.dart';
 class KategoriEditScreen extends StatefulWidget {
   static const routeName = "/kategori-edit";
 
-  const KategoriEditScreen({Key key}) : super(key: key);
+  const KategoriEditScreen({Key? key}) : super(key: key);
 
   @override
   State<KategoriEditScreen> createState() => _KategoriEditScreenState();
@@ -25,14 +27,14 @@ class _KategoriEditScreenState extends State<KategoriEditScreen> {
   @override
   void didChangeDependencies() {
     if (_isInit) {
-      final kategoriId = ModalRoute.of(context).settings.arguments as String;
+      final kategoriId = ModalRoute.of(context)?.settings.arguments as String?;
       if (kategoriId != null) {
         _editingKategori =
-            Provider.of<KategoriProvider>(context).getById(kategoriId);
+            Provider.of<KategoriProvider>(context).getById(kategoriId!);
         _initValues = {
-          "nama": _editingKategori.nama,
+          "nama": _editingKategori.nama!,
         };
-        _choosenSifat = _editingKategori.sifat;
+        _choosenSifat = _editingKategori.sifat!;
       }
     }
     _isInit = false;
@@ -40,11 +42,11 @@ class _KategoriEditScreenState extends State<KategoriEditScreen> {
   }
 
   Future<void> _formSave() async {
-    final formValid = _form.currentState.validate();
+    final formValid = _form.currentState!.validate();
     if (!formValid) {
       return;
     }
-    _form.currentState.save();
+    _form.currentState!.save();
     setState(() {
       _isLoading = true;
     });
@@ -124,12 +126,12 @@ class _KategoriEditScreenState extends State<KategoriEditScreen> {
                             onSaved: (newValue) {
                               _editingKategori = Kategori(
                                 id: _editingKategori.id,
-                                nama: newValue,
+                                nama: newValue!,
                                 sifat: _choosenSifat,
                               );
                             },
                             validator: ((value) {
-                              if (value.isEmpty) {
+                              if (value!.isEmpty) {
                                 return "Silahkan input nama kategori";
                               }
                               return null;
@@ -153,7 +155,7 @@ class _KategoriEditScreenState extends State<KategoriEditScreen> {
                                 ],
                                 onChanged: (value) {
                                   setState(() {
-                                    _choosenSifat = value;
+                                    _choosenSifat = value!;
                                   });
                                 },
                               ),

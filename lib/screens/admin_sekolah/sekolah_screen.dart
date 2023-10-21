@@ -9,7 +9,7 @@ import "./sekolah_edit_screen.dart";
 
 class SekolahScreen extends StatefulWidget {
   static const routeName = "/sekolah";
-  const SekolahScreen({Key key}) : super(key: key);
+  const SekolahScreen({Key? key}) : super(key: key);
 
   @override
   State<SekolahScreen> createState() => _SekolahScreenState();

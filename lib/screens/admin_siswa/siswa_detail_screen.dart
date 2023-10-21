@@ -1,28 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../widgets/custom_design.dart';
 import '../../widgets/table_detail_siswa.dart';
 
-class SiswaDetailScreen extends StatefulWidget {
+class SiswaDetailScreen extends StatelessWidget {
+  SiswaDetailScreen({Key? key}) : super(key: key);
   static const routeName = "/nilai-siswa";
-  const SiswaDetailScreen({Key key}) : super(key: key);
 
-  @override
-  State<SiswaDetailScreen> createState() => _SiswaDetailScreenState();
-}
+  String nisn = "";
 
-class _SiswaDetailScreenState extends State<SiswaDetailScreen> {
-  // String nisn;
   // @override
-  // void didChangeDependencies() {
-  //   nisn = ModalRoute.of(context).settings.arguments as String;
-  //   super.didChangeDependencies();
-  // }
-
   @override
   Widget build(BuildContext context) {
-    final nisn = ModalRoute.of(context).settings.arguments as String;
+    final args = ModalRoute.of(context)?.settings.arguments as String?;
+    nisn = args!;
 
     return CustomDesign.adminHeader(
       action: const SizedBox.shrink(),

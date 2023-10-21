@@ -8,10 +8,10 @@ import '../models/sekolah.dart';
 import './helper.dart';
 
 class SekolahProvider with ChangeNotifier {
-  String _token;
-  Sekolah _item;
+  String _token = "";
+  Sekolah? _item;
 
-  Sekolah get item {
+  Sekolah? get item {
     return _item;
   }
 
@@ -66,20 +66,20 @@ class SekolahProvider with ChangeNotifier {
       });
 
       request.fields.addAll({
-        "nama": newSekolah.nama,
-        "deskripsi": newSekolah.deskripsi,
-        "pendaftaran_buka": newSekolah.pendaftaranDibuka,
-        "pendaftaran_tutup": newSekolah.pendaftaranDitutup,
-        "pengumuman_seleksi": newSekolah.pengumumanSeleksi,
+        "nama": newSekolah.nama!,
+        "deskripsi": newSekolah.deskripsi!,
+        "pendaftaran_buka": newSekolah.pendaftaranDibuka!,
+        "pendaftaran_tutup": newSekolah.pendaftaranDitutup!,
+        "pengumuman_seleksi": newSekolah.pengumumanSeleksi!,
         "is_update_foto": isUpdateFoto ? "1" : "0",
       });
 
       if (isUpdateFoto) {
         List<String> getPathFotoIdentitas =
-            newSekolah.fotoIdentitasSekolah.split("|");
+            newSekolah.fotoIdentitasSekolah!.split("|");
 
-        File fotoLogo = File(newSekolah.fotoLogo);
-        File fotoAlurPendaftaran = File(newSekolah.fotoAlurPendaftaran);
+        File fotoLogo = File(newSekolah.fotoLogo!);
+        File fotoAlurPendaftaran = File(newSekolah.fotoAlurPendaftaran!);
         File fotoIdentitas1 = File(getPathFotoIdentitas[0]);
         File fotoIdentitas2 = File(getPathFotoIdentitas[1]);
         File fotoIdentitas3 = File(getPathFotoIdentitas[2]);
@@ -130,10 +130,10 @@ class SekolahProvider with ChangeNotifier {
         pendaftaranDitutup: newSekolah.pendaftaranDitutup,
         pengumumanSeleksi: newSekolah.pengumumanSeleksi,
         fotoAlurPendaftaran:
-            newSekolah.fotoAlurPendaftaran ?? _item.fotoAlurPendaftaran,
+            newSekolah.fotoAlurPendaftaran ?? _item!.fotoAlurPendaftaran,
         fotoIdentitasSekolah:
-            newSekolah.fotoIdentitasSekolah ?? _item.fotoIdentitasSekolah,
-        fotoLogo: newSekolah.fotoLogo ?? _item.fotoLogo,
+            newSekolah.fotoIdentitasSekolah ?? _item!.fotoIdentitasSekolah,
+        fotoLogo: newSekolah.fotoLogo ?? _item!.fotoLogo,
       );
 
       _item = updatedSekolah;

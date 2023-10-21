@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/nilai.dart';
 
 class NilaiTable extends StatelessWidget {
-  const NilaiTable({Key key}) : super(key: key);
+  const NilaiTable({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +56,13 @@ class NilaiTable extends StatelessWidget {
                   return DataRow(
                     cells: [
                       DataCell(
-                        Text(siswa.nisn),
+                        Text(siswa.nisn!),
                       ),
                       DataCell(
-                        Text(siswa.nama),
+                        Text(siswa.nama!),
                       ),
                       DataCell(
-                        Text(siswa.nilai.toStringAsFixed(2)),
+                        Text(siswa.nilai!.toStringAsFixed(2)),
                       ),
                     ],
                   );

@@ -11,7 +11,7 @@ import '../../models/http_exception.dart';
 
 class ProfilEditScreen extends StatefulWidget {
   static const routeName = "/profil-edit";
-  const ProfilEditScreen({Key key}) : super(key: key);
+  const ProfilEditScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfilEditScreen> createState() => _ProfilEditScreenState();
@@ -23,11 +23,11 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
   bool isLoading = false;
 
   var _genderValue = "L";
-  File fotoProfil;
-  File fotoAkte;
-  File fotoIjazah;
-  File fotoKK;
-  File fotoKtpOrtu;
+  File? fotoProfil;
+  File? fotoAkte;
+  File? fotoIjazah;
+  File? fotoKK;
+  File? fotoKtpOrtu;
 
   TextEditingController nisnController = TextEditingController();
   TextEditingController namaController = TextEditingController();
@@ -40,13 +40,13 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
   void didChangeDependencies() {
     if (isInit) {
       final siswa = Provider.of<SiswaProvider>(context, listen: false).item;
-      nisnController.text = siswa.nisn;
-      namaController.text = siswa.nama;
-      alamatController.text = siswa.alamat;
-      emailController.text = siswa.email;
-      asalSekolahController.text = siswa.asalSekolah;
-      noHpOrtuController.text = siswa.noHpOrtu;
-      _genderValue = siswa.jenisKelamin;
+      nisnController.text = siswa!.nisn!;
+      namaController.text = siswa.nama!;
+      alamatController.text = siswa.alamat!;
+      emailController.text = siswa.email!;
+      asalSekolahController.text = siswa.asalSekolah!;
+      noHpOrtuController.text = siswa.noHpOrtu!;
+      _genderValue = siswa.jenisKelamin!;
       isInit = false;
     }
     super.didChangeDependencies();
@@ -58,16 +58,12 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
     // final mediaQuery = MediaQuery.of(context);
 
     Future<void> submitEdit() async {
-      if (!form.currentState.validate()) {
+      if (!form.currentState!.validate()) {
         return;
       }
-      form.currentState.save();
+      form.currentState!.save();
       if (isUpdateFoto) {
-        if (fotoAkte == null ||
-            fotoIjazah == null ||
-            fotoKK == null ||
-            fotoProfil == null ||
-            fotoKtpOrtu == null) {
+        if (fotoIjazah == null) {
           CustomDesign.customAwesomeDialog(
             context: context,
             dialogSuccess: false,
@@ -94,11 +90,11 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                   jenisKelamin: _genderValue,
                   email: emailController.text,
                   noHpOrtu: noHpOrtuController.text,
-                  fotoAkte: fotoAkte.path,
-                  fotoIjazah: fotoIjazah.path,
-                  fotoKK: fotoKK.path,
-                  fotoKtpOrtu: fotoKtpOrtu.path,
-                  fotoProfil: fotoProfil.path,
+                  fotoAkte: fotoAkte!.path,
+                  fotoIjazah: fotoIjazah!.path,
+                  fotoKK: fotoKK!.path,
+                  fotoKtpOrtu: fotoKtpOrtu!.path,
+                  fotoProfil: fotoProfil!.path,
                 )
               : Siswa(
                   nisn: nisnController.text,
@@ -174,7 +170,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         controller: nisnController,
                         readOnly: true,
                         onSaved: (newValue) {
-                          nisnController.text = newValue;
+                          nisnController.text = newValue!;
                         },
                       ),
                       const SizedBox(height: 20),
@@ -192,7 +188,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                             ],
                             onChanged: (value) {
                               setState(() {
-                                _genderValue = value;
+                                _genderValue = value!;
                               });
                             },
                           ),
@@ -203,7 +199,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         decoration: CustomDesign.customInputDecoration("Nama"),
                         controller: namaController,
                         onSaved: (newValue) {
-                          namaController.text = newValue;
+                          namaController.text = newValue!;
                         },
                       ),
                       const SizedBox(height: 20),
@@ -212,7 +208,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         onSaved: (newValue) {
-                          emailController.text = newValue;
+                          emailController.text = newValue!;
                         },
                       ),
                       const SizedBox(height: 20),
@@ -222,7 +218,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         maxLines: 3,
                         controller: alamatController,
                         onSaved: (newValue) {
-                          alamatController.text = newValue;
+                          alamatController.text = newValue!;
                         },
                       ),
                       const SizedBox(height: 20),
@@ -233,7 +229,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         controller: noHpOrtuController,
                         keyboardType: TextInputType.number,
                         onSaved: (newValue) {
-                          noHpOrtuController.text = newValue;
+                          noHpOrtuController.text = newValue!;
                         },
                       ),
                       const SizedBox(height: 20),
@@ -243,7 +239,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         ),
                         controller: asalSekolahController,
                         onSaved: (newValue) {
-                          asalSekolahController.text = newValue;
+                          asalSekolahController.text = newValue!;
                         },
                       ),
                       const SizedBox(height: 20),
@@ -252,7 +248,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                         value: isUpdateFoto,
                         onChanged: (value) {
                           setState(() {
-                            isUpdateFoto = value;
+                            isUpdateFoto = value!;
                           });
                         },
                       ),
@@ -270,7 +266,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                                 setState(() {
                                   if (pickedFile != null) {
                                     fotoProfil =
-                                        File(pickedFile.files.single.path);
+                                        File(pickedFile.files.single.path!);
                                   }
                                 });
                               },
@@ -286,7 +282,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                                 setState(() {
                                   if (pickedFile != null) {
                                     fotoAkte =
-                                        File(pickedFile.files.single.path);
+                                        File(pickedFile.files.single.path!);
                                   }
                                 });
                               },
@@ -302,7 +298,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                                 setState(() {
                                   if (pickedFile != null) {
                                     fotoIjazah =
-                                        File(pickedFile.files.single.path);
+                                        File(pickedFile.files.single.path!);
                                   }
                                 });
                               },
@@ -317,7 +313,8 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                                 );
                                 setState(() {
                                   if (pickedFile != null) {
-                                    fotoKK = File(pickedFile.files.single.path);
+                                    fotoKK =
+                                        File(pickedFile.files.single.path!);
                                   }
                                 });
                               },
@@ -333,7 +330,7 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
                                 setState(() {
                                   if (pickedFile != null) {
                                     fotoKtpOrtu =
-                                        File(pickedFile.files.single.path);
+                                        File(pickedFile.files.single.path!);
                                   }
                                 });
                               },
@@ -349,9 +346,8 @@ class _ProfilEditScreenState extends State<ProfilEditScreen> {
   }
 
   Widget inputTypeFile({
-    // String path,
-    String title,
-    Function onPressed,
+    String? title,
+    Function()? onPressed,
   }) {
     return Row(children: [
       TextButton.icon(

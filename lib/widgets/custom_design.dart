@@ -25,16 +25,16 @@ class CustomDesign {
     );
   }
 
-  static AwesomeDialog customAwesomeDialog({
-    BuildContext context,
-    String title,
-    String desc,
-    bool dialogSuccess,
+  static void customAwesomeDialog({
+    required BuildContext context,
+    required String title,
+    required String desc,
+    required bool dialogSuccess,
     bool isPop = true,
   }) {
     AwesomeDialog(
       context: context,
-      dialogType: dialogSuccess ? DialogType.success : DialogType.error,
+      dialogType: dialogSuccess! ? DialogType.success : DialogType.error,
       title: title,
       desc: desc,
       btnOkOnPress: isPop ? () => Navigator.of(context).pop() : () => {},
@@ -44,9 +44,9 @@ class CustomDesign {
   }
 
   static Container adminHeader({
-    String barTitle,
-    Widget action,
-    Widget child,
+    String? barTitle,
+    Widget? action,
+    Widget? child,
     bool isDrawer = true,
   }) {
     return Container(
@@ -59,10 +59,10 @@ class CustomDesign {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text(barTitle),
+          title: Text(barTitle!),
           backgroundColor: Colors.transparent,
           elevation: 0,
-          actions: [action],
+          actions: [action!],
         ),
         drawer: isDrawer ? const AdminDrawer() : null,
         body: child,

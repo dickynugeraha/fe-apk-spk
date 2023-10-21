@@ -7,23 +7,23 @@ import './helper.dart';
 import '../models/http_exception.dart';
 
 class Auth with ChangeNotifier {
-  String _token;
-  String _username;
-  String _nisn;
-  DateTime _expiryDate;
-  Timer _authTimer;
+  String _token = "";
+  String _username = "";
+  String _nisn = "";
+  DateTime? _expiryDate;
+  Timer? _authTimer;
 
   bool get isLogin {
-    return _token != null;
+    return _token.isNotEmpty;
   }
 
   String get token {
-    if (_token != null &&
-        _expiryDate != null &&
-        _expiryDate.isAfter(DateTime.now())) {
-      return _token;
+    if (_expiryDate != null) {
+      if (_expiryDate!.isAfter(DateTime.now())) {
+        return _token;
+      }
     }
-    return null;
+    return "";
   }
 
   String get username {
@@ -80,7 +80,7 @@ class Auth with ChangeNotifier {
         final siswaData = json.encode({
           "token": _token,
           "nisn": _nisn,
-          "expiryDate": _expiryDate.toIso8601String(),
+          "expiryDate": _expiryDate!.toIso8601String(),
         });
         prefs.setString("dataAuth", siswaData);
       } else {
@@ -88,7 +88,7 @@ class Auth with ChangeNotifier {
         final adminData = json.encode({
           "token": _token,
           "username": _username,
-          "expiryDate": _expiryDate.toIso8601String(),
+          "expiryDate": _expiryDate!.toIso8601String(),
         });
         prefs.setString("dataAuth", adminData);
       }
@@ -154,16 +154,16 @@ class Auth with ChangeNotifier {
     }
 
     final extractDataAuth =
-        json.decode(prefs.getString("dataAuth")) as Map<String, Object>;
-    final expiredDate = DateTime.parse(extractDataAuth["expiryDate"]);
+        json.decode(prefs.getString("dataAuth")!) as Map<String, Object>;
+    final expiredDate = DateTime.parse(extractDataAuth["expiryDate"] as String);
 
     if (expiredDate.isBefore(DateTime.now())) {
       return false;
     }
 
-    _token = extractDataAuth["token"];
-    _username = extractDataAuth["username"];
-    _nisn = extractDataAuth["nisn"];
+    _token = extractDataAuth["token"] as String;
+    _username = extractDataAuth["username"] as String;
+    _nisn = extractDataAuth["nisn"] as String;
     _expiryDate = expiredDate;
     _autoLogout();
     notifyListeners();
@@ -172,9 +172,7 @@ class Auth with ChangeNotifier {
 
   Future<void> logout() async {
     String segment = "admin";
-    if (_nisn != null) {
-      segment = "siswa";
-    }
+    segment = "siswa";
     final url = Uri.parse("${Helper.domainUrl}/$segment/logout");
     final tokenId = _token.split("|")[1];
 
@@ -194,13 +192,11 @@ class Auth with ChangeNotifier {
           },
         ),
       );
-      _token = null;
-      _username = null;
-      _nisn = null;
-      if (_authTimer != null) {
-        _authTimer.cancel();
-        _authTimer = null;
-      }
+      _token = "";
+      _username = "";
+      _nisn = "";
+      _authTimer!.cancel();
+      _authTimer = null;
       notifyListeners();
       final prefs = await SharedPreferences.getInstance();
       prefs.remove("dataAuth");
@@ -212,10 +208,10 @@ class Auth with ChangeNotifier {
 
   void _autoLogout() {
     if (_authTimer != null) {
-      _authTimer.cancel();
+      _authTimer!.cancel();
     }
 
-    final timeExpiry = _expiryDate.difference(DateTime.now()).inSeconds;
+    final timeExpiry = _expiryDate!.difference(DateTime.now()).inSeconds;
 
     _authTimer = Timer(Duration(seconds: timeExpiry), logout);
   }
